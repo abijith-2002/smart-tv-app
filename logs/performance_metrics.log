@@ -1,0 +1,101 @@
+2025-10-22 06:24:51,659 - Knowledge - INFO - Created shared MongoDB connection pool
+2025-10-22 06:24:51,997 - Knowledge - INFO - Starting Knowledge Graph processing with 50 threads
+2025-10-22 06:24:52,164 - Knowledge - INFO - Initial configuration: chunk_size=65536, max_cache_size=500
+2025-10-22 06:24:53,675 - Knowledge - INFO - load persisted knowledge: begin
+2025-10-22 06:24:53,830 - Knowledge - INFO - Loaded 0 files from persisted knowledge
+2025-10-22 06:24:53,997 - Knowledge - INFO - load persisted knowledge: end
+2025-10-22 06:24:54,164 - Knowledge - WARNING - No persisted knowledge found. Files will be queued during start()
+2025-10-22 06:24:54,359 - Knowledge - INFO - Redis support added with prefix knowledge:b67654p:
+2025-10-22 06:24:54,620 - Knowledge - INFO - load persisted docinfo: begin
+2025-10-22 06:24:54,793 - Knowledge - INFO - load persisted docinfo: end
+2025-10-22 06:24:54,960 - Knowledge - INFO - Populating ingest queue with source files...
+2025-10-22 06:24:55,100 - Knowledge - INFO - Added 6 files from /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app to ingest queue
+2025-10-22 06:24:55,270 - Knowledge - INFO - Worker kw1 created using shared MongoDB connection pool
+2025-10-22 06:24:55,451 - Knowledge - INFO - knowledge worker kw1 start
+2025-10-22 06:24:55,451 - Knowledge - INFO - Worker kw2 created using shared MongoDB connection pool
+2025-10-22 06:24:55,609 - Knowledge - INFO - [kw1] Queue=6, InProgress=0, PendingWorkers=0/1, Completed=0/6 (0.0%)
+2025-10-22 06:24:55,699 - Knowledge - INFO - knowledge worker kw2 start
+2025-10-22 06:24:55,700 - Knowledge - INFO - Worker kw3 created using shared MongoDB connection pool
+2025-10-22 06:24:55,801 - Knowledge - INFO - Dynamic batch size: 6 for queue=6
+2025-10-22 06:24:55,908 - Knowledge - INFO - [kw2] Queue=6, InProgress=0, PendingWorkers=0/2, Completed=0/6 (0.0%)
+2025-10-22 06:24:55,998 - Knowledge - INFO - knowledge worker kw3 start
+2025-10-22 06:24:55,999 - Knowledge - INFO - Worker kw4 created using shared MongoDB connection pool
+2025-10-22 06:24:56,080 - Knowledge - INFO - Worker kw1 processing /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/login.html
+2025-10-22 06:24:56,153 - Knowledge - INFO - Dynamic batch size: 6 for queue=6
+2025-10-22 06:24:56,319 - Knowledge - INFO - knowledge worker kw4 start
+2025-10-22 06:24:56,330 - Knowledge - INFO - Worker kw5 created using shared MongoDB connection pool
+2025-10-22 06:24:56,414 - Knowledge - INFO - Fast-tracked /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/login.html (ext=.html, size=1725)
+2025-10-22 06:24:56,736 - Knowledge - INFO - knowledge worker kw5 start
+2025-10-22 06:24:56,737 - Knowledge - INFO - Worker kw6 created using shared MongoDB connection pool
+2025-10-22 06:24:56,827 - Knowledge - INFO - Worker kw1 processing /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/css/style.css
+2025-10-22 06:24:57,043 - Knowledge - INFO - knowledge worker kw6 start
+2025-10-22 06:24:57,115 - Knowledge - INFO - Fast-tracked /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/css/style.css (ext=.css, size=839)
+2025-10-22 06:24:57,313 - Knowledge - INFO - Worker kw1 processing /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/signup.html
+2025-10-22 06:24:57,509 - Knowledge - INFO - Fast-tracked /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/signup.html (ext=.html, size=1725)
+2025-10-22 06:24:57,691 - Knowledge - INFO - Worker kw1 processing /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/config.xml
+2025-10-22 06:24:57,904 - Knowledge - INFO - Fast-tracked /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/config.xml (ext=.xml, size=792)
+2025-10-22 06:24:58,092 - Knowledge - INFO - Worker kw1 processing /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/js/main.js
+2025-10-22 06:24:58,252 - Knowledge - INFO - Fast-tracked /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/js/main.js (ext=.js, size=1486)
+2025-10-22 06:24:58,456 - Knowledge - INFO - Worker kw1 processing /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/index.html
+2025-10-22 06:24:58,619 - Knowledge - INFO - Fast-tracked /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/index.html (ext=.html, size=517)
+2025-10-22 06:24:58,823 - Knowledge - INFO - Processing batch of 6 files
+2025-10-22 06:24:59,036 - Knowledge - INFO - process ingested knowledge for /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/login.html
+2025-10-22 06:24:59,187 - Knowledge - INFO - process ingested knowledge for /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/css/style.css
+2025-10-22 06:24:59,339 - Knowledge - INFO - process ingested knowledge for /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/signup.html
+2025-10-22 06:24:59,500 - Knowledge - INFO - process ingested knowledge for /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/config.xml
+2025-10-22 06:24:59,671 - Knowledge - INFO - process ingested knowledge for /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/js/main.js
+2025-10-22 06:24:59,819 - Knowledge - INFO - process ingested knowledge for /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/index.html
+2025-10-22 06:25:00,352 - Knowledge - INFO - Knowledge creation complete
+2025-10-22 06:25:00,546 - Knowledge - INFO - ==================================================
+2025-10-22 06:25:00,766 - Knowledge - INFO - KNOWLEDGE GRAPH GENERATION PERFORMANCE SUMMARY
+2025-10-22 06:25:00,927 - Knowledge - INFO - ==================================================
+2025-10-22 06:25:01,120 - Knowledge - INFO - Total processing time: 8.89 seconds (0.15 minutes)
+2025-10-22 06:25:01,276 - Knowledge - INFO - Files processed: 0
+2025-10-22 06:25:01,417 - Knowledge - INFO - Processing rate: 0.00 files/second
+2025-10-22 06:25:01,609 - Knowledge - INFO - 
+[TIME_BREAKDOWN]
+2025-10-22 06:25:01,774 - Knowledge - INFO - File Reading: 0.00s (0.0%)
+2025-10-22 06:25:01,972 - Knowledge - INFO - LLM Processing: 0.00s (0.0%)
+2025-10-22 06:25:02,130 - Knowledge - INFO - MongoDB Operations: 0.00s (0.0%)
+2025-10-22 06:25:02,287 - Knowledge - INFO - Redis Operations: 0.00s (0.0%)
+2025-10-22 06:25:02,434 - Knowledge - INFO - WebSocket Communication: 0.00s (0.0%)
+2025-10-22 06:25:02,601 - Knowledge - INFO - Other Overhead: 8.89s (100.0%)
+2025-10-22 06:25:02,799 - Knowledge - INFO - 
+[LLM_STATS]
+2025-10-22 06:25:02,994 - Knowledge - INFO - Total LLM calls: 0
+2025-10-22 06:25:03,157 - Knowledge - INFO - Average LLM response time: 0ms
+2025-10-22 06:25:03,316 - Knowledge - INFO - Average prompt tokens: 0.0
+2025-10-22 06:25:03,502 - Knowledge - INFO - Average completion tokens: 0.0
+2025-10-22 06:25:03,702 - Knowledge - INFO - Total prompt tokens: 0
+2025-10-22 06:25:03,882 - Knowledge - INFO - Total completion tokens: 0
+2025-10-22 06:25:04,077 - Knowledge - INFO - Total LLM cost: $0.0000
+2025-10-22 06:25:04,292 - Knowledge - INFO - 
+[DATABASE_STATS]
+2025-10-22 06:25:04,471 - Knowledge - INFO - MongoDB operations: 0
+2025-10-22 06:25:04,632 - Knowledge - INFO - Redis operations: 0
+2025-10-22 06:25:04,799 - Knowledge - INFO - 
+[COMMUNICATION_STATS]
+2025-10-22 06:25:04,988 - Knowledge - INFO - WebSocket messages sent: 0
+2025-10-22 06:25:05,198 - Knowledge - INFO - 
+[WORKER_STATS]
+2025-10-22 06:25:05,371 - Knowledge - INFO - 
+[FILE_TYPE_STATS]
+2025-10-22 06:25:05,523 - Knowledge - INFO - 
+[SLOWEST_FILES]
+2025-10-22 06:25:05,680 - Knowledge - INFO - ==================================================
+2025-10-22 06:25:05,868 - Knowledge - INFO - ==================================================
+2025-10-22 06:25:06,027 - Knowledge - INFO - KNOWLEDGE GRAPH GENERATION PERFORMANCE SUMMARY
+2025-10-22 06:25:06,208 - Knowledge - INFO - ==================================================
+2025-10-22 06:25:06,399 - Knowledge - INFO - Total processing time: 14.23 seconds (0.24 minutes)
+2025-10-22 06:25:06,543 - Knowledge - INFO - Files processed: 6 of 6
+2025-10-22 06:25:06,734 - Knowledge - INFO - Processing rate: 0.42 files/second
+2025-10-22 06:25:06,896 - Knowledge - INFO - WebSocket messages sent: 0
+2025-10-22 06:25:07,069 - Knowledge - INFO - MongoDB operations: 6
+2025-10-22 06:25:07,274 - Knowledge - INFO - Average MongoDB ops per file: 1.00
+2025-10-22 06:25:07,470 - Knowledge - INFO - LLM costs: $0.0000
+2025-10-22 06:25:07,658 - Knowledge - INFO - Prompt tokens: 0
+2025-10-22 06:25:07,852 - Knowledge - INFO - Completion tokens: 0
+2025-10-22 06:25:08,036 - Knowledge - INFO - Updating org costs, total cost: 0
+2025-10-22 06:25:09,172 - Knowledge - INFO - [WEBSOCKET] Sent: Type=progress_update, Size: 240, Duration: 0ms
+2025-10-22 06:25:09,315 - Knowledge - INFO - Saving knowledge to Redis...
+2025-10-22 06:25:09,538 - Knowledge - INFO - Knowledge saved to Redis successfully
