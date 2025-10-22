@@ -1,135 +1,242 @@
 (function () {
   'use strict';
 
+  // Helpers
+  function qs(sel, ctx){ return (ctx || document).querySelector(sel); }
+  function qsa(sel, ctx){ return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); }
+  function clamp(v, min, max){ return Math.max(min, Math.min(max, v)); }
+  function tryFocus(el){
+    if (!el) return;
+    try { el.focus({ preventScroll: true }); } catch(e){ el.focus(); }
+    try { el.scrollIntoView({ block: 'nearest', inline: 'nearest' }); } catch(e){}
+  }
+  function isHomePage(){
+    var name = (window.location.pathname || '').split('/').pop() || 'index.html';
+    return name.toLowerCase() === 'home.html';
+  }
+  function isIndexPage(){
+    var name = (window.location.pathname || '').split('/').pop() || 'index.html';
+    return name.toLowerCase() === 'index.html';
+  }
+
   // PUBLIC_INTERFACE
   /**
-   * Initialize TV-remote/keyboard navigation for focusable elements on the page.
-   * Behavior:
-   * - Focusables are any element with [data-focusable="true"] or [role="button"] with tabindex="0".
-   * - ArrowLeft/Right/Up/Down: moves focus horizontally within the current row group.
-   *   Since the layout is simple (two CTAs), arrows move between items by index.
-   * - Enter/Space: activates (click) the focused control.
-   * - Tab: left as a fallback to move focus by browser default.
-   * - On load: first focusable element receives focus.
+   * Initialize TV navigation for Home page with menu and multiple rails.
+   * - ArrowLeft/Right navigate within menu or within a rail.
+   * - ArrowUp/Down move between menu and rails.
+   * - Enter/Space activates focused item.
+   * - Initial focus: first menu item on load.
    */
-  function initSimpleFocusNavigation() {
-    // Collect focusables in document order
-    var focusables = Array.prototype.slice.call(
-      document.querySelectorAll('[data-focusable="true"], [role="button"][tabindex="0"]')
-    );
+  function initHomeNavigation(){
+    var menuItems = qsa('.top-menu .menu-item');
+    var rails = qsa('.rail-row, .plans'); // include subscriptions plans row
+    var currentSection = 'menu'; // 'menu' or rail index number
+    var currentRail = 0;
+    var railIndices = []; // per-rail item index
 
-    // Index assignments if not present
-    for (var i = 0; i < focusables.length; i++) {
-      if (!focusables[i].hasAttribute('data-index')) {
-        focusables[i].setAttribute('data-index', String(i));
-      }
+    // prepare rail indices
+    for (var r = 0; r < rails.length; r++){
+      railIndices[r] = 0;
     }
 
-    function getIndex(el) {
-      var idx = el && el.getAttribute ? el.getAttribute('data-index') : null;
-      var n = idx !== null ? parseInt(idx, 10) : -1;
-      return isNaN(n) ? -1 : n;
-    }
+    // initial focus: first menu item
+    if (menuItems.length) { tryFocus(menuItems[0]); }
 
-    function clamp(val, min, max) {
-      return Math.max(min, Math.min(max, val));
-    }
-
-    function focusAt(index) {
-      if (!focusables.length) return;
-      var i = clamp(index, 0, focusables.length - 1);
-      var el = focusables[i];
-      if (el && el.focus) {
-        // preventScroll for smoother TV UIs (supported in modern webviews; if not supported it is ignored)
-        try { el.focus({ preventScroll: true }); } catch (e) { el.focus(); }
-      }
-    }
-
-    function currentIndex() {
-      var active = document.activeElement;
-      var idx = getIndex(active);
-      if (idx >= 0) return idx;
-      return 0;
-    }
-
-    // Initial focus
-    if (focusables.length) {
-      focusAt(0);
-    }
-
-    // Activation helper
-    function activate(el) {
+    function activate(el){
       if (!el) return;
-      // Trigger click for anchors/buttons
-      if (typeof el.click === 'function') {
-        el.click();
-      } else {
-        // As a fallback, follow href if anchor
-        var href = el.getAttribute && el.getAttribute('href');
-        if (href) window.location.href = href;
-      }
+      if (typeof el.click === 'function') { el.click(); return; }
+      var href = el.getAttribute && el.getAttribute('href');
+      if (href) { window.location.href = href; }
     }
 
-    // Key handling for remote/keyboard
-    document.addEventListener('keydown', function (e) {
+    function focusMenu(idx){
+      if (!menuItems.length) return;
+      var i = clamp(idx, 0, menuItems.length - 1);
+      tryFocus(menuItems[i]);
+    }
+
+    function focusRailItem(railIdx, itemIdx){
+      var row = rails[railIdx];
+      if (!row) return;
+      var items = qsa('.card, .plan-card', row);
+      if (!items.length) return;
+      var i = clamp(itemIdx, 0, items.length - 1);
+      railIndices[railIdx] = i;
+      tryFocus(items[i]);
+    }
+
+    function findRailIndexForEl(el){
+      for (var i = 0; i < rails.length; i++){
+        if (rails[i].contains(el)) return i;
+      }
+      return -1;
+    }
+
+    document.addEventListener('keydown', function(e){
       var key = e.key;
-      // Arrow and Enter/Space keys are handled
       if (key === 'ArrowLeft' || key === 'ArrowRight' || key === 'ArrowUp' || key === 'ArrowDown' ||
           key === 'Enter' || key === ' ' || key === 'Spacebar') {
         e.preventDefault();
       } else {
-        return; // let other keys work normally (including Tab)
-      }
-
-      var idx = currentIndex();
-
-      if (key === 'Enter' || key === ' ' || key === 'Spacebar') {
-        activate(document.activeElement);
         return;
       }
 
-      // For a simple 2-button layout, treat any arrow as left/right navigation.
-      if (key === 'ArrowLeft' || key === 'ArrowUp') {
-        focusAt(idx - 1);
-      } else if (key === 'ArrowRight' || key === 'ArrowDown') {
-        focusAt(idx + 1);
+      var active = document.activeElement;
+
+      if (key === 'Enter' || key === ' ' || key === 'Spacebar'){
+        activate(active);
+        return;
+      }
+
+      // Determine context: menu or which rail
+      var inMenu = menuItems.indexOf(active) !== -1;
+      var railIdx = findRailIndexForEl(active);
+
+      if (inMenu) currentSection = 'menu';
+      else if (railIdx >= 0) { currentSection = railIdx; currentRail = railIdx; }
+
+      if (key === 'ArrowDown'){
+        if (currentSection === 'menu'){
+          // Move focus to first rail item of rail 0
+          currentSection = 0;
+          currentRail = 0;
+          focusRailItem(currentRail, railIndices[currentRail] || 0);
+        } else if (typeof currentSection === 'number'){
+          // move to next rail if exists
+          var next = currentSection + 1;
+          if (next < rails.length){
+            currentSection = next;
+            currentRail = next;
+            focusRailItem(currentRail, railIndices[currentRail] || 0);
+          }
+        }
+        return;
+      }
+
+      if (key === 'ArrowUp'){
+        if (typeof currentSection === 'number'){
+          if (currentSection === 0){
+            currentSection = 'menu';
+            focusMenu(0);
+          } else {
+            var prev = currentSection - 1;
+            if (prev >= 0){
+              currentSection = prev;
+              currentRail = prev;
+              focusRailItem(currentRail, railIndices[currentRail] || 0);
+            }
+          }
+        }
+        return;
+      }
+
+      if (key === 'ArrowLeft'){
+        if (currentSection === 'menu'){
+          var mIdx = menuItems.indexOf(active);
+          if (mIdx > 0) focusMenu(mIdx - 1);
+        } else if (typeof currentSection === 'number'){
+          // move left within current rail
+          var row = rails[currentRail];
+          if (!row) return;
+          var items = qsa('.card, .plan-card', row);
+          var idx = items.indexOf(active);
+          if (idx > 0){
+            focusRailItem(currentRail, idx - 1);
+          }
+        }
+        return;
+      }
+
+      if (key === 'ArrowRight'){
+        if (currentSection === 'menu'){
+          var mIdx2 = menuItems.indexOf(active);
+          if (mIdx2 < menuItems.length - 1) focusMenu(mIdx2 + 1);
+        } else if (typeof currentSection === 'number'){
+          var row2 = rails[currentRail];
+          if (!row2) return;
+          var items2 = qsa('.card, .plan-card', row2);
+          var idx2 = items2.indexOf(active);
+          if (idx2 < items2.length - 1){
+            focusRailItem(currentRail, idx2 + 1);
+          }
+        }
+        return;
       }
     });
 
-    // Tizen remote back key (optional graceful behavior)
+    // Tizen back behavior: from home, go to index splash
     document.addEventListener('tizenhwkey', function (ev) {
       try {
         if (ev && ev.keyName === 'back') {
           ev.preventDefault();
-          // If not index, navigate back to index.html; else attempt to exit app
-          var name = (window.location.pathname || '').split('/').pop() || 'index.html';
-          if (name !== 'index.html') {
-            window.location.href = 'index.html';
-          } else {
-            try {
-              if (typeof tizen !== 'undefined' && tizen.application) {
-                tizen.application.getCurrentApplication().exit();
-              } else {
-                window.location.href = 'about:blank';
-              }
-            } catch (e) {
-              window.location.href = 'about:blank';
-            }
-          }
+          window.location.href = 'index.html';
         }
-      } catch (e) { /* ignore */ }
+      } catch (e) {}
     });
   }
 
+  // Simple fallback navigation for non-home pages (existing behavior)
+  function initSimplePageNavigation(){
+    var focusables = qsa('[data-focusable="true"], [role="button"][tabindex="0"], a.page-link, .primary-btn, .menu-item, input, button');
+    focusables.forEach(function(el, i){
+      if (!el.hasAttribute('data-index')) el.setAttribute('data-index', String(i));
+    });
+    function getIndex(el){ var idx = el && el.getAttribute ? parseInt(el.getAttribute('data-index') || '-1', 10) : -1; return isNaN(idx) ? -1 : idx; }
+    function focusAt(index){
+      if (!focusables.length) return;
+      var i = clamp(index, 0, focusables.length - 1);
+      tryFocus(focusables[i]);
+    }
+    if (focusables.length) tryFocus(focusables[0]);
+
+    function activate(el){
+      if (!el) return;
+      if (typeof el.click === 'function') { el.click(); return; }
+      var href = el.getAttribute && el.getAttribute('href');
+      if (href) window.location.href = href;
+    }
+
+    document.addEventListener('keydown', function(e){
+      var key = e.key;
+      if (key === 'ArrowLeft' || key === 'ArrowRight' || key === 'ArrowUp' || key === 'ArrowDown' ||
+          key === 'Enter' || key === ' ' || key === 'Spacebar') {
+        e.preventDefault();
+      } else {
+        return;
+      }
+      var idx = getIndex(document.activeElement);
+      if (key === 'Enter' || key === ' ' || key === 'Spacebar') { activate(document.activeElement); return; }
+      if (key === 'ArrowLeft' || key === 'ArrowUp') { focusAt(idx - 1); }
+      if (key === 'ArrowRight' || key === 'ArrowDown') { focusAt(idx + 1); }
+    });
+
+    document.addEventListener('tizenhwkey', function (ev) {
+      try {
+        if (ev && ev.keyName === 'back') {
+          ev.preventDefault();
+          var name = (window.location.pathname || '').split('/').pop() || 'index.html';
+          if (name !== 'index.html') window.location.href = 'home.html';
+          else window.location.href = 'about:blank';
+        }
+      } catch (e) {}
+    });
+  }
+
+  // Init per page
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initSimpleFocusNavigation);
+    document.addEventListener('DOMContentLoaded', function(){
+      if (isHomePage()) initHomeNavigation();
+      else if (isIndexPage()) { /* splash handles itself */ }
+      else initSimplePageNavigation();
+    });
   } else {
-    initSimpleFocusNavigation();
+    if (isHomePage()) initHomeNavigation();
+    else if (isIndexPage()) { /* splash handles itself */ }
+    else initSimplePageNavigation();
   }
 
   // PUBLIC_INTERFACE
   /**
-   * This app is designed to be served as a static site. No external dependencies are required.
-   * Pages: index.html (root), login.html, signup.html share this JS and style.css.
+   * This app is static and TV-friendly. Routes: index.html (splash), home.html, login.html, myplan.html.
    */
 })();

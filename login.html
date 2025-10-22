@@ -4,34 +4,33 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
-  <title>Login - Smart TV App</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Login - MyTV</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body class="tv-bg">
-  <main class="page-container" role="main" aria-label="Login">
+  <header class="top-menu" role="menu" aria-label="Top navigation">
+    <nav class="menu-container">
+      <a href="home.html" class="menu-item" role="menuitem" tabindex="0">Home</a>
+      <a href="login.html" class="menu-item active" role="menuitem" tabindex="0">Login</a>
+      <a href="#" class="menu-item" role="menuitem" tabindex="0" onclick="alert('Settings coming soon'); return false;">Setting</a>
+      <a href="my-plan.html" class="menu-item" role="menuitem" tabindex="0">My Plan</a>
+    </nav>
+  </header>
+
+  <main class="auth-container" role="main" aria-label="Login form">
     <h1 class="page-title">Login</h1>
-    <div class="link-row" role="group" aria-label="Login actions">
-      <a href="index.html"
-         class="page-link"
-         role="button"
-         tabindex="0"
-         data-focusable="true"
-         data-index="0"
-         aria-label="Back">
-        Back
-      </a>
-      <a href="#"
-         class="page-link primary"
-         role="button"
-         tabindex="0"
-         data-focusable="true"
-         data-index="1"
-         aria-label="Sign in (placeholder)"
-         onclick="alert('Sign in action placeholder')">
-        Sign In
-      </a>
-    </div>
+    <form class="auth-form" onsubmit="alert('Sign in placeholder'); return false;">
+      <label class="auth-label" for="email">Email</label>
+      <input id="email" class="auth-input" type="email" placeholder="you@example.com" tabindex="0"/>
+
+      <label class="auth-label" for="password">Password</label>
+      <input id="password" class="auth-input" type="password" placeholder="••••••••" tabindex="0"/>
+
+      <button type="submit" class="primary-btn auth-submit" tabindex="0">Sign In</button>
+      <a href="home.html" class="secondary-link" tabindex="0">Back to Home</a>
+    </form>
   </main>
+
   <script src="app.js"></script>
 </body>
 </html>

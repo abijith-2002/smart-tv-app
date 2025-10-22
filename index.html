@@ -6,36 +6,69 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
 
-  <title>Smart TV App</title>
+  <title>MyTV - Splash</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Splash specific styles - Tizen safe (opacity/transform only) */
+    .splash-wrap{
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      text-align:center;
+      background:
+        radial-gradient(1200px 600px at 10% 0%, rgba(57,106,252,0.18) 0%, rgba(57,106,252,0) 70%),
+        linear-gradient(135deg, rgba(30,60,114,0.35), rgba(42,82,152,0.35)),
+        var(--bg);
+      animation: fadeIn 600ms ease forwards;
+    }
+    .brand{
+      font-weight:800;
+      letter-spacing:2px;
+      font-size: clamp(3rem, 9vw, 6rem);
+      text-shadow: 0 12px 40px rgba(0,0,0,0.55);
+      transform: translateY(6px);
+      animation: floatUp 900ms ease forwards 150ms;
+    }
+    .hint{
+      margin-top: 12px;
+      color: var(--text-dim);
+      font-size: clamp(0.95rem, 2.2vw, 1.25rem);
+      opacity: 0.85;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes floatUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
 </head>
 <body class="tv-bg">
-  <main class="center-stage" role="main" aria-label="Welcome">
-    <h1 class="app-title">Welcome to Smart TV App</h1>
-    <p class="app-subtitle" aria-hidden="true">Enjoy a clean and simple TV experience</p>
-
-    <div class="cta-row" role="group" aria-label="Primary actions">
-      <a href="login.html"
-         class="cta-button primary"
-         role="button"
-         tabindex="0"
-         data-focusable="true"
-         data-index="0"
-         aria-label="Login">
-        Login
-      </a>
-      <a href="signup.html"
-         class="cta-button secondary"
-         role="button"
-         tabindex="0"
-         data-focusable="true"
-         data-index="1"
-         aria-label="Sign up">
-        Sign up
-      </a>
+  <main class="splash-wrap" role="main" aria-label="Launch screen">
+    <div>
+      <h1 class="brand">MyTV</h1>
+      <p class="hint">Launching experience...</p>
+      <noscript>
+        <p class="hint"><a class="page-link" href="home.html">Continue to Home</a></p>
+      </noscript>
     </div>
   </main>
 
-  <script src="app.js"></script>
+  <script>
+    // PUBLIC_INTERFACE
+    /**
+     * Splash: redirect to home.html after 3000ms.
+     */
+    (function(){
+      try {
+        setTimeout(function(){
+          window.location.href = 'home.html';
+        }, 3000);
+      } catch(e) {}
+    })();
+  </script>
 </body>
 </html>
