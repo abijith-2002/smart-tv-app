@@ -1,20 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hello User TV App</title>
-  <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MyTV - Splash</title>
+  <link rel="stylesheet" href="styles.css"/>
+  <style>
+    .splash {
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      animation: fadeIn 800ms ease forwards;
+    }
+    .splash h1 {
+      font-size: 96px;
+      letter-spacing: 2px;
+      margin: 0;
+      color: #fff;
+      text-shadow: 0 10px 40px rgba(0,0,0,0.6);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0 }
+      to   { opacity: 1 }
+    }
+    @keyframes fadeOut {
+      to   { opacity: 0 }
+    }
+    @keyframes pulse {
+      0%,100% { transform: scale(1); opacity: 0.95; }
+      50%     { transform: scale(1.03); opacity: 1; }
+    }
+  </style>
 </head>
-<body>
-  <div class="container">
-    <h1 class="title">Hello User</h1>
-    <div class="button-group">
-      <button id="loginBtn" class="btn">Login</button>
-      <button id="signupBtn" class="btn">Sign Up</button>
-    </div>
+<body class="tv-bg">
+  <div class="splash" id="splash">
+    <h1>MyTV</h1>
   </div>
-
-  <script src="js/main.js"></script>
+  <script>
+    // Fade-out then navigate to home.html after 3 seconds
+    const SPLASH_DURATION = 3000;
+    const splash = document.getElementById('splash');
+    setTimeout(() => {
+      splash.style.animation = 'fadeOut 500ms ease forwards';
+      setTimeout(() => {
+        // replace so back button doesn't return to splash
+        window.location.replace('home.html');
+      }, 450);
+    }, SPLASH_DURATION);
+  </script>
 </body>
 </html>

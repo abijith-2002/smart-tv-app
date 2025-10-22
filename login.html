@@ -1,64 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login Page</title>
-  <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MyTV - Login</title>
+  <link rel="stylesheet" href="styles.css"/>
 </head>
-<body>
-  <div class="container">
-    <h1 class="title">Login Page</h1>
-    <p>Here you can implement login form later.</p>
-    <div class="button-group">
-      <button id="backBtn" class="btn">Back</button>
-    </div>
-  </div>
+<body class="tv-bg">
+  <header class="top-menu" role="menu" aria-label="Top navigation">
+    <nav class="menu-container">
+      <a href="home.html" class="menu-item" role="menuitem" tabindex="0">Home</a>
+      <a href="login.html" class="menu-item active" role="menuitem" tabindex="0">Login</a>
+      <button class="menu-item" role="menuitem" tabindex="0" onclick="alert('Settings coming soon')">Setting</button>
+      <a href="my-plan.html" class="menu-item" role="menuitem" tabindex="0">My Plan</a>
+    </nav>
+  </header>
 
-  <script>
-    // Get the Back button
-    const buttons = [document.getElementById("backBtn")];
-    let selectedIndex = 0; // Only one button, index 0
+  <main class="auth-container" aria-label="Login form">
+    <h1 class="page-title">Login</h1>
+    <form class="auth-form" onsubmit="return false;">
+      <label class="auth-label" for="email">Email</label>
+      <input id="email" type="email" class="auth-input" placeholder="you@example.com" tabindex="0" />
 
-    // Function to update focus
-    function updateFocus() {
-      buttons.forEach((btn, index) => {
-        if (index === selectedIndex) {
-          btn.focus();
-          btn.style.outline = "3px solid yellow"; // Highlight selected
-        } else {
-          btn.style.outline = "none";
-        }
-      });
-    }
+      <label class="auth-label" for="password">Password</label>
+      <input id="password" type="password" class="auth-input" placeholder="••••••••" tabindex="0" />
 
-    // Initial focus on page load
-    window.onload = function() {
-      document.body.focus();
-      updateFocus();
-    };
-
-    // Listen to TV remote keys
-    document.addEventListener("keydown", function(event) {
-      switch(event.keyCode) {
-        case 37: // Left arrow
-        case 39: // Right arrow
-          // Only one button, so no change
-          break;
-        case 13: // Enter key
-          buttons[selectedIndex].click();
-          break;
-        case 10004: // Return key on remote
-        case 10009: // Another common back key
-          window.location.href = "index.html"; // Go back to home
-          break;
-      }
-    });
-
-    // Back button click
-    buttons[0].addEventListener("click", function() {
-      window.location.href = "index.html";
-    });
-  </script>
+      <button class="primary-btn auth-submit" tabindex="0">Sign In</button>
+      <a class="secondary-link" href="home.html" tabindex="0">Back to Home</a>
+    </form>
+  </main>
 </body>
 </html>
