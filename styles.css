@@ -40,27 +40,22 @@ html, body {
   box-shadow: 0 10px 30px rgba(0,0,0,0.35);
 }
 
-/* Fallback spacing for Tizen (no gap support) */
+/* Replace gap usage: top-menu container spacing via margins, enhance with @supports */
 .menu-container {
   display: flex;
   align-items: center;
-  /* fallback: emulate horizontal gap with margins */
-  margin-left: -10px;
-  margin-right: -10px;
 }
 .menu-container > * {
-  margin-left: 10px;
-  margin-right: 10px;
+  margin-right: 20px;
 }
-/* Prefer modern gap where supported */
-@supports (gap: 1px) or ((row-gap: 1px) and (column-gap: 1px)) {
+.menu-container > *:last-child {
+  margin-right: 0;
+}
+@supports (gap: 20px) {
   .menu-container {
     gap: 20px;
-    margin-left: 0;
-    margin-right: 0;
   }
   .menu-container > * {
-    margin-left: 0;
     margin-right: 0;
   }
 }
@@ -151,7 +146,7 @@ html, body {
   margin-left: 6px;
   margin-right: 6px;
 }
-@supports (gap: 1px) or ((row-gap: 1px) and (column-gap: 1px)) {
+@supports (gap: 12px) {
   .banner-actions {
     gap: 12px;
     margin-left: 0;
@@ -209,32 +204,22 @@ html, body {
   color: var(--text-dim);
 }
 
-/* Fallback spacing for rail-row (no gap) */
+/* Replace gap usage: rail-row flex spacing via margins, enhanced with @supports */
 .rail-row {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: minmax(220px, 22vw);
-  overflow-x: auto;
-  padding-bottom: 8px;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none; /* Firefox */
-  /* emulate 12px both-direction gap */
-  margin-left: -6px;
-  margin-right: -6px;
+  display: flex;
+  overflow: hidden;
 }
 .rail-row > * {
-  margin-left: 6px;
-  margin-right: 6px;
+  margin-right: 12px;
 }
-.rail-row::-webkit-scrollbar { display: none; } /* WebKit */
-@supports (gap: 1px) or ((row-gap: 1px) and (column-gap: 1px)) {
+.rail-row > *:last-child {
+  margin-right: 0;
+}
+@supports (gap: 12px) {
   .rail-row {
     gap: 12px;
-    margin-left: 0;
-    margin-right: 0;
   }
   .rail-row > * {
-    margin-left: 0;
     margin-right: 0;
   }
 }
@@ -269,7 +254,26 @@ html, body {
 }
 
 /* Subscriptions */
-/* Fallback spacing for plans (no gap) */
+/* Replace gap usage: sub-list flex spacing via margins, enhanced with @supports */
+.subscriptions .sub-list {
+  display: flex;
+}
+.subscriptions .sub-list > * {
+  margin-right: 16px;
+}
+.subscriptions .sub-list > *:last-child {
+  margin-right: 0;
+}
+@supports (gap: 16px) {
+  .subscriptions .sub-list {
+    gap: 16px;
+  }
+  .subscriptions .sub-list > * {
+    margin-right: 0;
+  }
+}
+
+/* Existing plans scroller retained */
 .subscriptions .plans {
   display: grid;
   grid-auto-flow: column;
@@ -284,7 +288,7 @@ html, body {
   margin-right: 8px;
 }
 .subscriptions .plans::-webkit-scrollbar { display: none; }
-@supports (gap: 1px) or ((row-gap: 1px) and (column-gap: 1px)) {
+@supports (gap: 16px) {
   .subscriptions .plans {
     gap: 16px;
     margin-left: 0;
@@ -307,7 +311,7 @@ html, body {
   margin-top: 8px;
 }
 /* Prefer modern gap for internal grid children where supported */
-@supports (gap: 1px) or (row-gap: 1px) {
+@supports (gap: 8px) {
   .plan-card {
     gap: 8px;
   }
@@ -362,7 +366,7 @@ html, body {
   margin-top: 10px;
 }
 /* Prefer modern gap for supported browsers */
-@supports (gap: 1px) or (row-gap: 1px) {
+@supports (gap: 10px) {
   .auth-form {
     gap: 10px;
   }
