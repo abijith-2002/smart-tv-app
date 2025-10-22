@@ -2,10 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <!-- Tizen TV recommended meta -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+
   <title>MyTV - Splash</title>
   <link rel="stylesheet" href="styles.css"/>
+
   <style>
+    /* Prevent text selection/long-press behaviors on TV */
+    html, body {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
+    }
+
     .splash {
       height: 100vh;
       width: 100vw;
@@ -42,7 +55,7 @@
     <h1>MyTV</h1>
   </div>
   <script>
-    // Fade-out then navigate to home.html after 3 seconds
+    // Splash then navigate to home.html after 3 seconds; works offline as files are packaged
     const SPLASH_DURATION = 3000;
     const splash = document.getElementById('splash');
     setTimeout(() => {

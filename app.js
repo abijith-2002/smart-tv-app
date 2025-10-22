@@ -1,6 +1,6 @@
 (function() {
   // PUBLIC_INTERFACE
-  /** Initialize TV remote/keyboard navigation on Home page. */
+  /** Initialize TV remote/keyboard navigation on Home page and handle Tizen back key. */
   function initFocusManager() {
     const focusables = Array.from(document.querySelectorAll('[tabindex="0"]'));
     // Define ordered groups
@@ -28,7 +28,7 @@
     // Helpers to get indices
     function getCurrent() {
       const active = document.activeElement;
-      if (!active) return { groupIdx: 0, itemIdx: 0, el: groups[groupsOrder[0]][0] };
+      if (!active) return { groupIdx: 0, itemIdx: 0, el: groups[groupsOrder[0]] ? groups[groupsOrder[0]][0] : null };
       const g = active.getAttribute('data-group');
       const idx = parseInt(active.getAttribute('data-index') || '0', 10);
       const groupIdx = g ? groupsOrder.indexOf(g) : 0;
@@ -103,9 +103,59 @@
       }
     }
 
+    // Tizen back key handling helpers
+    function isOnSplashOrHome() {
+      const path = (window.location && window.location.pathname) ? window.location.pathname : '';
+      const name = path.split('/').pop() || 'index.html';
+      return name === '' || name === 'index.html' || name === 'home.html';
+    }
+
+    function tryExitApp() {
+      try {
+        if (typeof tizen !== 'undefined' && tizen.application) {
+          tizen.application.getCurrentApplication().exit();
+          return true;
+        }
+      } catch (e) {
+        // no-op if not on Tizen or API unavailable
+      }
+      return false;
+    }
+
+    function handleBackNavigation() {
+      // If on splash or home with no meaningful history, exit app
+      if (isOnSplashOrHome() && (history.length <= 1)) {
+        if (!tryExitApp()) {
+          // Fallback: navigate to about:blank to simulate exit when not in Tizen
+          window.location.href = 'about:blank';
+        }
+      } else {
+        // Navigate back in history
+        history.back();
+      }
+    }
+
+    // Register Tizen TV remote back key if needed
+    try {
+      if (typeof tizen !== 'undefined' && tizen.tvinputdevice && tizen.tvinputdevice.registerKey) {
+        // Back key is handled via tizenhwkey event, but registering doesn't hurt for TV remotes
+        tizen.tvinputdevice.registerKey('Return');
+      }
+    } catch (e) {
+      // ignore if not in Tizen
+    }
+
     // Handle key navigation
     document.addEventListener('keydown', (e) => {
       const key = e.key;
+
+      // Back handling for desktop keyboard (Backspace) to simulate TV back
+      if (key === 'Backspace') {
+        e.preventDefault();
+        handleBackNavigation();
+        return;
+      }
+
       if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Enter'].includes(key)) {
         e.preventDefault();
       }
@@ -130,6 +180,18 @@
         focusAt(groupIdx - 1, itemIdx);
       }
     });
+
+    // Tizen hardware key event for Return/Back
+    document.addEventListener('tizenhwkey', function(ev) {
+      try {
+        if (ev && ev.keyName === 'back') {
+          ev.preventDefault();
+          handleBackNavigation();
+        }
+      } catch (e) {
+        // ignore
+      }
+    });
   }
 
   if (document.readyState === 'loading') {
@@ -137,4 +199,12 @@
   } else {
     initFocusManager();
   }
+
+  // PUBLIC_INTERFACE
+  /**
+   * Tips for Tizen Studio:
+   * - Import this folder as a Web Application (TV profile).
+   * - Ensure config.xml has profile tv and content src="index.html".
+   * - Package/debug on a Samsung TV emulator or device; icons can be replaced under smart-tv-app/icons/.
+   */
 })();

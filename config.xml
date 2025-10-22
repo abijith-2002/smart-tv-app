@@ -1,11 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<widget xmlns:tizen="http://tizen.org/ns/widgets" xmlns="http://www.w3.org/ns/widgets" id="http://yourdomain/Sampleprogram" version="1.0.0" viewmodes="maximized">
-    <tizen:application id="jqRVeqEHch.Sampleprogram" package="jqRVeqEHch" required_version="2.3"/>
+<widget xmlns="http://www.w3.org/ns/widgets"
+        xmlns:tizen="http://tizen.org/ns/widgets"
+        id="http://mytv.app"
+        version="1.0.0"
+        viewmodes="maximized">
+    <name>MyTV</name>
+    <description>Smart TV app with remote navigation</description>
+
+    <!-- Entry point (splash) -->
     <content src="index.html"/>
+
+    <!-- App icon (relative path for Tizen packaging) -->
+    <icon src="icons/app-icon-192.png"/>
+
+    <!-- Tizen application metadata -->
+    <tizen:application id="mytv.app.Main"
+                       package="mytv.app"
+                       required_version="6.0"/>
+
+    <!-- Target Tizen profile for Samsung TV -->
+    <tizen:profile name="tv"/>
+
+    <!-- Category is required for TV apps -->
+    <tizen:category name="http://tizen.org/category/tv"/>
+
+    <!-- Settings appropriate for TV apps -->
+    <tizen:setting screen-orientation="landscape"
+                   context-menu="disable"
+                   background-support="disable"
+                   encryption="disable"
+                   install-location="auto"
+                   hwkey-event="enable"/>
+
+    <!-- Privileges (none required for this static app now) -->
+    <!-- <tizen:privilege name=""/> -->
+
+    <!-- Optional TV screen size features (not mandatory for packaging) -->
     <feature name="http://tizen.org/feature/screen.size.normal.1080.1920"/>
-    <icon src="icon.png"/>
-    <tizen:metadata key="http://tizen.org/metadata/app_ui_type/base_screen_resolution" value="extensive"/>
-    <name>Sampleprogram</name>
-    <tizen:profile name="tv-samsung"/>
-    <tizen:setting screen-orientation="landscape" context-menu="enable" background-support="disable" encryption="disable" install-location="auto" hwkey-event="enable"/>
 </widget>
