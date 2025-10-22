@@ -1,0 +1,179 @@
+:root{
+  --bg: #0f2027;
+  --primary: #1e3c72;
+  --secondary: #2a5298;
+  --accent: #396afc;
+  --text: #ffffff;
+  --text-dim: #d6e0ff;
+  --focus: #ffd166;
+}
+
+*{ box-sizing: border-box; }
+
+html,body{
+  margin:0;
+  padding:0;
+  color:var(--text);
+  background: var(--bg);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Prevent unwanted long-press menu and selection on TVs */
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* Dark layered gradient background */
+.tv-bg{
+  min-height: 100vh;
+  background:
+    radial-gradient(1200px 600px at 10% 0%, rgba(57,106,252,0.18) 0%, rgba(57,106,252,0) 70%),
+    linear-gradient(135deg, rgba(30,60,114,0.35), rgba(42,82,152,0.35)),
+    var(--bg);
+  background-color: var(--bg);
+}
+
+/* Centered stage container */
+.center-stage{
+  min-height: 100vh;
+  width: 100%;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  padding: 6vh 4vw;
+  text-align: center;
+}
+
+/* Title and subtitle with responsive sizes */
+.app-title{
+  margin: 0 0 1rem 0;
+  font-weight: 700;
+  font-size: clamp(2.2rem, 6vw, 4.2rem);
+  line-height: 1.1;
+  text-shadow: 0 8px 28px rgba(0,0,0,0.5);
+}
+.app-subtitle{
+  margin: 0 0 2.2rem 0;
+  color: var(--text-dim);
+  font-size: clamp(1rem, 2.2vw, 1.25rem);
+}
+
+/* CTA row; use margin-based spacing for Tizen compatibility; enhance with gap if supported */
+.cta-row{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* emulate 18px gap */
+.cta-row > *{ margin-right: 18px; }
+.cta-row > *:last-child{ margin-right: 0; }
+@supports (gap: 18px){
+  .cta-row{ gap: 18px; }
+  .cta-row > *{ margin-right: 0; }
+}
+
+/* Buttons */
+.cta-button{
+  appearance: none;
+  text-decoration: none;
+  color: #fff;
+  border: 2px solid transparent;
+  border-radius: 14px;
+  min-width: clamp(10rem, 22vw, 20rem);
+  min-height: clamp(3.2rem, 7vh, 4.2rem);
+  padding: 0.9rem 1.25rem;
+  font-size: clamp(1.1rem, 2.6vw, 1.6rem);
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease, background 160ms ease, color 160ms ease;
+  cursor: pointer;
+}
+
+.cta-button.primary{
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+}
+
+.cta-button.secondary{
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.06);
+}
+
+/* Focus states: high contrast, TV friendly */
+.cta-button:focus,
+.cta-button:focus-visible{
+  outline: none;
+  border-color: var(--focus);
+  box-shadow: 0 0 0 4px rgba(255,209,102,0.36), 0 16px 40px rgba(0,0,0,0.5);
+  transform: translateY(-1px) scale(1.02);
+}
+
+.cta-button:active{
+  transform: translateY(0) scale(0.99);
+}
+
+/* Placeholder pages shared styles */
+.page-container{
+  min-height: 100vh;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  padding: 6vh 4vw;
+  text-align: center;
+}
+
+.page-title{
+  margin: 0 0 1.8rem 0;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  text-shadow: 0 6px 24px rgba(0,0,0,0.45);
+}
+
+.link-row{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* emulate 14px gap */
+.link-row > *{ margin-right: 14px; }
+.link-row > *:last-child{ margin-right: 0; }
+@supports (gap: 14px){
+  .link-row{ gap: 14px; }
+  .link-row > *{ margin-right: 0; }
+}
+
+/* Simple link styled as button for placeholders */
+.page-link{
+  appearance: none;
+  text-decoration: none;
+  color: #fff;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  padding: 0.8rem 1.2rem;
+  min-width: clamp(9rem, 18vw, 14rem);
+  min-height: clamp(2.8rem, 6.6vh, 3.6rem);
+  font-size: clamp(1rem, 2.2vw, 1.3rem);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.08);
+}
+
+.page-link.primary{
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+}
+
+.page-link:focus,
+.page-link:focus-visible{
+  outline: none;
+  border-color: var(--focus);
+  box-shadow: 0 0 0 4px rgba(255,209,102,0.36), 0 12px 32px rgba(0,0,0,0.48);
+  transform: translateY(-1px) scale(1.02);
+}
+
+/* Inputs (if needed later) kept accessible and TV-friendly */
+input, button{
+  font-family: inherit;
+  font-size: 1rem;
+}

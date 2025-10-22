@@ -2,40 +2,36 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <!-- TV-friendly meta -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
-
-  <title>Smart TV App</title>
+  <title>Sign Up - Smart TV App</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body class="tv-bg">
-  <main class="center-stage" role="main" aria-label="Welcome">
-    <h1 class="app-title">Welcome to Smart TV App</h1>
-    <p class="app-subtitle" aria-hidden="true">Enjoy a clean and simple TV experience</p>
-
-    <div class="cta-row" role="group" aria-label="Primary actions">
-      <a href="login.html"
-         class="cta-button primary"
+  <main class="page-container" role="main" aria-label="Sign up">
+    <h1 class="page-title">Create your account</h1>
+    <div class="link-row" role="group" aria-label="Signup actions">
+      <a href="index.html"
+         class="page-link"
          role="button"
          tabindex="0"
          data-focusable="true"
          data-index="0"
-         aria-label="Login">
-        Login
+         aria-label="Back">
+        Back
       </a>
-      <a href="signup.html"
-         class="cta-button secondary"
+      <a href="#"
+         class="page-link primary"
          role="button"
          tabindex="0"
          data-focusable="true"
          data-index="1"
-         aria-label="Sign up">
-        Sign up
+         aria-label="Create account (placeholder)"
+         onclick="alert('Create account action placeholder')">
+        Create Account
       </a>
     </div>
   </main>
-
   <script src="app.js"></script>
 </body>
 </html>

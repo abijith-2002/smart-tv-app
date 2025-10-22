@@ -1,210 +1,135 @@
-(function() {
+(function () {
+  'use strict';
+
   // PUBLIC_INTERFACE
-  /** Initialize TV remote/keyboard navigation on Home page and handle Tizen back key. */
-  function initFocusManager() {
-    const focusables = Array.from(document.querySelectorAll('[tabindex="0"]'));
-    // Define ordered groups
-    const groupsOrder = ['menu', 'banner', 'rail-0', 'rail-1', 'rail-2', 'rail-3', 'rail-4', 'subs'];
+  /**
+   * Initialize TV-remote/keyboard navigation for focusable elements on the page.
+   * Behavior:
+   * - Focusables are any element with [data-focusable="true"] or [role="button"] with tabindex="0".
+   * - ArrowLeft/Right/Up/Down: moves focus horizontally within the current row group.
+   *   Since the layout is simple (two CTAs), arrows move between items by index.
+   * - Enter/Space: activates (click) the focused control.
+   * - Tab: left as a fallback to move focus by browser default.
+   * - On load: first focusable element receives focus.
+   */
+  function initSimpleFocusNavigation() {
+    // Collect focusables in document order
+    var focusables = Array.prototype.slice.call(
+      document.querySelectorAll('[data-focusable="true"], [role="button"][tabindex="0"]')
+    );
 
-    // Build group map
-    const groups = {};
-    groupsOrder.forEach(g => groups[g] = []);
-    focusables.forEach(el => {
-      const g = el.getAttribute('data-group');
-      if (g && groups[g]) {
-        groups[g].push(el);
-      }
-    });
-
-    // Sort each group's items by data-index
-    Object.keys(groups).forEach(g => {
-      groups[g].sort((a, b) => {
-        const ia = parseInt(a.getAttribute('data-index') || '0', 10);
-        const ib = parseInt(b.getAttribute('data-index') || '0', 10);
-        return ia - ib;
-      });
-    });
-
-    // Helpers to get indices
-    function getCurrent() {
-      const active = document.activeElement;
-      if (!active) return { groupIdx: 0, itemIdx: 0, el: groups[groupsOrder[0]] ? groups[groupsOrder[0]][0] : null };
-      const g = active.getAttribute('data-group');
-      const idx = parseInt(active.getAttribute('data-index') || '0', 10);
-      const groupIdx = g ? groupsOrder.indexOf(g) : 0;
-      return { groupIdx, itemIdx: idx, el: active };
-    }
-
-    function focusAt(groupIdx, itemIdx) {
-      if (groupIdx < 0) groupIdx = 0;
-      if (groupIdx > groupsOrder.length - 1) groupIdx = groupsOrder.length - 1;
-      const groupName = groupsOrder[groupIdx];
-      const list = groups[groupName];
-      if (!list || list.length === 0) return;
-      if (itemIdx < 0) itemIdx = 0;
-      if (itemIdx > list.length - 1) itemIdx = list.length - 1;
-      const el = list[itemIdx];
-      if (el) {
-        el.focus({ preventScroll: true });
-        // If element is inside a horizontally scrollable rail, ensure visibility
-        const railRow = el.closest('.rail-row, .plans');
-        if (railRow) {
-          el.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-        }
+    // Index assignments if not present
+    for (var i = 0; i < focusables.length; i++) {
+      if (!focusables[i].hasAttribute('data-index')) {
+        focusables[i].setAttribute('data-index', String(i));
       }
     }
 
-    // Default focus: first menu item
-    const firstMenu = groups['menu'] && groups['menu'][0];
-    if (firstMenu) firstMenu.focus();
+    function getIndex(el) {
+      var idx = el && el.getAttribute ? el.getAttribute('data-index') : null;
+      var n = idx !== null ? parseInt(idx, 10) : -1;
+      return isNaN(n) ? -1 : n;
+    }
 
-    // Click actions for menu
-    groups['menu'].forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const action = btn.getAttribute('data-action');
-        if (action === 'login') {
-          window.location.href = 'login.html';
-        } else if (action === 'myplan') {
-          window.location.href = 'my-plan.html';
-        } else if (action === 'settings') {
-          alert('Settings coming soon');
-        } else {
-          // home: no-op
-        }
-      });
-    });
+    function clamp(val, min, max) {
+      return Math.max(min, Math.min(max, val));
+    }
 
-    // Enter key handling for cards/plans/banner
-    function handleEnter(el) {
-      const g = el.getAttribute('data-group');
-      const action = el.getAttribute('data-action');
-      if (g === 'menu') {
+    function focusAt(index) {
+      if (!focusables.length) return;
+      var i = clamp(index, 0, focusables.length - 1);
+      var el = focusables[i];
+      if (el && el.focus) {
+        // preventScroll for smoother TV UIs (supported in modern webviews; if not supported it is ignored)
+        try { el.focus({ preventScroll: true }); } catch (e) { el.focus(); }
+      }
+    }
+
+    function currentIndex() {
+      var active = document.activeElement;
+      var idx = getIndex(active);
+      if (idx >= 0) return idx;
+      return 0;
+    }
+
+    // Initial focus
+    if (focusables.length) {
+      focusAt(0);
+    }
+
+    // Activation helper
+    function activate(el) {
+      if (!el) return;
+      // Trigger click for anchors/buttons
+      if (typeof el.click === 'function') {
         el.click();
-        return;
-      }
-      if (g === 'banner') {
-        if (el.classList.contains('primary-btn')) {
-          alert('Playing featured...');
-        } else {
-          alert('More info coming soon');
-        }
-        return;
-      }
-      if (g && g.startsWith('rail-')) {
-        alert('Open content detail');
-        return;
-      }
-      if (g === 'subs') {
-        alert('Plan selected');
-        return;
-      }
-      if (action === 'settings') {
-        alert('Settings coming soon');
-      }
-    }
-
-    // Tizen back key handling helpers
-    function isOnSplashOrHome() {
-      const path = (window.location && window.location.pathname) ? window.location.pathname : '';
-      const name = path.split('/').pop() || 'index.html';
-      return name === '' || name === 'index.html' || name === 'home.html';
-    }
-
-    function tryExitApp() {
-      try {
-        if (typeof tizen !== 'undefined' && tizen.application) {
-          tizen.application.getCurrentApplication().exit();
-          return true;
-        }
-      } catch (e) {
-        // no-op if not on Tizen or API unavailable
-      }
-      return false;
-    }
-
-    function handleBackNavigation() {
-      // If on splash or home with no meaningful history, exit app
-      if (isOnSplashOrHome() && (history.length <= 1)) {
-        if (!tryExitApp()) {
-          // Fallback: navigate to about:blank to simulate exit when not in Tizen
-          window.location.href = 'about:blank';
-        }
       } else {
-        // Navigate back in history
-        history.back();
+        // As a fallback, follow href if anchor
+        var href = el.getAttribute && el.getAttribute('href');
+        if (href) window.location.href = href;
       }
     }
 
-    // Register Tizen TV remote back key if needed
-    try {
-      if (typeof tizen !== 'undefined' && tizen.tvinputdevice && tizen.tvinputdevice.registerKey) {
-        // Back key is handled via tizenhwkey event, but registering doesn't hurt for TV remotes
-        tizen.tvinputdevice.registerKey('Return');
-      }
-    } catch (e) {
-      // ignore if not in Tizen
-    }
-
-    // Handle key navigation
-    document.addEventListener('keydown', (e) => {
-      const key = e.key;
-
-      // Back handling for desktop keyboard (Backspace) to simulate TV back
-      if (key === 'Backspace') {
+    // Key handling for remote/keyboard
+    document.addEventListener('keydown', function (e) {
+      var key = e.key;
+      // Arrow and Enter/Space keys are handled
+      if (key === 'ArrowLeft' || key === 'ArrowRight' || key === 'ArrowUp' || key === 'ArrowDown' ||
+          key === 'Enter' || key === ' ' || key === 'Spacebar') {
         e.preventDefault();
-        handleBackNavigation();
+      } else {
+        return; // let other keys work normally (including Tab)
+      }
+
+      var idx = currentIndex();
+
+      if (key === 'Enter' || key === ' ' || key === 'Spacebar') {
+        activate(document.activeElement);
         return;
       }
 
-      if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Enter'].includes(key)) {
-        e.preventDefault();
-      }
-      const { groupIdx, itemIdx, el } = getCurrent();
-
-      if (key === 'Enter') {
-        if (el) handleEnter(el);
-        return;
-      }
-
-      if (key === 'ArrowLeft') {
-        // move within group to previous item
-        focusAt(groupIdx, itemIdx - 1);
-      } else if (key === 'ArrowRight') {
-        // move within group to next item
-        focusAt(groupIdx, itemIdx + 1);
-      } else if (key === 'ArrowDown') {
-        // move to next group, keep same index if possible
-        focusAt(groupIdx + 1, itemIdx);
-      } else if (key === 'ArrowUp') {
-        // move to previous group
-        focusAt(groupIdx - 1, itemIdx);
+      // For a simple 2-button layout, treat any arrow as left/right navigation.
+      if (key === 'ArrowLeft' || key === 'ArrowUp') {
+        focusAt(idx - 1);
+      } else if (key === 'ArrowRight' || key === 'ArrowDown') {
+        focusAt(idx + 1);
       }
     });
 
-    // Tizen hardware key event for Return/Back
-    document.addEventListener('tizenhwkey', function(ev) {
+    // Tizen remote back key (optional graceful behavior)
+    document.addEventListener('tizenhwkey', function (ev) {
       try {
         if (ev && ev.keyName === 'back') {
           ev.preventDefault();
-          handleBackNavigation();
+          // If not index, navigate back to index.html; else attempt to exit app
+          var name = (window.location.pathname || '').split('/').pop() || 'index.html';
+          if (name !== 'index.html') {
+            window.location.href = 'index.html';
+          } else {
+            try {
+              if (typeof tizen !== 'undefined' && tizen.application) {
+                tizen.application.getCurrentApplication().exit();
+              } else {
+                window.location.href = 'about:blank';
+              }
+            } catch (e) {
+              window.location.href = 'about:blank';
+            }
+          }
         }
-      } catch (e) {
-        // ignore
-      }
+      } catch (e) { /* ignore */ }
     });
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initFocusManager);
+    document.addEventListener('DOMContentLoaded', initSimpleFocusNavigation);
   } else {
-    initFocusManager();
+    initSimpleFocusNavigation();
   }
 
   // PUBLIC_INTERFACE
   /**
-   * Tips for Tizen Studio:
-   * - Import this folder as a Web Application (TV profile).
-   * - Ensure config.xml has profile tv and content src="index.html".
-   * - Package/debug on a Samsung TV emulator or device; icons can be replaced under smart-tv-app/icons/.
+   * This app is designed to be served as a static site. No external dependencies are required.
+   * Pages: index.html (root), login.html, signup.html share this JS and style.css.
    */
 })();
