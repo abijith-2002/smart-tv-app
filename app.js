@@ -1,242 +1,407 @@
 (function () {
   'use strict';
 
-  // Helpers
+  // Utility helpers
   function qs(sel, ctx){ return (ctx || document).querySelector(sel); }
   function qsa(sel, ctx){ return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); }
   function clamp(v, min, max){ return Math.max(min, Math.min(max, v)); }
   function tryFocus(el){
     if (!el) return;
-    try { el.focus({ preventScroll: true }); } catch(e){ el.focus(); }
+    try { el.focus({ preventScroll: true }); } catch(e){ try { el.focus(); } catch(_){} }
     try { el.scrollIntoView({ block: 'nearest', inline: 'nearest' }); } catch(e){}
   }
-  function isHomePage(){
-    var name = (window.location.pathname || '').split('/').pop() || 'index.html';
-    return name.toLowerCase() === 'home.html';
+  function pageName(){
+    var n = (window.location.pathname || '').split('/').pop() || 'index.html';
+    return n.toLowerCase();
   }
-  function isIndexPage(){
-    var name = (window.location.pathname || '').split('/').pop() || 'index.html';
-    return name.toLowerCase() === 'index.html';
+  function isIndexPage(){ return pageName() === 'index.html'; }
+  function isHomePage(){ return pageName() === 'home.html'; }
+  function isLoginPage(){ return pageName() === 'login.html'; }
+  function isMyPlanPage(){ return pageName() === 'myplan.html' || pageName() === 'my-plan.html'; }
+
+  // Tizen key code map and safe access
+  var TIZEN = (function(){
+    try { return window.tizen || null; } catch(e){ return null; }
+  })();
+  // Key constants for Samsung TV remotes
+  var Keys = {
+    LEFT: 'ArrowLeft',
+    RIGHT: 'ArrowRight',
+    UP: 'ArrowUp',
+    DOWN: 'ArrowDown',
+    ENTER: 'Enter',
+    SPACE: ' ',
+    BACK: 'Backspace', // desktop fallback
+    // Media keys (no-op)
+    PLAY: 'MediaPlay',
+    PAUSE: 'MediaPause',
+    PLAY_PAUSE: 'MediaPlayPause',
+    STOP: 'MediaStop',
+    FAST_FORWARD: 'MediaFastForward',
+    REWIND: 'MediaRewind',
+    HOME: 'Home'
+  };
+  // Debounce to prevent key repeat overload on TVs
+  var lastKeyTime = 0;
+  function debounceKey(interval){
+    var now = Date.now();
+    if (now - lastKeyTime < interval) return true;
+    lastKeyTime = now;
+    return false;
+  }
+
+  // Focus memory per page for restoration
+  var FocusMemory = {
+    lastByPage: {},
+    save: function(){
+      var name = pageName();
+      this.lastByPage[name] = document.activeElement || null;
+    },
+    restoreOr: function(fallbackEl){
+      var name = pageName();
+      var el = this.lastByPage[name];
+      if (el && document.body.contains(el)) {
+        tryFocus(el);
+      } else {
+        tryFocus(fallbackEl);
+      }
+    }
+  };
+
+  // PUBLIC_INTERFACE
+  /**
+   * Global key dispatcher for TV and desktop. Handles DPAD, Enter/Space, Return, media keys noop.
+   * Pages register their own handlers; we stop propagation when handled.
+   */
+  function installGlobalKeyDispatcher(handler){
+    // Tizen hw back
+    document.addEventListener('tizenhwkey', function (ev) {
+      try {
+        if (ev && ev.keyName === 'back') {
+          ev.preventDefault();
+          if (handler && handler({ type:'BACK' })) return;
+          // default fallback: navigate from subpages to home, from home to index
+          if (isHomePage()) window.location.href = 'index.html';
+          else window.location.href = 'home.html';
+        }
+      } catch (e) {}
+    });
+
+    document.addEventListener('keydown', function(e){
+      var key = e.key || '';
+      // prevent heavy repeats
+      if (debounceKey(40)) { /* allow some repeats while still responsive */ }
+
+      // normalize operation
+      var op = null;
+      if (key === Keys.LEFT) op = 'LEFT';
+      else if (key === Keys.RIGHT) op = 'RIGHT';
+      else if (key === Keys.UP) op = 'UP';
+      else if (key === Keys.DOWN) op = 'DOWN';
+      else if (key === Keys.ENTER || key === 'Spacebar' || key === Keys.SPACE) op = 'ENTER';
+      else if (key === Keys.HOME) op = 'HOME';
+      else if (key === Keys.PLAY || key === Keys.PAUSE || key === Keys.PLAY_PAUSE || key === Keys.STOP || key === Keys.FAST_FORWARD || key === Keys.REWIND) op = 'MEDIA';
+      else if (key === 'Escape' || key === 'BrowserBack' || key === 'GoBack' || key === Keys.BACK) op = 'BACK';
+      else if (/^[0-9]$/.test(key)) op = 'NUM'; // ignore numeric unless focused element handles it
+
+      if (!op) return; // ignore other keys
+
+      // prevent default navigation/scroll
+      e.preventDefault();
+
+      if (op === 'MEDIA' || op === 'HOME' || op === 'NUM') {
+        // No-op by default
+        return;
+      }
+
+      if (handler){
+        var handled = handler({ type: op, event: e, active: document.activeElement });
+        if (handled) return;
+      }
+
+      // If not handled:
+      if (op === 'BACK'){
+        if (isHomePage()) window.location.href = 'index.html';
+        else window.location.href = 'home.html';
+      } else if (op === 'ENTER') {
+        var a = document.activeElement;
+        if (!a) return;
+        if (typeof a.click === 'function') a.click();
+        else {
+          var href = a.getAttribute && a.getAttribute('href');
+          if (href) window.location.href = href;
+        }
+      }
+    }, true);
+  }
+
+  function activate(el){
+    if (!el) return;
+    if (typeof el.click === 'function') { el.click(); return; }
+    var href = el.getAttribute && el.getAttribute('href');
+    if (href) window.location.href = href;
   }
 
   // PUBLIC_INTERFACE
   /**
-   * Initialize TV navigation for Home page with menu and multiple rails.
-   * - ArrowLeft/Right navigate within menu or within a rail.
-   * - ArrowUp/Down move between menu and rails.
-   * - Enter/Space activates focused item.
-   * - Initial focus: first menu item on load.
+   * Initialize Splash page: 3s timer with CSS fade-out, Enter/OK to skip immediately.
    */
-  function initHomeNavigation(){
+  function initSplash(){
+    var root = document.documentElement;
+    var skipToHome = function(){
+      // add fade-out class and navigate after short delay
+      var body = document.body;
+      if (body) body.classList.add('fade-out');
+      setTimeout(function(){ window.location.href = 'home.html'; }, 450);
+    };
+    // auto timer
+    setTimeout(skipToHome, 3000);
+    // key handling: Enter triggers skip
+    installGlobalKeyDispatcher(function(inp){
+      if (inp.type === 'ENTER'){
+        skipToHome();
+        return true;
+      }
+      if (inp.type === 'BACK'){
+        // ignore on splash to avoid app exit while loading
+        return true;
+      }
+      return false;
+    });
+  }
+
+  // PUBLIC_INTERFACE
+  /**
+   * Initialize Home navigation with menu and rails, wrapping, row/column movement,
+   * focus restore, and Enter activation. Up/Down switches between menu and rails,
+   * Left/Right moves within rail; at ends, Up/Down jumps rails, and wrapping within menu/rails.
+   */
+  function initHome(){
     var menuItems = qsa('.top-menu .menu-item');
-    var rails = qsa('.rail-row, .plans'); // include subscriptions plans row
-    var currentSection = 'menu'; // 'menu' or rail index number
-    var currentRail = 0;
-    var railIndices = []; // per-rail item index
+    var rails = qsa('.rail-row, .plans'); // include plan row
+    var railIndices = new Array(rails.length);
+    for (var i=0;i<railIndices.length;i++) railIndices[i] = 0;
 
-    // prepare rail indices
-    for (var r = 0; r < rails.length; r++){
-      railIndices[r] = 0;
-    }
-
-    // initial focus: first menu item
-    if (menuItems.length) { tryFocus(menuItems[0]); }
-
-    function activate(el){
-      if (!el) return;
-      if (typeof el.click === 'function') { el.click(); return; }
-      var href = el.getAttribute && el.getAttribute('href');
-      if (href) { window.location.href = href; }
-    }
+    // Determine initial focus: restore or first menu
+    var initial = menuItems[0] || null;
+    FocusMemory.restoreOr(initial);
 
     function focusMenu(idx){
       if (!menuItems.length) return;
-      var i = clamp(idx, 0, menuItems.length - 1);
+      var i = ((idx % menuItems.length) + menuItems.length) % menuItems.length; // wrap
       tryFocus(menuItems[i]);
     }
-
-    function focusRailItem(railIdx, itemIdx){
-      var row = rails[railIdx];
+    function focusRailItem(rIdx, itemIdx){
+      var row = rails[rIdx];
       if (!row) return;
       var items = qsa('.card, .plan-card', row);
       if (!items.length) return;
-      var i = clamp(itemIdx, 0, items.length - 1);
-      railIndices[railIdx] = i;
+      var i = ((itemIdx % items.length) + items.length) % items.length; // wrap
+      railIndices[rIdx] = i;
+      try {
+        // keep rail visible without CSS scroll-margin shorthand
+        items[i].scrollIntoView({ block: 'nearest', inline: 'nearest' });
+      } catch(e){}
       tryFocus(items[i]);
     }
-
     function findRailIndexForEl(el){
-      for (var i = 0; i < rails.length; i++){
-        if (rails[i].contains(el)) return i;
-      }
+      for (var j=0;j<rails.length;j++){ if (rails[j].contains(el)) return j; }
       return -1;
     }
+    function inMenu(el){ return menuItems.indexOf(el) !== -1; }
 
-    document.addEventListener('keydown', function(e){
-      var key = e.key;
-      if (key === 'ArrowLeft' || key === 'ArrowRight' || key === 'ArrowUp' || key === 'ArrowDown' ||
-          key === 'Enter' || key === ' ' || key === 'Spacebar') {
-        e.preventDefault();
-      } else {
-        return;
+    installGlobalKeyDispatcher(function(inp){
+      var a = inp.active || document.activeElement;
+      if (!a) return false;
+
+      // Persist last focused
+      FocusMemory.save();
+
+      if (inp.type === 'ENTER'){
+        activate(a);
+        return true;
       }
 
-      var active = document.activeElement;
+      // Determine context
+      var currentInMenu = inMenu(a);
+      var currentRail = findRailIndexForEl(a);
 
-      if (key === 'Enter' || key === ' ' || key === 'Spacebar'){
-        activate(active);
-        return;
-      }
-
-      // Determine context: menu or which rail
-      var inMenu = menuItems.indexOf(active) !== -1;
-      var railIdx = findRailIndexForEl(active);
-
-      if (inMenu) currentSection = 'menu';
-      else if (railIdx >= 0) { currentSection = railIdx; currentRail = railIdx; }
-
-      if (key === 'ArrowDown'){
-        if (currentSection === 'menu'){
-          // Move focus to first rail item of rail 0
-          currentSection = 0;
-          currentRail = 0;
-          focusRailItem(currentRail, railIndices[currentRail] || 0);
-        } else if (typeof currentSection === 'number'){
-          // move to next rail if exists
-          var next = currentSection + 1;
-          if (next < rails.length){
-            currentSection = next;
-            currentRail = next;
-            focusRailItem(currentRail, railIndices[currentRail] || 0);
-          }
-        }
-        return;
-      }
-
-      if (key === 'ArrowUp'){
-        if (typeof currentSection === 'number'){
-          if (currentSection === 0){
-            currentSection = 'menu';
+      if (inp.type === 'UP'){
+        if (currentInMenu){
+          // stay in menu; wrap leftmost -> last
+          var mIdxUp = menuItems.indexOf(a);
+          focusMenu(mIdxUp - 1);
+          return true;
+        } else if (currentRail >= 0){
+          if (currentRail === 0){
+            // move to menu and try keep approximate index
             focusMenu(0);
           } else {
-            var prev = currentSection - 1;
-            if (prev >= 0){
-              currentSection = prev;
-              currentRail = prev;
-              focusRailItem(currentRail, railIndices[currentRail] || 0);
-            }
+            // move to previous rail and try align by item index
+            var prev = currentRail - 1;
+            focusRailItem(prev, railIndices[prev] || 0);
           }
+          return true;
         }
-        return;
       }
 
-      if (key === 'ArrowLeft'){
-        if (currentSection === 'menu'){
-          var mIdx = menuItems.indexOf(active);
-          if (mIdx > 0) focusMenu(mIdx - 1);
-        } else if (typeof currentSection === 'number'){
-          // move left within current rail
+      if (inp.type === 'DOWN'){
+        if (currentInMenu){
+          // go to first rail, keep last index used for that rail
+          var target = 0;
+          focusRailItem(target, railIndices[target] || 0);
+          return true;
+        } else if (currentRail >= 0){
+          var next = currentRail + 1;
+          if (next < rails.length){
+            focusRailItem(next, railIndices[next] || 0);
+          } else {
+            // at last rail, stay
+            focusRailItem(currentRail, railIndices[currentRail] || 0);
+          }
+          return true;
+        }
+      }
+
+      if (inp.type === 'LEFT'){
+        if (currentInMenu){
+          var mIdxL = menuItems.indexOf(a);
+          focusMenu(mIdxL - 1); // wraps via focusMenu
+          return true;
+        } else if (currentRail >= 0){
           var row = rails[currentRail];
-          if (!row) return;
           var items = qsa('.card, .plan-card', row);
-          var idx = items.indexOf(active);
-          if (idx > 0){
-            focusRailItem(currentRail, idx - 1);
-          }
+          var idx = items.indexOf(a);
+          focusRailItem(currentRail, idx - 1); // wraps inside function
+          return true;
         }
-        return;
       }
 
-      if (key === 'ArrowRight'){
-        if (currentSection === 'menu'){
-          var mIdx2 = menuItems.indexOf(active);
-          if (mIdx2 < menuItems.length - 1) focusMenu(mIdx2 + 1);
-        } else if (typeof currentSection === 'number'){
+      if (inp.type === 'RIGHT'){
+        if (currentInMenu){
+          var mIdxR = menuItems.indexOf(a);
+          focusMenu(mIdxR + 1);
+          return true;
+        } else if (currentRail >= 0){
           var row2 = rails[currentRail];
-          if (!row2) return;
           var items2 = qsa('.card, .plan-card', row2);
-          var idx2 = items2.indexOf(active);
-          if (idx2 < items2.length - 1){
-            focusRailItem(currentRail, idx2 + 1);
-          }
+          var idx2 = items2.indexOf(a);
+          focusRailItem(currentRail, idx2 + 1);
+          return true;
         }
-        return;
       }
-    });
 
-    // Tizen back behavior: from home, go to index splash
-    document.addEventListener('tizenhwkey', function (ev) {
-      try {
-        if (ev && ev.keyName === 'back') {
-          ev.preventDefault();
-          window.location.href = 'index.html';
-        }
-      } catch (e) {}
-    });
-  }
-
-  // Simple fallback navigation for non-home pages (existing behavior)
-  function initSimplePageNavigation(){
-    var focusables = qsa('[data-focusable="true"], [role="button"][tabindex="0"], a.page-link, .primary-btn, .menu-item, input, button');
-    focusables.forEach(function(el, i){
-      if (!el.hasAttribute('data-index')) el.setAttribute('data-index', String(i));
-    });
-    function getIndex(el){ var idx = el && el.getAttribute ? parseInt(el.getAttribute('data-index') || '-1', 10) : -1; return isNaN(idx) ? -1 : idx; }
-    function focusAt(index){
-      if (!focusables.length) return;
-      var i = clamp(index, 0, focusables.length - 1);
-      tryFocus(focusables[i]);
-    }
-    if (focusables.length) tryFocus(focusables[0]);
-
-    function activate(el){
-      if (!el) return;
-      if (typeof el.click === 'function') { el.click(); return; }
-      var href = el.getAttribute && el.getAttribute('href');
-      if (href) window.location.href = href;
-    }
-
-    document.addEventListener('keydown', function(e){
-      var key = e.key;
-      if (key === 'ArrowLeft' || key === 'ArrowRight' || key === 'ArrowUp' || key === 'ArrowDown' ||
-          key === 'Enter' || key === ' ' || key === 'Spacebar') {
-        e.preventDefault();
-      } else {
-        return;
+      if (inp.type === 'BACK'){
+        // From home to splash
+        window.location.href = 'index.html';
+        return true;
       }
-      var idx = getIndex(document.activeElement);
-      if (key === 'Enter' || key === ' ' || key === 'Spacebar') { activate(document.activeElement); return; }
-      if (key === 'ArrowLeft' || key === 'ArrowUp') { focusAt(idx - 1); }
-      if (key === 'ArrowRight' || key === 'ArrowDown') { focusAt(idx + 1); }
-    });
 
-    document.addEventListener('tizenhwkey', function (ev) {
-      try {
-        if (ev && ev.keyName === 'back') {
-          ev.preventDefault();
-          var name = (window.location.pathname || '').split('/').pop() || 'index.html';
-          if (name !== 'index.html') window.location.href = 'home.html';
-          else window.location.href = 'about:blank';
-        }
-      } catch (e) {}
+      return false;
     });
-  }
-
-  // Init per page
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function(){
-      if (isHomePage()) initHomeNavigation();
-      else if (isIndexPage()) { /* splash handles itself */ }
-      else initSimplePageNavigation();
-    });
-  } else {
-    if (isHomePage()) initHomeNavigation();
-    else if (isIndexPage()) { /* splash handles itself */ }
-    else initSimplePageNavigation();
   }
 
   // PUBLIC_INTERFACE
   /**
-   * This app is static and TV-friendly. Routes: index.html (splash), home.html, login.html, myplan.html.
+   * Initialize Login page: menu focus, form inputs/buttons TV friendly, return to home.
+   */
+  function initLogin(){
+    var menuItems = qsa('.top-menu .menu-item');
+    var focusables = qsa('.auth-input, .auth-submit, .secondary-link').concat(menuItems);
+    // annotate indices for simple linear navigation
+    focusables.forEach(function(el, i){ if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '0'); el.setAttribute('data-idx', String(i)); });
+
+    FocusMemory.restoreOr(menuItems[1] || focusables[0] || null);
+
+    installGlobalKeyDispatcher(function(inp){
+      var a = document.activeElement;
+      FocusMemory.save();
+
+      if (inp.type === 'ENTER'){
+        if (a && a.tagName === 'INPUT') return true; // let form handle
+        activate(a);
+        return true;
+      }
+      // simple linear navigation across focusables with wrapping
+      function getIdx(el){ var v = parseInt(el && el.getAttribute('data-idx') || '-1', 10); return isNaN(v) ? -1 : v; }
+      function focusAt(index){
+        if (!focusables.length) return;
+        var i = ((index % focusables.length) + focusables.length) % focusables.length;
+        tryFocus(focusables[i]);
+      }
+      var idx = getIdx(a);
+      if (idx < 0) { focusAt(0); return true; }
+
+      if (inp.type === 'LEFT' || inp.type === 'UP'){ focusAt(idx - 1); return true; }
+      if (inp.type === 'RIGHT' || inp.type === 'DOWN'){ focusAt(idx + 1); return true; }
+
+      if (inp.type === 'BACK'){
+        window.location.href = 'home.html';
+        return true;
+      }
+      return false;
+    });
+  }
+
+  // PUBLIC_INTERFACE
+  /**
+   * Initialize My Plan page: menu and back navigation with focus restore.
+   */
+  function initMyPlan(){
+    var menuItems = qsa('.top-menu .menu-item');
+    var focusables = qsa('.primary-btn, .page-link, .menu-item');
+    focusables.forEach(function(el, i){ if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '0'); el.setAttribute('data-idx', String(i)); });
+
+    // try to focus "My Plan" menu or first focusable
+    var activeMenu = null;
+    for (var m=0;m<menuItems.length;m++){ if (menuItems[m].textContent && /plan/i.test(menuItems[m].textContent)) { activeMenu = menuItems[m]; break; } }
+    FocusMemory.restoreOr(activeMenu || focusables[0] || null);
+
+    installGlobalKeyDispatcher(function(inp){
+      var a = document.activeElement;
+      FocusMemory.save();
+
+      if (inp.type === 'ENTER'){ activate(a); return true; }
+      if (inp.type === 'BACK'){ window.location.href = 'home.html'; return true; }
+
+      function getIdx(el){ var v = parseInt(el && el.getAttribute('data-idx') || '-1', 10); return isNaN(v) ? -1 : v; }
+      function focusAt(index){
+        if (!focusables.length) return;
+        var i = ((index % focusables.length) + focusables.length) % focusables.length;
+        tryFocus(focusables[i]);
+      }
+      var idx = getIdx(a);
+      if (idx < 0) { focusAt(0); return true; }
+      if (inp.type === 'LEFT' || inp.type === 'UP'){ focusAt(idx - 1); return true; }
+      if (inp.type === 'RIGHT' || inp.type === 'DOWN'){ focusAt(idx + 1); return true; }
+      return false;
+    });
+  }
+
+  // Bootstrapping per page
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function(){
+      if (isIndexPage()) initSplash();
+      else if (isHomePage()) initHome();
+      else if (isLoginPage()) initLogin();
+      else if (isMyPlanPage()) initMyPlan();
+      else {
+        // default: simple dispatcher for pages without custom logic
+        installGlobalKeyDispatcher(function(){ return false; });
+      }
+    });
+  } else {
+    if (isIndexPage()) initSplash();
+    else if (isHomePage()) initHome();
+    else if (isLoginPage()) initLogin();
+    else if (isMyPlanPage()) initMyPlan();
+    else {
+      installGlobalKeyDispatcher(function(){ return false; });
+    }
+  }
+
+  // PUBLIC_INTERFACE
+  /**
+   * Static TV app with Tizen/desktop remote support and focus management.
    */
 })();

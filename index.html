@@ -20,7 +20,9 @@
         linear-gradient(135deg, rgba(30,60,114,0.35), rgba(42,82,152,0.35)),
         var(--bg);
       animation: fadeIn 600ms ease forwards;
+      transition: opacity 350ms ease;
     }
+    body.fade-out .splash-wrap { opacity: 0; }
     .brand{
       font-weight:800;
       letter-spacing:2px;
@@ -60,15 +62,18 @@
   <script>
     // PUBLIC_INTERFACE
     /**
-     * Splash: redirect to home.html after 3000ms.
+     * Splash: fade out then redirect; Enter/OK to skip immediately.
      */
     (function(){
       try {
+        // app.js will also attach key handler; keep fallback timer here
         setTimeout(function(){
-          window.location.href = 'home.html';
+          document.body.classList.add('fade-out');
+          setTimeout(function(){ window.location.href = 'home.html'; }, 450);
         }, 3000);
       } catch(e) {}
     })();
   </script>
+  <script src="app.js"></script>
 </body>
 </html>
