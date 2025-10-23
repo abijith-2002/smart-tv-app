@@ -1,5 +1,4 @@
 :root{
-  /* minor canvas helpers */
   --c-black: #000000;
   --c-white: #ffffff;
 }
@@ -18,7 +17,6 @@ html,body{ margin:0; padding:0; height:100%; }
   min-width: 1280px;
   min-height: calc(1280px * 9 / 16);
   margin: 0 auto;
-  /* Inherit global app background instead of hard black */
   background: transparent;
   overflow:hidden;
 }
@@ -64,7 +62,6 @@ html,body{ margin:0; padding:0; height:100%; }
   background-position: center center;
 }
 #el-I4077-14474-456-5182{
-  /* gradient overlay similar to design intent */
   background: linear-gradient(180deg, rgba(0,0,0,0.00) 0%, rgba(0,0,0,0.45) 60%, rgba(0,0,0,0.75) 100%);
   pointer-events: none;
 }

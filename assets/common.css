@@ -1,5 +1,5 @@
 :root {
-  /* Colors */
+  /* Design System Colors (resolved where hex exists) */
   --color-tv-compose-black: ;
   --color-tv-compose-sys-dark-on-surface: ;
   --color-tv-compose-sys-dark-surface-variant: ;
@@ -9,6 +9,7 @@
   --color-yellow-depth: ;
   --color-yellow-gradient: ;
   --color-grey-border: ;
+
   --color-0074f3: #0074f3;
   --color-b7d9ff: #b7d9ff;
   --color-0e0e0e: #0e0e0e;
@@ -18,7 +19,7 @@
   --color-39393e: #39393e;
   --color-dddddd: #dddddd;
   --color-0d99ff: #0d99ff;
-  --color-eb0045: #eb0045;
+  --color-eb0145: #eb0145;
   --color-282828: #282828;
   --color-3b3e4d: #3b3e4d;
   --color-8db5ff: #8db5ff;
@@ -64,97 +65,110 @@
   --color-dca51b: #dca51b;
   --color-f28500: #f28500;
   --color-575656: #575656;
+  --color-bababa: #bababa;
 
-  /* App theme tokens for background (match smart-tv-app/assets/common.css) */
-  --app-bg-base: #0f2027;  /* background base from project theme */
-  --app-bg-stop-1: #203a43;
-  --app-bg-stop-2: #2c5364;
-  --app-accent-a: #1e3c72; /* primary */
-  --app-accent-b: #2a5298; /* secondary */
-  --app-accent-c: #396afc; /* accent */
-
-  /* Composed background layers */
-  --app-bg-solid: var(--app-bg-base);
-  --app-bg-linear: linear-gradient(135deg, rgba(15,32,39,0.92), rgba(32,58,67,0.82), rgba(44,83,100,0.78));
-  --app-bg-radial: radial-gradient(1400px 700px at 0% 0%, rgba(57,106,252,0.18) 0%, rgba(57,106,252,0) 70%);
-  --app-background: var(--app-bg-radial), var(--app-bg-linear), var(--app-bg-solid);
-
-  /* Typography variables (subset mapped from design system; full list is large; define on-demand) */
-  --typo-165-family: 'Roboto', sans-serif;
-  --typo-165-size: 32px;
-  --typo-165-weight: 800;
-  --typo-165-line-height: 37.5px;
-  --typo-165-letter-spacing: 0px;
-  --typo-165-color: var(--color-ffffff);
-  --typo-166-family: 'Roboto', sans-serif;
-  --typo-166-size: 60px;
-  --typo-166-weight: 400;
-  --typo-166-line-height: 70.3125px;
-  --typo-166-letter-spacing: 0px;
-  --typo-166-color: var(--color-ffffff);
-  --typo-167-family: 'Roboto', sans-serif;
-  --typo-167-size: 25px;
-  --typo-167-weight: 400;
-  --typo-167-line-height: 29.296875px;
-  --typo-167-letter-spacing: 0px;
-  --typo-167-color: var(--color-ffffff);
-  --typo-168-family: 'Roboto', sans-serif;
-  --typo-168-size: 24px;
-  --typo-168-weight: 400;
-  --typo-168-line-height: 32px;
-  --typo-168-letter-spacing: 0px;
-  --typo-168-color: var(--color-ffffff);
-  --typo-170-family: 'Roboto', sans-serif;
-  --typo-170-size: 28px;
-  --typo-170-weight: 400;
-  --typo-170-line-height: 32.8125px;
-  --typo-170-letter-spacing: 0px;
-  --typo-170-color: var(--color-ffffff);
-  --typo-173-family: 'Roboto', sans-serif;
-  --typo-173-size: 40px;
-  --typo-173-weight: 400;
-  --typo-173-line-height: 46.875px;
-  --typo-173-letter-spacing: 0px;
-  --typo-173-color: var(--color-ffffff);
-  --typo-146-family: 'Roboto', sans-serif;
-  --typo-146-size: 28px;
-  --typo-146-weight: 400;
-  --typo-146-line-height: 32.8125px;
-  --typo-146-letter-spacing: 0px;
-  --typo-146-color: var(--color-ffffff);
+  /* Typography (from design system; subset used by this screen) */
   --typo-149-family: 'Roboto', sans-serif;
   --typo-149-size: 32px;
   --typo-149-weight: 800;
   --typo-149-line-height: 37.5px;
   --typo-149-letter-spacing: 0px;
   --typo-149-color: var(--color-ffffff);
+
+  --typo-165-family: 'Roboto', sans-serif;
+  --typo-165-size: 32px;
+  --typo-165-weight: 800;
+  --typo-165-line-height: 37.5px;
+  --typo-165-letter-spacing: 0px;
+  --typo-165-color: var(--color-ffffff);
+
+  --typo-166-family: 'Roboto', sans-serif;
+  --typo-166-size: 60px;
+  --typo-166-weight: 400;
+  --typo-166-line-height: 70.3125px;
+  --typo-166-letter-spacing: 0px;
+  --typo-166-color: var(--color-ffffff);
+
+  --typo-167-family: 'Roboto', sans-serif;
+  --typo-167-size: 25px;
+  --typo-167-weight: 400;
+  --typo-167-line-height: 29.296875px;
+  --typo-167-letter-spacing: 0px;
+  --typo-167-color: var(--color-ffffff);
+
+  --typo-168-family: 'Roboto', sans-serif;
+  --typo-168-size: 24px;
+  --typo-168-weight: 400;
+  --typo-168-line-height: 32px;
+  --typo-168-letter-spacing: 0px;
+  --typo-168-color: var(--color-ffffff);
+
+  --typo-169-family: 'Roboto', sans-serif;
+  --typo-169-size: 22px;
+  --typo-169-weight: 500;
+  --typo-169-line-height: 32px;
+  --typo-169-letter-spacing: 0px;
+  --typo-169-color: var(--color-ffffff);
+
+  --typo-170-family: 'Roboto', sans-serif;
+  --typo-170-size: 28px;
+  --typo-170-weight: 400;
+  --typo-170-line-height: 32.8125px;
+  --typo-170-letter-spacing: 0px;
+  --typo-170-color: var(--color-ffffff);
+
   --typo-171-family: 'Roboto', sans-serif;
   --typo-171-size: 26px;
   --typo-171-weight: 400;
   --typo-171-line-height: 39px;
   --typo-171-letter-spacing: 0px;
   --typo-171-color: var(--color-ffffff);
+
   --typo-172-family: 'Roboto', sans-serif;
   --typo-172-size: 22px;
   --typo-172-weight: 500;
-  --typo-172-line-height: 32px;
+  --typo-172-line-height: 24px;
   --typo-172-letter-spacing: 0px;
   --typo-172-color: var(--color-ffffff);
 
-  /* Styles (map core used styles) */
+  --typo-173-family: 'Roboto', sans-serif;
+  --typo-173-size: 40px;
+  --typo-173-weight: 400;
+  --typo-173-line-height: 46.875px;
+  --typo-173-letter-spacing: 0px;
+  --typo-173-color: var(--color-ffffff);
+
+  --typo-146-family: 'Roboto', sans-serif;
+  --typo-146-size: 28px;
+  --typo-146-weight: 400;
+  --typo-146-line-height: 32.8125px;
+  --typo-146-letter-spacing: 0px;
+  --typo-146-color: var(--color-ffffff);
+
+  /* Styles (style_ref → variables) */
   --style-4-bg: var(--color-ffffff);
-  --style-35-bg: var(--color-f4f4f4); /* with border-radius 100 */
+
+  --style-35-bg: var(--color-f4f4f4);
   --style-35-radius: 100px;
+
   --style-17-bg: var(--color-282828);
 
-  /* Spacing (provide standard scale) */
+  --style-100-bg: var(--color-ffffff);
+  --style-100-border-color: var(--color-ffffff);
+  --style-100-border-width: 1px;
+  --style-100-radius: 3px;
+
+  --style-129-bg: var(--color-3f9321);
+  --style-129-radius: 3px;
+
+  /* Spacing scale */
   --spacing-xs: 4px;
   --spacing-sm: 8px;
   --spacing-md: 16px;
   --spacing-lg: 24px;
   --spacing-xl: 32px;
 
-  /* Shadows (map used ones) */
+  /* Shadows (from design system) */
   --shadow-0: 0 4px 40px 0 rgba(0,0,0,1);
   --shadow-1: 0 2px 6px 0 rgba(0,0,0,1);
   --shadow-2: 0 0 4px 1px rgba(255,255,255,1);
@@ -165,40 +179,31 @@
   --shadow-7: 0 0 4px 0 rgba(0,0,0,1);
 }
 
+/* Base resets */
 * { box-sizing: border-box; }
-
-html, body { height: 100%; }
-
+html, body { margin: 0; padding: 0; }
 body {
-  margin: 0;
-  background: var(--app-background);
-  background-color: var(--app-bg-base);
+  background: var(--color-ffffff);
   color: var(--color-121212);
   font-family: 'Roboto', Arial, sans-serif;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  background-size: cover;
 }
 
-.figma-screen {
-  position: relative;
-  overflow: hidden;
-  background: transparent;
-}
-
+/* Helpers */
+.figma-screen { position: relative; overflow: hidden; background: transparent; }
 .abs { position: absolute; }
+.text { white-space: pre-wrap; word-break: break-word; }
+.img, .icon { display: block; image-rendering: -webkit-optimize-contrast; }
 
-.text {
-  white-space: pre-wrap;
-  word-break: break-word;
-}
-
-.img, .icon {
-  display: block;
-  image-rendering: -webkit-optimize-contrast;
-}
-
-/* Helper to apply style references quickly */
+/* Style application helpers */
 .bg-style-4 { background-color: var(--style-4-bg); }
-.bg-style-35 { background-color: var(--style-35-bg); border-radius: var(--style-35-radius); }
 .bg-style-17 { background-color: var(--style-17-bg); }
+.bg-style-35 { background-color: var(--style-35-bg); border-radius: var(--style-35-radius); }
+.bg-style-100 { background-color: var(--style-100-bg); border: var(--style-100-border-width) solid var(--style-100-border-color); border-radius: var(--style-100-radius); }
+.bg-style-129 { background-color: var(--style-129-bg); border-radius: var(--style-129-radius); }
+
+/* Focus styling for TV/keyboard navigation */
+[tabindex]:focus, button:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(255,209,102,0.35);
+  border-color: #ffd166;
+}

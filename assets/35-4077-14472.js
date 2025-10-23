@@ -27,64 +27,7 @@
     window.addEventListener('resize', scheduleScale);
     scheduleScale();
 
-    // Try to locate any imagePath in the JSON (none provided for this screen, but future-proof)
-    var jsonPath = './figma_screen_4077-14472.json'; // indirect; we attempt to fetch from attachments path too
-    // Primary: attempt absolute path present in workspace
-    var tryPaths = [
-      '/home/kavia/workspace/code-generation/attachments/screen_4077:14472.json',
-      jsonPath
-    ];
-
-    function setBackgroundFromPath(path) {
-      if (!path) return;
-      var fname = String(path).split('/').pop();
-      var rel = 'figmaimages/' + fname; // as per dynamic resolver requirement
-      var bgDiv = document.getElementById('el-4077-14473');
-      var bgImg = document.getElementById('el-4077-14473-img');
-      if (bgDiv) {
-        bgDiv.style.backgroundImage = 'url("' + rel + '")';
-        bgDiv.style.backgroundRepeat = 'no-repeat';
-        bgDiv.style.backgroundPosition = 'center';
-        bgDiv.style.backgroundSize = 'cover';
-      }
-      if (bgImg) {
-        bgImg.src = rel;
-        bgImg.style.display = 'block';
-      }
-    }
-
-    function findAnyImage(node) {
-      var found = '';
-      function walk(n) {
-        if (!n || found) return;
-        if (n.imagePath || n.image_path) { found = n.imagePath || n.image_path; return; }
-        if (n.fills && Array.isArray(n.fills)) {
-          var img = n.fills.find(function(f){ return f.type === 'IMAGE' || f.type === 'BITMAP'; });
-          if (img && (img.imageRefPath || img.image_path || img.path)) {
-            found = img.imageRefPath || img.image_path || img.path; return;
-          }
-        }
-        if (n.children) n.children.forEach(walk);
-      }
-      walk(node);
-      return found;
-    }
-
-    function fetchJSONSequential(paths, idx) {
-      if (idx >= paths.length) return Promise.reject();
-      return fetch(paths[idx])
-        .then(function(r){ return r.ok ? r.json() : Promise.reject(); })
-        .catch(function(){ return fetchJSONSequential(paths, idx+1); });
-    }
-
-    fetchJSONSequential(tryPaths, 0)
-      .then(function(data){
-        var imgPath = findAnyImage(data && data.root || data || {});
-        if (imgPath) setBackgroundFromPath(imgPath);
-      })
-      .catch(function(){ /* no-op if not found */ });
-
-    // Icon buttons: basic keyboard activation
+    // Icon buttons: basic keyboard activation (Replay and Record)
     var iconBtns = [
       document.getElementById('el-I4077-14475-456-11843'),
       document.getElementById('el-I4077-14475-456-11845')
@@ -109,7 +52,7 @@
           try { prev.focus(); } catch(_){}
         }
       });
-      btn.addEventListener('click', function(){ /* no-op placeholder */ });
+      btn.addEventListener('click', function(){ /* placeholder: wire to app actions if needed */ });
     });
   }
 
