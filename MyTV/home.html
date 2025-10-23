@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+  <title>MyTV - Home</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>html, body { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }</style>
+</head>
+<body class="tv-bg" data-focus-container="true">
+  <header class="top-menu" role="menu" aria-label="Top navigation">
+    <nav class="menu-container" id="topMenu" data-role="menu">
+      <a href="home.html" class="menu-item active" role="menuitem" tabindex="0" data-menu-index="0" data-focus="true" data-focus-index="0" aria-label="Home">Home</a>
+      <a href="login.html" class="menu-item" role="menuitem" tabindex="0" data-menu-index="1" data-focus="true" data-focus-index="1" aria-label="Login">Login</a>
+      <a href="#" class="menu-item" role="menuitem" tabindex="0" data-menu-index="2" data-focus="true" data-focus-index="2" aria-label="Setting" onclick="alert('Settings coming soon'); return false;">Setting</a>
+      <a href="myplan.html" class="menu-item" role="menuitem" tabindex="0" data-menu-index="3" data-focus="true" data-focus-index="3" aria-label="My Plan">My Plan</a>
+    </nav>
+  </header>
+
+  <section class="banner" aria-label="Featured banner">
+    <div class="banner-bg" style="background-image: url('assets/images/banner.jpg')"></div>
+    <div class="banner-overlay"></div>
+    <div class="banner-content">
+      <h2 class="banner-title">Featured Highlight</h2>
+      <p class="banner-subtitle">Enjoy movies and shows tuned for your TV.</p>
+      <div class="banner-actions" role="group" aria-label="Banner actions">
+        <button class="primary-btn" tabindex="0" data-group="banner" data-index="0" aria-label="Play featured" data-focus="true" onclick="location.href='video-detail.html'">Play</button>
+        <button class="secondary-btn" tabindex="0" data-group="banner" data-index="1" aria-label="More info" data-focus="true" onclick="location.href='video-detail.html'">More Info</button>
+      </div>
+    </div>
+  </section>
+
+  <main class="content" aria-label="Home content">
+    <section class="rail" aria-label="Top Trending">
+      <h3 class="rail-title">Top Trending</h3>
+      <div class="rail-row" role="list" data-rail-index="0">
+        <a class="card" role="listitem" tabindex="0" aria-label="Trending item 1" data-group="rail-0" data-index="0" data-focus="true" href="video-detail.html">
+          <img src="assets/images/thumb-1.jpg" alt="Trending 1"/>
+        </a>
+        <a class="card" role="listitem" tabindex="0" aria-label="Trending item 2" data-group="rail-0" data-index="1" data-focus="true" href="video-detail.html">
+          <img src="assets/images/thumb-2.jpg" alt="Trending 2"/>
+        </a>
+        <a class="card" role="listitem" tabindex="0" aria-label="Trending item 3" data-group="rail-0" data-index="2" data-focus="true" href="video-detail.html">
+          <img src="assets/images/thumb-3.jpg" alt="Trending 3"/>
+        </a>
+        <a class="card" role="listitem" tabindex="0" aria-label="Trending item 4" data-group="rail-0" data-index="3" data-focus="true" href="video-detail.html">
+          <img src="assets/images/thumb-4.jpg" alt="Trending 4"/>
+        </a>
+        <a class="card" role="listitem" tabindex="0" aria-label="Trending item 5" data-group="rail-0" data-index="4" data-focus="true" href="video-detail.html">
+          <img src="assets/images/thumb-5.jpg" alt="Trending 5"/>
+        </a>
+      </div>
+    </section>
+
+    <section class="rail" aria-label="Continue Watching">
+      <h3 class="rail-title">Continue Watching</h3>
+      <div class="rail-row" role="list" data-rail-index="1">
+        <a class="card" role="listitem" tabindex="0" aria-label="Continue item 1" data-group="rail-1" data-index="0" data-focus="true" href="video-detail.html">
+          <img src="assets/images/thumb-1.jpg" alt="Continue 1"/>
+        </a>
+        <a class="card" role="listitem" tabindex="0" aria-label="Continue item 2" data-group="rail-1" data-index="1" data-focus="true" href="video-detail.html">
+          <img src="assets/images/thumb-2.jpg" alt="Continue 2"/>
+        </a>
+        <a class="card" role="listitem" tabindex="0" aria-label="Continue item 3" data-group="rail-1" data-index="2" data-focus="true" href="video-detail.html">
+          <img src="assets/images/thumb-3.jpg" alt="Continue 3"/>
+        </a>
+        <a class="card" role="listitem" tabindex="0" aria-label="Continue item 4" data-group="rail-1" data-index="3" data-focus="true" href="video-detail.html">
+          <img src="assets/images/thumb-4.jpg" alt="Continue 4"/>
+        </a>
+      </div>
+    </section>
+
+    <section class="rail" aria-label="Action">
+      <h3 class="rail-title">Action</h3>
+      <div class="rail-row" role="list" data-rail-index="2">
+        <a class="card" role="listitem" tabindex="0" aria-label="Action item 1" data-group="rail-2" data-index="0" data-focus="true" href="video-detail.html">
+          <img src="assets/images/thumb-1.jpg" alt="Action 1"/>
+        </a>
+        <a class="card" role="listitem" tabindex="0" aria-label="Action item 2" data-group="rail-2" data-index="1" data-focus="true" href="video-detail.html">
+          <img src="assets/images/thumb-2.jpg" alt="Action 2"/>
+        </a>
+        <a class="card" role="listitem" tabindex="0" aria-label="Action item 3" data-group="rail-2" data-index="2" data-focus="true" href="video-detail.html">
+          <img src="assets/images/thumb-3.jpg" alt="Action 3"/>
+        </a>
+        <a class="card" role="listitem" tabindex="0" aria-label="Action item 4" data-group="rail-2" data-index="3" data-focus="true" href="video-detail.html">
+          <img src="assets/images/thumb-4.jpg" alt="Action 4"/>
+        </a>
+      </div>
+    </section>
+
+    <section class="rail" aria-label="Drama">
+      <h3 class="rail-title">Drama</h3>
+      <div class="rail-row" role="list" data-rail-index="3">
+        <a class="card" role="listitem" tabindex="0" aria-label="Drama item 1" data-group="rail-3" data-index="0" data-focus="true" href="video-detail.html">
+          <img src="assets/images/thumb-5.jpg" alt="Drama 1"/>
+        </a>
+        <a class="card" role="listitem" tabindex="0" aria-label="Drama item 2" data-group="rail-3" data-index="1" data-focus="true" href="video-detail.html">
+          <img src="assets/images/thumb-6.jpg" alt="Drama 2"/>
+        </a>
+        <a class="card" role="listitem" tabindex="0" aria-label="Drama item 3" data-group="rail-3" data-index="2" data-focus="true" href="video-detail.html">
+          <img src="assets/images/thumb-1.jpg" alt="Drama 3"/>
+        </a>
+      </div>
+    </section>
+
+    <section class="rail" aria-label="Horror">
+      <h3 class="rail-title">Horror</h3>
+      <div class="rail-row" role="list" data-rail-index="4">
+        <a class="card" role="listitem" tabindex="0" aria-label="Horror item 1" data-group="rail-4" data-index="0" data-focus="true" href="video-detail.html">
+          <img src="assets/images/thumb-2.jpg" alt="Horror 1"/>
+        </a>
+        <a class="card" role="listitem" tabindex="0" aria-label="Horror item 2" data-group="rail-4" data-index="1" data-focus="true" href="video-detail.html">
+          <img src="assets/images/thumb-3.jpg" alt="Horror 2"/>
+        </a>
+        <a class="card" role="listitem" tabindex="0" aria-label="Horror item 3" data-group="rail-4" data-index="2" data-focus="true" href="video-detail.html">
+          <img src="assets/images/thumb-4.jpg" alt="Horror 3"/>
+        </a>
+      </div>
+    </section>
+
+    <section class="subscriptions" aria-label="Available Subscriptions">
+      <h3 class="rail-title">Available Subscriptions</h3>
+      <div class="plans" data-rail-index="5">
+        <button class="plan-card" tabindex="0" data-group="subs" data-index="0" aria-label="Basic plan 9.99" data-focus="true">
+          <div class="plan-name">Basic</div>
+          <div class="plan-price">$9.99</div>
+        </button>
+        <button class="plan-card" tabindex="0" data-group="subs" data-index="1" aria-label="Standard plan 13.99" data-focus="true">
+          <div class="plan-name">Standard</div>
+          <div class="plan-price">$13.99</div>
+        </button>
+        <button class="plan-card" tabindex="0" data-group="subs" data-index="2" aria-label="Premium plan 17.99" data-focus="true">
+          <div class="plan-name">Premium</div>
+          <div class="plan-price">$17.99</div>
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

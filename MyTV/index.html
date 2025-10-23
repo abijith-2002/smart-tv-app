@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <!-- TV-friendly meta -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+
+  <title>MyTV - Splash</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* Splash specific styles - Tizen safe (opacity/transform only) */
+    .splash-wrap{
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      text-align:center;
+      background:
+        radial-gradient(1200px 600px at 10% 0%, rgba(57,106,252,0.18) 0%, rgba(57,106,252,0) 70%),
+        linear-gradient(135deg, rgba(30,60,114,0.35), rgba(42,82,152,0.35)),
+        var(--bg, #0f2027);
+      animation: fadeIn 600ms ease forwards;
+      transition: opacity 350ms ease;
+    }
+    body.fade-out .splash-wrap { opacity: 0; }
+    .brand{
+      font-weight:800;
+      letter-spacing:2px;
+      font-size: clamp(3rem, 9vw, 6rem);
+      text-shadow: 0 12px 40px rgba(0,0,0,0.55);
+      transform: translateY(6px);
+      animation: floatUp 900ms ease forwards 150ms;
+    }
+    .hint{
+      margin-top: 12px;
+      margin-bottom: 32px;
+      color: var(--text-dim, #d6e0ff);
+      font-size: clamp(0.95rem, 2.2vw, 1.25rem);
+      opacity: 0.85;
+    }
+
+    .cta-row { display: flex; align-items: center; justify-content: center; gap: 24px; }
+
+    .cta-button {
+      appearance: none;
+      text-decoration: none;
+      color: #fff;
+      border: 2px solid transparent;
+      border-radius: 14px;
+      min-width: clamp(10rem, 22vw, 20rem);
+      min-height: clamp(3.2rem, 7vh, 4.2rem);
+      padding: 0.9rem 1.25rem;
+      font-size: clamp(1.1rem, 2.6vw, 1.6rem);
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease, background 160ms ease;
+      cursor: pointer;
+    }
+    .cta-button.primary { background: linear-gradient(135deg, var(--color-primary, #1e3c72), var(--color-secondary, #2a5298)); }
+    .cta-button.secondary { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.06); }
+    .cta-button:focus, .cta-button:focus-visible {
+      outline: none;
+      border-color: #ffd166;
+      box-shadow: 0 0 0 4px rgba(255,209,102,0.36), 0 16px 40px rgba(0,0,0,0.5);
+      transform: translateY(-1px) scale(1.03);
+    }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes floatUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+    .countdown-indicator { margin-top: 20px; opacity: 0.7; font-size: clamp(0.9rem, 2vw, 1.1rem); color: var(--text-dim, #d6e0ff); }
+    .countdown-indicator p { margin: 0; }
+    .countdown-indicator span { font-weight: 700; color: var(--text, #ffffff); }
+  </style>
+</head>
+<body class="tv-bg" data-focus-container="true">
+  <main class="splash-wrap" role="main" aria-label="Landing screen">
+    <div>
+      <h1 class="brand">MyTV</h1>
+      <p class="hint">Welcome to your smart TV experience</p>
+
+      <div class="cta-row" role="group" aria-label="Primary actions">
+        <a href="home.html"
+           class="cta-button primary"
+           role="button"
+           aria-label="Enter Home"
+           data-focus="true"
+           data-focus-index="0"
+           tabindex="0"
+           id="enterBtn">
+          Enter
+        </a>
+        <a href="login.html"
+           class="cta-button secondary"
+           role="button"
+           aria-label="Login"
+           data-focus="true"
+           data-focus-index="1"
+           tabindex="0"
+           id="loginBtn">
+          Login
+        </a>
+      </div>
+
+      <div class="countdown-indicator" id="countdownIndicator" aria-live="polite">
+        <p>Automatically entering in <span id="countdownText">5</span> seconds...</p>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // PUBLIC_INTERFACE
+    /**
+     * Landing page with countdown auto-navigation and DPAD focus via FocusManager.
+     */
+    (function(){
+      var countdownElement = document.getElementById('countdownText');
+      var countdownSeconds = 5;
+      var navigationCancelled = false;
+      var countdownInterval;
+      var navigationTimeout;
+
+      function updateCountdown() {
+        if (countdownElement && !navigationCancelled) {
+          countdownElement.textContent = countdownSeconds;
+          if (countdownSeconds > 0) {
+            countdownSeconds--;
+          }
+        }
+      }
+
+      function startAutoNavigation() {
+        countdownInterval = setInterval(updateCountdown, 1000);
+        navigationTimeout = setTimeout(function() {
+          if (!navigationCancelled) {
+            var body = document.body;
+            if (body) body.classList.add('fade-out');
+            setTimeout(function() {
+              window.location.href = 'home.html';
+            }, 450);
+          }
+        }, 5000);
+      }
+
+      function cancelNavigation() {
+        navigationCancelled = true;
+        if (countdownInterval) clearInterval(countdownInterval);
+        if (navigationTimeout) clearTimeout(navigationTimeout);
+        var indicator = document.getElementById('countdownIndicator');
+        if (indicator) {
+          indicator.style.opacity = '0.85';
+          indicator.innerHTML = '<p>Auto-navigation cancelled. Use arrows to select and Enter to proceed.</p>';
+        }
+      }
+
+      // Ensure initial focus on "Enter" button for TV usability
+      document.addEventListener('DOMContentLoaded', function(){
+        try {
+          var enter = document.getElementById('enterBtn');
+          if (enter) enter.focus();
+        } catch(e){}
+      });
+
+      // Local keyboard handling for cancel/back as safety
+      document.addEventListener('keydown', function(e) {
+        var key = e.key || '';
+        if (key === 'Escape' || key === 'Backspace' || key === 'GoBack' || key === 'BrowserBack') {
+          e.preventDefault();
+          cancelNavigation();
+          return;
+        }
+      });
+
+      document.addEventListener('tizenhwkey', function(e) {
+        if (e.keyName === 'back') {
+          e.preventDefault();
+          cancelNavigation();
+        }
+      });
+
+      startAutoNavigation();
+    })();
+  </script>
+  <script src="js/app.js"></script>
+</body>
+</html>
