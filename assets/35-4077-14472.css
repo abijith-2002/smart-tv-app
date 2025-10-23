@@ -6,7 +6,7 @@
 
 /* Base */
 *{ box-sizing:border-box; }
-html,body{ margin:0; padding:0; }
+html,body{ margin:0; padding:0; height:100%; }
 
 /* Screen container: fixed 16:9 surface */
 .screen{
@@ -18,7 +18,8 @@ html,body{ margin:0; padding:0; }
   min-width: 1280px;
   min-height: calc(1280px * 9 / 16);
   margin: 0 auto;
-  background: #000;
+  /* Inherit global app background instead of hard black */
+  background: transparent;
   overflow:hidden;
 }
 @media (min-width: 1920px){
@@ -56,9 +57,9 @@ html,body{ margin:0; padding:0; }
 .text.t-172{ font-family: var(--typo-172-family); font-size: var(--typo-172-size); font-weight: var(--typo-172-weight); line-height: var(--typo-172-line-height); letter-spacing: var(--typo-172-letter-spacing); color: var(--typo-172-color); text-align:center; }
 .text.t-173{ font-family: var(--typo-173-family); font-size: var(--typo-173-size); font-weight: var(--typo-173-weight); line-height: var(--typo-173-line-height); letter-spacing: var(--typo-173-letter-spacing); color: var(--typo-173-color); }
 
-/* Background vector defaults */
+/* Background vector defaults: allow base to be slightly tinted by app gradient */
 #el-4077-14473{
-  background: #000; /* default; JS can set image if provided */
+  background: linear-gradient(180deg, rgba(0,0,0,0.10), rgba(0,0,0,0.10)), transparent;
   background-size: cover;
   background-position: center center;
 }
