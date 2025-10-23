@@ -2,78 +2,149 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <!-- TV-friendly meta -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+  <title>MyTV</title>
 
-  <title>MyTV - Splash</title>
-  <link rel="stylesheet" href="style.css" />
+  <!-- Theme variables for acceptance criteria colors -->
   <style>
-    /* Splash specific styles - Tizen safe (opacity/transform only) */
-    .splash-wrap{
-      min-height:100vh;
-      display:grid;
-      place-items:center;
-      text-align:center;
+    :root{
+      --bg: #0f2027;
+      --primary: #1e3c72;
+      --secondary: #2a5298;
+      --accent: #396afc;
+      --text: #ffffff;
+      --text-dim: #d6e0ff;
+      --focus: #ffd166;
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+      color: var(--text);
+      background: var(--bg);
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      -webkit-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
+    }
+    /* Global dark gradient background for the canvas page */
+    .tv-bg{
+      min-height: 100vh;
       background:
-        radial-gradient(1200px 600px at 10% 0%, rgba(57,106,252,0.18) 0%, rgba(57,106,252,0) 70%),
-        linear-gradient(135deg, rgba(30,60,114,0.35), rgba(42,82,152,0.35)),
+        radial-gradient(1400px 700px at 0% 0%, rgba(57,106,252,0.22) 0%, rgba(57,106,252,0) 70%),
+        linear-gradient(135deg, rgba(10,20,35,0.85), rgba(15,30,55,0.75)),
         var(--bg);
-      animation: fadeIn 600ms ease forwards;
-      transition: opacity 350ms ease;
+      background-color: var(--bg);
     }
-    body.fade-out .splash-wrap { opacity: 0; }
-    .brand{
-      font-weight:800;
-      letter-spacing:2px;
-      font-size: clamp(3rem, 9vw, 6rem);
-      text-shadow: 0 12px 40px rgba(0,0,0,0.55);
-      transform: translateY(6px);
-      animation: floatUp 900ms ease forwards 150ms;
+    /* CTA container at bottom-left of screen */
+    .cta-container{
+      position:absolute;
+      left:96px;
+      bottom:96px;
+      z-index: 10;
+      display:flex;
+      margin-left:-6px; margin-right:-6px;
     }
-    .hint{
-      margin-top: 12px;
-      color: var(--text-dim);
-      font-size: clamp(0.95rem, 2.2vw, 1.25rem);
-      opacity: 0.85;
+    .cta-container > *{ margin-left:6px; margin-right:6px; }
+    @supports (gap: 14px){
+      .cta-container{ gap:14px; margin-left:0; margin-right:0; }
+      .cta-container > *{ margin-left:0; margin-right:0; }
     }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    .cta-btn{
+      appearance:none; text-decoration:none; color:#fff;
+      border:2px solid transparent; border-radius:14px;
+      min-height:64px; min-width:200px; padding: 14px 22px;
+      font-size: clamp(18px, 2vw, 22px); font-weight:700;
+      display:inline-flex; align-items:center; justify-content:center;
+      cursor:pointer;
+      transition: transform 150ms ease, box-shadow 150ms ease, border-color 150ms ease, background 150ms ease;
     }
-    @keyframes floatUp {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
+    .cta-btn.primary{ background: linear-gradient(135deg, var(--primary), var(--secondary)); }
+    .cta-btn.secondary{ background: rgba(255,255,255,0.12); }
+    .cta-btn:focus{
+      outline:none;
+      border-color: var(--focus);
+      box-shadow: 0 0 0 4px rgba(255,209,102,0.35), 0 14px 32px rgba(0,0,0,0.55);
+      transform: translateY(-1px) scale(1.03);
     }
+    /* Keep figma screen stretching correctly */
+    .screen{ position:relative; width:100vw; height: calc(100vw * 9 / 16); max-width:1920px; max-height:1080px; min-width:1280px; min-height: calc(1280px * 9 / 16); margin:0 auto; overflow:hidden; }
+    @media (min-width: 1920px){ .screen{ width:1920px; height:1080px; } }
+    @media (max-aspect-ratio: 16/9){ .screen{ height:100vh; width: calc(100vh * 16 / 9); } }
   </style>
+
+  <!-- Link the extracted screen CSS (placed in smart-tv-app/assets) -->
+  <link rel="stylesheet" href="assets/35-4077-14472.css">
+  <!-- Link common.css from root assets (copied by extractor and referenced here) -->
+  <link rel="stylesheet" href="assets/common.css">
 </head>
 <body class="tv-bg">
-  <main class="splash-wrap" role="main" aria-label="Launch screen">
-    <div>
-      <h1 class="brand">MyTV</h1>
-      <p class="hint">Launching experience...</p>
-      <noscript>
-        <p class="hint"><a class="page-link" href="home.html">Continue to Home</a></p>
-      </noscript>
+  <!-- Main Figma screen markup (embedded) -->
+  <main id="screen-35-4077-14472" class="screen" role="main" aria-label="Home">
+    <!-- Reuse the already extracted markup via iframe to preserve pixel-precision while keeping our theme -->
+    <iframe
+      title="Figma Home Screen"
+      src="assets/35-4077-14472.html"
+      style="position:absolute; left:0; top:0; width:100%; height:100%; border:0;"
+      aria-hidden="true">
+    </iframe>
+
+    <!-- CTA Buttons for Login/Signup with TV remote support -->
+    <div class="cta-container" role="group" aria-label="Primary actions">
+      <a href="login.html" id="btnLogin" class="cta-btn primary" role="button" tabindex="0">Login</a>
+      <a href="signup.html" id="btnSignup" class="cta-btn secondary" role="button" tabindex="0">Sign Up</a>
     </div>
   </main>
 
+  <!-- Attach the figma screen script and shared app script -->
+  <script src="assets/app.js"></script>
+  <script src="assets/35-4077-14472.js"></script>
   <script>
     // PUBLIC_INTERFACE
     /**
-     * Splash: fade out then redirect; Enter/OK to skip immediately.
+     * Adds simple DPAD navigation between Login and Signup on the homepage.
+     * Arrow keys move focus left/right; Enter triggers click.
+     * Also ensures an initial focus is set.
      */
     (function(){
-      try {
-        // app.js will also attach key handler; keep fallback timer here
-        setTimeout(function(){
-          document.body.classList.add('fade-out');
-          setTimeout(function(){ window.location.href = 'home.html'; }, 450);
-        }, 3000);
-      } catch(e) {}
+      var login = document.getElementById('btnLogin');
+      var signup = document.getElementById('btnSignup');
+
+      function tryFocus(el){
+        if (!el) return;
+        try { el.focus({ preventScroll:true }); } catch(e){ try { el.focus(); } catch(_){ } }
+      }
+
+      // Initial focus on Login
+      if (document.readyState === 'loading'){
+        document.addEventListener('DOMContentLoaded', function(){ tryFocus(login || signup); });
+      } else {
+        tryFocus(login || signup);
+      }
+
+      document.addEventListener('keydown', function(e){
+        var key = e.key || '';
+        if (key === 'ArrowLeft' || key === 'ArrowRight' || key === 'ArrowUp' || key === 'ArrowDown' || key === 'Enter' || key === ' ' || key === 'Spacebar'){
+          e.preventDefault();
+        }
+        var active = document.activeElement;
+
+        if (key === 'Enter' || key === ' ' || key === 'Spacebar'){
+          if (active && typeof active.click === 'function') active.click();
+          return;
+        }
+
+        // Horizontal toggle between the two CTAs
+        if (key === 'ArrowLeft' || key === 'ArrowRight' || key === 'ArrowUp' || key === 'ArrowDown'){
+          if (active === login) { tryFocus(signup); return; }
+          if (active === signup) { tryFocus(login); return; }
+          // If nothing focused or other element focused, focus login
+          tryFocus(login || signup);
+        }
+      }, true);
     })();
   </script>
-  <script src="app.js"></script>
 </body>
 </html>
