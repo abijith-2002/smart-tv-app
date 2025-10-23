@@ -55,12 +55,15 @@ html,body{ margin:0; padding:0; height:100%; }
 .text.t-172{ font-family: var(--typo-172-family); font-size: var(--typo-172-size); font-weight: var(--typo-172-weight); line-height: var(--typo-172-line-height); letter-spacing: var(--typo-172-letter-spacing); color: var(--typo-172-color); text-align:center; }
 .text.t-173{ font-family: var(--typo-173-family); font-size: var(--typo-173-size); font-weight: var(--typo-173-weight); line-height: var(--typo-173-line-height); letter-spacing: var(--typo-173-letter-spacing); color: var(--typo-173-color); }
 
-/* Background vector defaults: allow base to be slightly tinted by app gradient */
+/* Background image styling - use the Figma background */
 #el-4077-14473{
-  background: linear-gradient(180deg, rgba(0,0,0,0.10), rgba(0,0,0,0.10)), transparent;
+  background-image: url('./images/screen-4077-14472-bg.png');
   background-size: cover;
   background-position: center center;
+  background-attachment: fixed;
 }
+
+/* Gradient overlay for better text readability */
 #el-I4077-14474-456-5182{
   background: linear-gradient(180deg, rgba(0,0,0,0.00) 0%, rgba(0,0,0,0.45) 60%, rgba(0,0,0,0.75) 100%);
   pointer-events: none;

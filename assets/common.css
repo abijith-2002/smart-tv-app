@@ -67,7 +67,14 @@
   --color-575656: #575656;
   --color-bababa: #bababa;
 
-  /* Typography (from design system; subset used by this screen) */
+  /* Typography (exact Figma specifications) */
+  --typo-146-family: 'Roboto', sans-serif;
+  --typo-146-size: 28px;
+  --typo-146-weight: 400;
+  --typo-146-line-height: 32.8125px;
+  --typo-146-letter-spacing: 0px;
+  --typo-146-color: var(--color-ffffff);
+
   --typo-149-family: 'Roboto', sans-serif;
   --typo-149-size: 32px;
   --typo-149-weight: 800;
@@ -101,7 +108,7 @@
   --typo-168-weight: 400;
   --typo-168-line-height: 32px;
   --typo-168-letter-spacing: 0px;
-  --typo-168-color: var(--color-ffffff);
+  --typo-168-color: var(--color-000000);
 
   --typo-169-family: 'Roboto', sans-serif;
   --typo-169-size: 22px;
@@ -138,20 +145,21 @@
   --typo-173-letter-spacing: 0px;
   --typo-173-color: var(--color-ffffff);
 
-  --typo-146-family: 'Roboto', sans-serif;
-  --typo-146-size: 28px;
-  --typo-146-weight: 400;
-  --typo-146-line-height: 32.8125px;
-  --typo-146-letter-spacing: 0px;
-  --typo-146-color: var(--color-ffffff);
-
   /* Styles (style_ref → variables) */
-  --style-4-bg: var(--color-ffffff);
+  --style-4-bg: transparent;
 
   --style-35-bg: var(--color-f4f4f4);
   --style-35-radius: 100px;
 
   --style-17-bg: var(--color-282828);
+
+  --style-100-bg: var(--color-ffffff);
+  --style-100-border-color: var(--color-ffffff);
+  --style-100-border-width: 1px;
+  --style-100-radius: 3px;
+
+  --style-129-bg: var(--color-3f9321);
+  --style-129-radius: 3px;
 
   --style-100-bg: var(--color-ffffff);
   --style-100-border-color: var(--color-ffffff);
