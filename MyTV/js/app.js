@@ -235,8 +235,9 @@
     fm.init(container);
 
     if (isIndexPage()) {
-      var first = qs('[data-focus="true"][data-focus-index="0"]', container) || fm.items[0];
-      tryFocus(first);
+      // Splash now has no focusable buttons; only focus if something is present.
+      var first = qs('[data-focus="true"][data-focus-index="0"]', container) || fm.items[0] || null;
+      if (first) { tryFocus(first); }
     } else if (isHomePage()) {
       var menuFirst = qs('.top-menu .menu-item');
       FocusMemory.restoreOr(menuFirst || fm.items[0]);

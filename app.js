@@ -245,9 +245,9 @@
 
     // Initial focus strategy per page
     if (isIndexPage()) {
-      // Prefer element with index 0 (Enter)
-      var first = qs('[data-focus="true"][data-focus-index="0"]', container) || fm.items[0];
-      tryFocus(first);
+      // Splash has no focusable buttons now; don't force focus. Let auto-navigation proceed.
+      var first = qs('[data-focus="true"][data-focus-index="0"]', container) || fm.items[0] || null;
+      if (first) { tryFocus(first); }
     } else if (isHomePage()) {
       // Try restore or first menu item
       var menuFirst = qs('.top-menu .menu-item');

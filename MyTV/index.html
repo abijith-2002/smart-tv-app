@@ -82,28 +82,8 @@
       <h1 class="brand">MyTV</h1>
       <p class="hint">Welcome to your smart TV experience</p>
 
-      <div class="cta-row" role="group" aria-label="Primary actions">
-        <a href="home.html"
-           class="cta-button primary"
-           role="button"
-           aria-label="Enter Home"
-           data-focus="true"
-           data-focus-index="0"
-           tabindex="0"
-           id="enterBtn">
-          Enter
-        </a>
-        <a href="login.html"
-           class="cta-button secondary"
-           role="button"
-           aria-label="Login"
-           data-focus="true"
-           data-focus-index="1"
-           tabindex="0"
-           id="loginBtn">
-          Login
-        </a>
-      </div>
+      <!-- CTA buttons removed per requirement. -->
+      <div class="cta-row" role="group" aria-label="Primary actions" aria-hidden="true" style="display:none;"></div>
 
       <div class="countdown-indicator" id="countdownIndicator" aria-live="polite">
         <p>Automatically entering in <span id="countdownText">5</span> seconds...</p>
@@ -156,13 +136,8 @@
         }
       }
 
-      // Ensure initial focus on "Enter" button for TV usability
-      document.addEventListener('DOMContentLoaded', function(){
-        try {
-          var enter = document.getElementById('enterBtn');
-          if (enter) enter.focus();
-        } catch(e){}
-      });
+      // No explicit focus target on splash; FocusManager will handle when present.
+      document.addEventListener('DOMContentLoaded', function(){});
 
       // Local keyboard handling for cancel/back as safety
       document.addEventListener('keydown', function(e) {
