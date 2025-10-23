@@ -14,6 +14,7 @@
     var n = (window.location.pathname || '').split('/').pop() || 'index.html';
     return n.toLowerCase();
   }
+  function isSplashPage(){ return pageName() === 'splash.html'; }
   function isIndexPage(){ return pageName() === 'index.html'; }
   function isHomePage(){ return pageName() === 'home.html' || pageName() === 'index.html'; }
   function isLoginPage(){ return pageName() === 'login.html'; }
@@ -80,7 +81,7 @@
         if (ev && ev.keyName === 'back') {
           ev.preventDefault();
           if (handler && handler({ type:'BACK' })) return;
-          // default fallback: navigate from subpages to home, from home to index
+          // default fallback: navigate from subpages to home, from home to splash
           if (isHomePage()) window.location.href = 'splash.html';
           else window.location.href = 'index.html';
         }
@@ -293,7 +294,7 @@
 
       if (inp.type === 'BACK'){
         // From home to splash
-        window.location.href = 'index.html';
+        window.location.href = 'splash.html';
         return true;
       }
 
@@ -381,7 +382,7 @@
   // Bootstrapping per page
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function(){
-      if (isIndexPage()) initSplash();
+      if (isSplashPage()) initSplash();
       else if (isHomePage()) initHome();
       else if (isLoginPage()) initLogin();
       else if (isMyPlanPage()) initMyPlan();
@@ -391,7 +392,7 @@
       }
     });
   } else {
-    if (isIndexPage()) initSplash();
+    if (isSplashPage()) initSplash();
     else if (isHomePage()) initHome();
     else if (isLoginPage()) initLogin();
     else if (isMyPlanPage()) initMyPlan();
