@@ -1,14 +1,6 @@
 (function () {
   'use strict';
 
-  // PUBLIC_INTERFACE
-  /**
-   * Screen 35 bootstrap:
-   * - Applies fluid scale to 1920x1080 absolute layout using CSS transform
-   * - Assigns background image if any imagePath is found in JSON (optional)
-   * - Adds keyboard focus handling for small icon buttons
-   * - Ensures no console errors if JSON/assets are missing
-   */
   function init() {
     var screen = document.getElementById('screen-35-4077-14472');
     if (!screen) return;
@@ -16,9 +8,7 @@
     var root = document.getElementById('el-4077-14472');
     if (!root) return;
 
-    // Scaling: fit the 1920x1080 canvas inside the .screen element
     var BASE_W = 1920, BASE_H = 1080;
-    screen.setAttribute('data-base-width', String(BASE_W));
 
     function applyScale() {
       try {
@@ -29,7 +19,6 @@
       } catch (e) {}
     }
 
-    // Debounced resize/observer
     var rafId = 0;
     function scheduleScale() {
       if (rafId) cancelAnimationFrame(rafId);
@@ -38,14 +27,18 @@
     window.addEventListener('resize', scheduleScale);
     scheduleScale();
 
-    // Attempt to read the attachments JSON to find any imagePath for background/icons
-    var jsonPath = '/home/kavia/workspace/code-generation/attachments/screen_4077:14472.json';
+    // Try to locate any imagePath in the JSON (none provided for this screen, but future-proof)
+    var jsonPath = './figma_screen_4077-14472.json'; // indirect; we attempt to fetch from attachments path too
+    // Primary: attempt absolute path present in workspace
+    var tryPaths = [
+      '/home/kavia/workspace/code-generation/attachments/screen_4077:14472.json',
+      jsonPath
+    ];
 
     function setBackgroundFromPath(path) {
       if (!path) return;
       var fname = String(path).split('/').pop();
-      // The request asked to use /assets/figmaimages/ if images exist; we place relative to repo root (assets/figmaimages)
-      var rel = 'assets/figmaimages/' + fname;
+      var rel = 'figmaimages/' + fname; // as per dynamic resolver requirement
       var bgDiv = document.getElementById('el-4077-14473');
       var bgImg = document.getElementById('el-4077-14473-img');
       if (bgDiv) {
@@ -68,8 +61,7 @@
         if (n.fills && Array.isArray(n.fills)) {
           var img = n.fills.find(function(f){ return f.type === 'IMAGE' || f.type === 'BITMAP'; });
           if (img && (img.imageRefPath || img.image_path || img.path)) {
-            found = img.imageRefPath || img.image_path || img.path;
-            return;
+            found = img.imageRefPath || img.image_path || img.path; return;
           }
         }
         if (n.children) n.children.forEach(walk);
@@ -78,17 +70,21 @@
       return found;
     }
 
-    fetch(jsonPath)
-      .then(function(r){ return r.ok ? r.json() : Promise.reject(); })
+    function fetchJSONSequential(paths, idx) {
+      if (idx >= paths.length) return Promise.reject();
+      return fetch(paths[idx])
+        .then(function(r){ return r.ok ? r.json() : Promise.reject(); })
+        .catch(function(){ return fetchJSONSequential(paths, idx+1); });
+    }
+
+    fetchJSONSequential(tryPaths, 0)
       .then(function(data){
         var imgPath = findAnyImage(data && data.root || data || {});
         if (imgPath) setBackgroundFromPath(imgPath);
       })
-      .catch(function(){
-        // No images provided, leave default gradient/black
-      });
+      .catch(function(){ /* no-op if not found */ });
 
-    // Focus management for small icon buttons to ensure visible outline and keyboard activation
+    // Icon buttons: basic keyboard activation
     var iconBtns = [
       document.getElementById('el-I4077-14475-456-11843'),
       document.getElementById('el-I4077-14475-456-11845')
@@ -113,8 +109,7 @@
           try { prev.focus(); } catch(_){}
         }
       });
-      // Placeholder click handlers (no-op)
-      btn.addEventListener('click', function(){ /* no-op to avoid console errors */ });
+      btn.addEventListener('click', function(){ /* no-op placeholder */ });
     });
   }
 

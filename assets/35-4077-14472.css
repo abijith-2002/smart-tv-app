@@ -1,54 +1,29 @@
 :root{
-  /* Design tokens (refined) */
-  --c-white:#ffffff;
-  --c-black:#000000;
-  --c-bg:#0b0b0b;
-  --c-chip:#ffffff1f;
-  --c-chip-strong:#ffffff29;
-  --c-focus:#ffd166;
-  --c-text-dim:#d6e0ff;
-
-  /* Typography from Figma refs */
-  --ty-146-f:'Roboto', sans-serif; --ty-146-s:28px; --ty-146-w:400; --ty-146-lh:32.8125px;
-  --ty-149-f:'Roboto', sans-serif; --ty-149-s:32px; --ty-149-w:800; --ty-149-lh:37.5px;
-  --ty-165-f:'Roboto', sans-serif; --ty-165-s:32px; --ty-165-w:800; --ty-165-lh:37.5px;
-  --ty-166-f:'Roboto', sans-serif; --ty-166-s:60px; --ty-166-w:400; --ty-166-lh:70.3125px;
-  --ty-167-f:'Roboto', sans-serif; --ty-167-s:25px; --ty-167-w:400; --ty-167-lh:29.296875px;
-  --ty-168-f:'Roboto', sans-serif; --ty-168-s:24px; --ty-168-w:400; --ty-168-lh:32px;
-  --ty-169-f:'Roboto', sans-serif; --ty-169-s:22px; --ty-169-w:500; --ty-169-lh:32px;
-  --ty-170-f:'Roboto', sans-serif; --ty-170-s:28px; --ty-170-w:400; --ty-170-lh:32.8125px;
-  --ty-171-f:'Roboto', sans-serif; --ty-171-s:26px; --ty-171-w:400; --ty-171-lh:39px;
-  --ty-173-f:'Roboto', sans-serif; --ty-173-s:40px; --ty-173-w:400; --ty-173-lh:46.875px;
-
-  --sp-2:4px; --sp-3:8px; --sp-4:12px; --sp-5:16px; --sp-6:20px; --sp-7:24px; --sp-8:32px;
+  /* minor canvas helpers */
+  --c-black: #000000;
+  --c-white: #ffffff;
 }
 
 /* Base */
 *{ box-sizing:border-box; }
-html,body{
-  margin:0; padding:0; background: var(--c-black); color: var(--c-white);
-  font-family: 'Roboto', Inter, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-}
-body{ overflow:auto; }
+html,body{ margin:0; padding:0; }
 
-/* Canvas with fluid scale while preserving 16:9 layout */
+/* Screen container: fixed 16:9 surface */
 .screen{
   position:relative;
   width: 100vw;
-  height: calc(100vw * 9 / 16); /* maintain 16:9 by default */
+  height: calc(100vw * 9 / 16);
   max-width: 1920px;
   max-height: 1080px;
-  min-width: 1280px; /* common TV width */
+  min-width: 1280px;
   min-height: calc(1280px * 9 / 16);
   margin: 0 auto;
-  background: var(--c-black);
+  background: #000;
   overflow:hidden;
 }
 @media (min-width: 1920px){
   .screen{ width:1920px; height:1080px; }
 }
-/* Fit by height when viewport is taller than 16:9 */
 @media (max-aspect-ratio: 16/9){
   .screen{
     height: 100vh;
@@ -56,80 +31,60 @@ body{ overflow:auto; }
   }
 }
 
-/* Scaling wrapper so absolutely positioned children in px scale uniformly */
+/* Scale the absolute 1920x1080 canvas */
 #el-4077-14472{ transform-origin: top left; }
 
-/* Accessibility utilities */
-.sr-only{
-  position:absolute !important; width:1px; height:1px;
-  padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0);
-  white-space:nowrap; border:0;
-}
-
-/* Focus ring (TV-friendly) */
-[tabindex]:focus, button:focus, .button:focus, .icon:focus{
-  outline: none;
-  box-shadow: 0 0 0 4px rgba(255,209,102,0.35);
-  -webkit-box-shadow: 0 0 0 4px rgba(255,209,102,0.35);
-  border-color: var(--c-focus);
-}
-
-/* Generator compatibility (kept) */
+/* Element role helpers */
 .container{ position:absolute; }
 .container.vertical{ position:relative; display:flex; flex-direction:column; }
 .container.horizontal{ position:relative; display:flex; flex-direction:row; }
 .group{ position:relative; }
 .component{ position:absolute; }
-.button{ position:absolute; border:2px solid transparent; border-radius:16px; background: transparent; color:inherit; }
+.button{ position:absolute; border: 2px solid transparent; border-radius: 16px; background: transparent; color: inherit; }
 .icon.vector, .boolean.vector{ position:absolute; }
 
-/* Tokens refined to match dark UI */
-.root.style-4{ background-color: transparent; }
-.style-35{ background-color: var(--c-chip); border-radius: 100px; }
-.style-129{ background-color: #3f9321; border-radius: 6px; }
-.style-100{ background-color: #ffffff14; border-radius: 999px; border: 2px solid transparent; }
+/* Text styles mapped to design system variables */
+.text.t-146{ font-family: var(--typo-146-family); font-size: var(--typo-146-size); font-weight: var(--typo-146-weight); line-height: var(--typo-146-line-height); letter-spacing: var(--typo-146-letter-spacing); color: var(--typo-146-color); text-align: right; }
+.text.t-149{ font-family: var(--typo-149-family); font-size: var(--typo-149-size); font-weight: var(--typo-149-weight); line-height: var(--typo-149-line-height); letter-spacing: var(--typo-149-letter-spacing); color: var(--typo-149-color); }
+.text.t-165{ font-family: var(--typo-165-family); font-size: var(--typo-165-size); font-weight: var(--typo-165-weight); line-height: var(--typo-165-line-height); letter-spacing: var(--typo-165-letter-spacing); color: var(--typo-165-color); }
+.text.t-166{ font-family: var(--typo-166-family); font-size: var(--typo-166-size); font-weight: var(--typo-166-weight); line-height: var(--typo-166-line-height); letter-spacing: var(--typo-166-letter-spacing); color: var(--typo-166-color); text-shadow: 0 6px 22px rgba(0,0,0,0.55); }
+.text.t-167{ font-family: var(--typo-167-family); font-size: var(--typo-167-size); font-weight: var(--typo-167-weight); line-height: var(--typo-167-line-height); letter-spacing: var(--typo-167-letter-spacing); color: var(--typo-167-color); }
+.text.t-168{ font-family: var(--typo-168-family); font-size: var(--typo-168-size); font-weight: var(--typo-168-weight); line-height: var(--typo-168-line-height); letter-spacing: var(--typo-168-letter-spacing); color: var(--typo-168-color); text-align:center; }
+.text.t-169{ font-family: var(--typo-169-family); font-size: var(--typo-169-size); font-weight: var(--typo-169-weight); line-height: var(--typo-169-line-height); letter-spacing: var(--typo-169-letter-spacing); color: var(--typo-169-color); text-align:center; }
+.text.t-170{ font-family: var(--typo-170-family); font-size: var(--typo-170-size); font-weight: var(--typo-170-weight); line-height: var(--typo-170-line-height); letter-spacing: var(--typo-170-letter-spacing); color: var(--typo-170-color); }
+.text.t-171{ font-family: var(--typo-171-family); font-size: var(--typo-171-size); font-weight: var(--typo-171-weight); line-height: var(--typo-171-line-height); letter-spacing: var(--typo-171-letter-spacing); color: var(--typo-171-color); }
+.text.t-172{ font-family: var(--typo-172-family); font-size: var(--typo-172-size); font-weight: var(--typo-172-weight); line-height: var(--typo-172-line-height); letter-spacing: var(--typo-172-letter-spacing); color: var(--typo-172-color); text-align:center; }
+.text.t-173{ font-family: var(--typo-173-family); font-size: var(--typo-173-size); font-weight: var(--typo-173-weight); line-height: var(--typo-173-line-height); letter-spacing: var(--typo-173-letter-spacing); color: var(--typo-173-color); }
 
-/* Typography mappings */
-.text.typo-146{ font: var(--ty-146-w) var(--ty-146-s)/var(--ty-146-lh) var(--ty-146-f); color: var(--c-white); text-align:right; }
-.text.typo-149{ font: var(--ty-149-w) var(--ty-149-s)/var(--ty-149-lh) var(--ty-149-f); color: var(--c-white); text-align:right; }
-.text.typo-165{ font: var(--ty-165-w) var(--ty-165-s)/var(--ty-165-lh) var(--ty-165-f); color: var(--c-white); text-align:left; }
-.text.typo-166{ font: var(--ty-166-w) var(--ty-166-s)/var(--ty-166-lh) var(--ty-166-f); color: var(--c-white); text-align:left; text-shadow: 0 6px 22px rgba(0,0,0,0.55); }
-.text.typo-167{ font: var(--ty-167-w) var(--ty-167-s)/var(--ty-167-lh) var(--ty-167-f); color: var(--c-white); }
-.text.typo-168{ font: var(--ty-168-w) var(--ty-168-s)/var(--ty-168-lh) var(--ty-168-f); color: var(--c-white); text-align:center; }
-.text.typo-169{ font: var(--ty-169-w) var(--ty-169-s)/var(--ty-169-lh) var(--ty-169-f); color: var(--c-white); }
-.text.typo-170{ font: var(--ty-170-w) var(--ty-170-s)/var(--ty-170-lh) var(--ty-170-f); color: var(--c-white); }
-.text.typo-171{ font: var(--ty-171-w) var(--ty-171-s)/var(--ty-171-lh) var(--ty-171-f); color: #ffffffea; }
-.text.typo-173{ font: var(--ty-173-w) var(--ty-173-s)/var(--ty-173-lh) var(--ty-173-f); color: var(--c-white); }
-
-/* Background image and gradient overlay */
+/* Background vector defaults */
 #el-4077-14473{
-  /* background image placeholder: JS may assign */
-  background: #000;
+  background: #000; /* default; JS can set image if provided */
   background-size: cover;
   background-position: center center;
 }
 #el-I4077-14474-456-5182{
-  /* gradient overlay */
+  /* gradient overlay similar to design intent */
   background: linear-gradient(180deg, rgba(0,0,0,0.00) 0%, rgba(0,0,0,0.45) 60%, rgba(0,0,0,0.75) 100%);
   pointer-events: none;
 }
 
-/* Icon masks as dark rounded shapes like the PNG */
-.icon.vector.dark{ background-color:#282828; border-radius:4px; }
-
-/* Improve tap/focus targets for small 32x32 icons by adding padding via hit area wrapper if interacted */
+/* Icon small hit areas (focus ring friendlier) */
 #el-I4077-14475-456-11843,
 #el-I4077-14475-456-11845{
   border-radius: 8px;
   border:2px solid transparent;
 }
 
-/* System date block alignment tweaks for pixel parity */
-.systemdate .text.typo-173{ text-align:right; }
-.systemdate .component[style*="width: 81px"] .text{ text-align:right; opacity: 0.95; }
-
-/* Vendor prefixes for potential filters/backdrop (future safe) */
-.top-menu, .overlay, .glass{
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
+/* Focus style (TV friendly) */
+[tabindex]:focus,
+button:focus{
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(255,209,102,0.35);
+  border-color: #ffd166;
 }
+
+/* Z layering based on structure */
+#el-4077-14473 { z-index: 1; }
+#el-4077-14474 { z-index: 2; }
+#el-4077-14475 { z-index: 3; }
+#el-4077-14476 { z-index: 4; }

@@ -1,0 +1,177 @@
+:root {
+  /* Colors from design system (subset + all referenced in screen/styles) */
+  --color-0074f3: #0074f3;
+  --color-b7d9ff: #b7d9ff;
+  --color-0e0e0e: #0e0e0e;
+  --color-ffffff: #ffffff;
+  --color-002248: #002248;
+  --color-60acff: #60acff;
+  --color-39393e: #39393e;
+  --color-dddddd: #dddddd;
+  --color-0d99ff: #0d99ff;
+  --color-eb0145: #eb0145;
+  --color-282828: #282828;
+  --color-8db5ff: #8db5ff;
+  --color-121212: #121212;
+  --color-f4f4f4: #f4f4f4;
+  --color-eeeeee: #eeeeee;
+  --color-e7e7e7: #e7e7e7;
+  --color-000000: #000000;
+  --color-3f9321: #3f9321;
+  --color-c1c1c1: #c1c1c1;
+
+  /* Styles (resolved from design_system.styles used in this screen) */
+  /* style_4: background_color color_ffffff */
+  --style-4-bg: var(--color-ffffff);
+
+  /* style_35: background_color color_f4f4f4, border_radius 100 */
+  --style-35-bg: var(--color-f4f4f4);
+  --style-35-radius: 100px;
+
+  /* style_17: background_color color_282828 */
+  --style-17-bg: var(--color-282828);
+
+  /* style_100: background_color color_ffffff, border_color color_ffffff, border_width 1, radius 3 */
+  --style-100-bg: var(--color-ffffff);
+  --style-100-border-color: var(--color-ffffff);
+  --style-100-border-width: 1px;
+  --style-100-radius: 3px;
+
+  /* style_129: background_color color_3f9321, radius 3 */
+  --style-129-bg: var(--color-3f9321);
+  --style-129-radius: 3px;
+
+  /* Typography variables resolved from design_system.typography (refs present in JSON) */
+  /* typo_146 */
+  --typo-146-family: 'Roboto', sans-serif;
+  --typo-146-size: 28px;
+  --typo-146-weight: 400;
+  --typo-146-line-height: 32.8125px;
+  --typo-146-letter-spacing: 0px;
+  --typo-146-align: right;
+  --typo-146-color: var(--color-ffffff);
+
+  /* typo_149 */
+  --typo-149-family: 'Roboto', sans-serif;
+  --typo-149-size: 32px;
+  --typo-149-weight: 800;
+  --typo-149-line-height: 37.5px;
+  --typo-149-letter-spacing: 0px;
+  --typo-149-align: right;
+  --typo-149-color: var(--color-ffffff);
+
+  /* typo_165 */
+  --typo-165-family: 'Roboto', sans-serif;
+  --typo-165-size: 32px;
+  --typo-165-weight: 800;
+  --typo-165-line-height: 37.5px;
+  --typo-165-letter-spacing: 0px;
+  --typo-165-align: left;
+  --typo-165-color: var(--color-ffffff);
+
+  /* typo_166 */
+  --typo-166-family: 'Roboto', sans-serif;
+  --typo-166-size: 60px;
+  --typo-166-weight: 400;
+  --typo-166-line-height: 70.3125px;
+  --typo-166-letter-spacing: 0px;
+  --typo-166-align: left;
+  --typo-166-color: var(--color-ffffff);
+
+  /* typo_167 */
+  --typo-167-family: 'Roboto', sans-serif;
+  --typo-167-size: 25px;
+  --typo-167-weight: 400;
+  --typo-167-line-height: 29.296875px;
+  --typo-167-letter-spacing: 0px;
+  --typo-167-align: left;
+  --typo-167-color: var(--color-ffffff);
+
+  /* typo_168 */
+  --typo-168-family: 'Roboto', sans-serif;
+  --typo-168-size: 24px;
+  --typo-168-weight: 400;
+  --typo-168-line-height: 32px;
+  --typo-168-letter-spacing: 0px;
+  --typo-168-align: center;
+  --typo-168-color: var(--color-ffffff);
+
+  /* typo_169 */
+  --typo-169-family: 'Roboto', sans-serif;
+  --typo-169-size: 22px;
+  --typo-169-weight: 500;
+  --typo-169-line-height: 32px;
+  --typo-169-letter-spacing: 0px;
+  --typo-169-align: left;
+  --typo-169-color: var(--color-ffffff);
+
+  /* typo_170 */
+  --typo-170-family: 'Roboto', sans-serif;
+  --typo-170-size: 28px;
+  --typo-170-weight: 400;
+  --typo-170-line-height: 32.8125px;
+  --typo-170-letter-spacing: 0px;
+  --typo-170-align: left;
+  --typo-170-color: var(--color-ffffff);
+
+  /* typo_171 */
+  --typo-171-family: 'Roboto', sans-serif;
+  --typo-171-size: 26px;
+  --typo-171-weight: 400;
+  --typo-171-line-height: 39px;
+  --typo-171-letter-spacing: 0px;
+  --typo-171-align: left;
+  --typo-171-color: var(--color-ffffff);
+
+  /* typo_172 (panel label) */
+  --typo-172-family: 'Roboto', sans-serif;
+  --typo-172-size: 22px;
+  --typo-172-weight: 500;
+  --typo-172-line-height: 24px;
+  --typo-172-letter-spacing: 0px;
+  --typo-172-align: center;
+  --typo-172-color: var(--color-ffffff);
+
+  /* typo_173 */
+  --typo-173-family: 'Roboto', sans-serif;
+  --typo-173-size: 40px;
+  --typo-173-weight: 400;
+  --typo-173-line-height: 46.875px;
+  --typo-173-letter-spacing: 0px;
+  --typo-173-align: left;
+  --typo-173-color: var(--color-ffffff);
+
+  /* Spacing scale (generic) */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+
+  /* Shadows (map some standard used in styles) */
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+  --shadow-strong: 0 12px 28px rgba(0,0,0,0.45);
+}
+
+/* Base helpers */
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--color-ffffff);
+  color: var(--color-121212);
+  font-family: 'Roboto', Arial, sans-serif;
+}
+
+/* Generic helpers */
+.figma-screen { position: relative; overflow: hidden; }
+.abs { position: absolute; }
+.text { white-space: pre-wrap; word-break: break-word; }
+.img, .icon { display: block; image-rendering: -webkit-optimize-contrast; }
+
+/* Quick style helpers from style_refs */
+.bg-style-4 { background-color: var(--style-4-bg); }
+.bg-style-35 { background-color: var(--style-35-bg); border-radius: var(--style-35-radius); }
+.bg-style-17 { background-color: var(--style-17-bg); }
+.bg-style-100 { background-color: var(--style-100-bg); border: var(--style-100-border-width) solid var(--style-100-border-color); border-radius: var(--style-100-radius); }
+.bg-style-129 { background-color: var(--style-129-bg); border-radius: var(--style-129-radius); }
