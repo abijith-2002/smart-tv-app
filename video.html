@@ -61,7 +61,7 @@
       <div class="overlay-bar">
         <div id="vidTitle">Playing</div>
         <div class="overlay-actions">
-          <a href="home.html" tabindex="0" aria-label="Exit player">Exit</a>
+          <a href="index.html" tabindex="0" aria-label="Exit player">Exit</a>
         </div>
       </div>
       <video id="video" controls autoplay preload="auto" tabindex="-1">
@@ -91,7 +91,7 @@
         if (e.key === 'Escape' || e.key === 'Backspace'){
           e.preventDefault();
           if (document.referrer && /title-card\.html/.test(document.referrer)) history.back();
-          else window.location.href = 'home.html';
+          else window.location.href = 'index.html';
         }
       }, true);
     })();

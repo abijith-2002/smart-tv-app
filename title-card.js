@@ -133,7 +133,7 @@
         ev.preventDefault();
         // Go back if possible; else go home
         if (window.history.length > 1) window.history.back();
-        else window.location.href = 'home.html';
+        else window.location.href = 'index.html';
       });
     }
 

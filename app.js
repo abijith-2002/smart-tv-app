@@ -15,7 +15,7 @@
     return n.toLowerCase();
   }
   function isIndexPage(){ return pageName() === 'index.html'; }
-  function isHomePage(){ return pageName() === 'home.html'; }
+  function isHomePage(){ return pageName() === 'home.html' || pageName() === 'index.html'; }
   function isLoginPage(){ return pageName() === 'login.html'; }
   function isMyPlanPage(){ return pageName() === 'myplan.html' || pageName() === 'my-plan.html'; }
 
@@ -81,8 +81,8 @@
           ev.preventDefault();
           if (handler && handler({ type:'BACK' })) return;
           // default fallback: navigate from subpages to home, from home to index
-          if (isHomePage()) window.location.href = 'index.html';
-          else window.location.href = 'home.html';
+          if (isHomePage()) window.location.href = 'splash.html';
+          else window.location.href = 'index.html';
         }
       } catch (e) {}
     });
@@ -121,8 +121,8 @@
 
       // If not handled:
       if (op === 'BACK'){
-        if (isHomePage()) window.location.href = 'index.html';
-        else window.location.href = 'home.html';
+        if (isHomePage()) window.location.href = 'splash.html';
+        else window.location.href = 'index.html';
       } else if (op === 'ENTER') {
         var a = document.activeElement;
         if (!a) return;
@@ -152,7 +152,7 @@
       // add fade-out class and navigate after short delay
       var body = document.body;
       if (body) body.classList.add('fade-out');
-      setTimeout(function(){ window.location.href = 'home.html'; }, 450);
+      setTimeout(function(){ window.location.href = 'index.html'; }, 450);
     };
     // auto timer
     setTimeout(skipToHome, 3000);
@@ -336,7 +336,7 @@
       if (inp.type === 'RIGHT' || inp.type === 'DOWN'){ focusAt(idx + 1); return true; }
 
       if (inp.type === 'BACK'){
-        window.location.href = 'home.html';
+        window.location.href = 'index.html';
         return true;
       }
       return false;
@@ -362,7 +362,7 @@
       FocusMemory.save();
 
       if (inp.type === 'ENTER'){ activate(a); return true; }
-      if (inp.type === 'BACK'){ window.location.href = 'home.html'; return true; }
+      if (inp.type === 'BACK'){ window.location.href = 'index.html'; return true; }
 
       function getIdx(el){ var v = parseInt(el && el.getAttribute('data-idx') || '-1', 10); return isNaN(v) ? -1 : v; }
       function focusAt(index){

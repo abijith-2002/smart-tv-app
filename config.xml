@@ -8,7 +8,7 @@
     <description>Smart TV app with remote navigation</description>
 
     <!-- Entry point (splash) -->
-    <content src="index.html"/>
+    <content src="splash.html"/>
 
     <!-- App icon (relative path for Tizen packaging) -->
     <icon src="icons/app-icon-192.png"/>

@@ -1,150 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
-  <title>MyTV</title>
-
-  <!-- Theme variables for acceptance criteria colors -->
-  <style>
-    :root{
-      --bg: #0f2027;
-      --primary: #1e3c72;
-      --secondary: #2a5298;
-      --accent: #396afc;
-      --text: #ffffff;
-      --text-dim: #d6e0ff;
-      --focus: #ffd166;
-    }
-    html, body {
-      margin: 0;
-      padding: 0;
-      color: var(--text);
-      background: var(--bg);
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      -webkit-user-select: none;
-      user-select: none;
-      -webkit-touch-callout: none;
-    }
-    /* Global dark gradient background for the canvas page */
-    .tv-bg{
-      min-height: 100vh;
-      background:
-        radial-gradient(1400px 700px at 0% 0%, rgba(57,106,252,0.22) 0%, rgba(57,106,252,0) 70%),
-        linear-gradient(135deg, rgba(10,20,35,0.85), rgba(15,30,55,0.75)),
-        var(--bg);
-      background-color: var(--bg);
-    }
-    /* CTA container at bottom-left of screen */
-    .cta-container{
-      position:absolute;
-      left:96px;
-      bottom:96px;
-      z-index: 10;
-      display:flex;
-      margin-left:-6px; margin-right:-6px;
-    }
-    .cta-container > *{ margin-left:6px; margin-right:6px; }
-    @supports (gap: 14px){
-      .cta-container{ gap:14px; margin-left:0; margin-right:0; }
-      .cta-container > *{ margin-left:0; margin-right:0; }
-    }
-    .cta-btn{
-      appearance:none; text-decoration:none; color:#fff;
-      border:2px solid transparent; border-radius:14px;
-      min-height:64px; min-width:200px; padding: 14px 22px;
-      font-size: clamp(18px, 2vw, 22px); font-weight:700;
-      display:inline-flex; align-items:center; justify-content:center;
-      cursor:pointer;
-      transition: transform 150ms ease, box-shadow 150ms ease, border-color 150ms ease, background 150ms ease;
-    }
-    .cta-btn.primary{ background: linear-gradient(135deg, var(--primary), var(--secondary)); }
-    .cta-btn.secondary{ background: rgba(255,255,255,0.12); }
-    .cta-btn:focus{
-      outline:none;
-      border-color: var(--focus);
-      box-shadow: 0 0 0 4px rgba(255,209,102,0.35), 0 14px 32px rgba(0,0,0,0.55);
-      transform: translateY(-1px) scale(1.03);
-    }
-    /* Keep figma screen stretching correctly */
-    .screen{ position:relative; width:100vw; height: calc(100vw * 9 / 16); max-width:1920px; max-height:1080px; min-width:1280px; min-height: calc(1280px * 9 / 16); margin:0 auto; overflow:hidden; }
-    @media (min-width: 1920px){ .screen{ width:1920px; height:1080px; } }
-    @media (max-aspect-ratio: 16/9){ .screen{ height:100vh; width: calc(100vh * 16 / 9); } }
-  </style>
-
-  <!-- Link the extracted screen CSS (placed in smart-tv-app/assets) -->
-  <link rel="stylesheet" href="assets/35-4077-14472.css">
-  <!-- Link common.css from root assets (copied by extractor and referenced here) -->
-  <link rel="stylesheet" href="assets/common.css">
+  <title>MyTV - Home</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>html, body { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }</style>
 </head>
 <body class="tv-bg">
-  <!-- Main Figma screen markup (embedded) -->
-  <main id="screen-35-4077-14472" class="screen" role="main" aria-label="Home">
-    <!-- Reuse the already extracted markup via iframe to preserve pixel-precision while keeping our theme -->
-    <iframe
-      title="Figma Home Screen"
-      src="assets/35-4077-14472.html"
-      style="position:absolute; left:0; top:0; width:100%; height:100%; border:0;"
-      aria-hidden="true">
-    </iframe>
+  <header class="top-menu" role="menu" aria-label="Top navigation">
+    <nav class="menu-container" id="topMenu" data-role="menu">
+      <a href="index.html" class="menu-item active" role="menuitem" tabindex="0" data-menu-index="0">Home</a>
+      <a href="login.html" class="menu-item" role="menuitem" tabindex="0" data-menu-index="1">Login</a>
+      <a href="#" class="menu-item" role="menuitem" tabindex="0" data-menu-index="2" onclick="alert('Settings coming soon'); return false;">Setting</a>
+      <a href="myplan.html" class="menu-item" role="menuitem" tabindex="0" data-menu-index="3">My Plan</a>
+    </nav>
+  </header>
 
-    <!-- CTA Buttons for Login/Signup with TV remote support -->
-    <div class="cta-container" role="group" aria-label="Primary actions">
-      <a href="login.html" id="btnLogin" class="cta-btn primary" role="button" tabindex="0">Login</a>
-      <a href="signup.html" id="btnSignup" class="cta-btn secondary" role="button" tabindex="0">Sign Up</a>
+  <section class="banner" aria-label="Featured banner">
+    <div class="banner-bg" style="background-image: url('assets/images/banner.jpg')"></div>
+    <div class="banner-overlay"></div>
+    <div class="banner-content">
+      <h2 class="banner-title">Featured Highlight</h2>
+      <p class="banner-subtitle">Enjoy movies and shows tuned for your TV.</p>
+      <div class="banner-actions" role="group" aria-label="Banner actions">
+        <button class="primary-btn" tabindex="0" data-group="banner" data-index="0" aria-label="Play featured">Play</button>
+        <button class="secondary-btn" tabindex="0" data-group="banner" data-index="1" aria-label="More info">More Info</button>
+      </div>
     </div>
+  </section>
+
+  <main class="content" aria-label="Home content">
+    <section class="rail" aria-label="Trending">
+      <h3 class="rail-title">Trending</h3>
+      <div class="rail-row" role="list" data-rail-index="0">
+        <a class="card" role="listitem" tabindex="0" aria-label="Trending item 1" data-group="rail-0" data-index="0" href="title-card.html?id=trending1">
+          <img src="assets/images/thumb-1.jpg" alt="Trending 1"/>
+        </a>
+        <a class="card" role="listitem" tabindex="0" aria-label="Trending item 2" data-group="rail-0" data-index="1" href="title-card.html?id=trending2">
+          <img src="assets/images/thumb-2.jpg" alt="Trending 2"/>
+        </a>
+        <a class="card" role="listitem" tabindex="0" aria-label="Trending item 3" data-group="rail-0" data-index="2" href="title-card.html?id=trending3">
+          <img src="assets/images/thumb-3.jpg" alt="Trending 3"/>
+        </a>
+        <a class="card" role="listitem" tabindex="0" aria-label="Trending item 4" data-group="rail-0" data-index="3" href="title-card.html?title=Night Drive&poster=assets/images/thumb-4.jpg&src=assets/images/thumb-4.jpg&desc=A suspenseful ride through the midnight city.&runtime=1h%2040m&tags=Thriller%2CAction">
+          <img src="assets/images/thumb-4.jpg" alt="Trending 4"/>
+        </a>
+        <a class="card" role="listitem" tabindex="0" aria-label="Trending item 5" data-group="rail-0" data-index="4" href="title-card.html?title=Golden%20Dunes&poster=assets/images/thumb-5.jpg&src=assets/images/thumb-5.jpg&desc=Survival across the scorching sands.&runtime=1h%2052m&tags=Adventure%2CDrama">
+          <img src="assets/images/thumb-5.jpg" alt="Trending 5"/>
+        </a>
+      </div>
+    </section>
+
+    <section class="rail" aria-label="Continue Watching">
+      <h3 class="rail-title">Continue Watching</h3>
+      <div class="rail-row" role="list" data-rail-index="1">
+        <a class="card" role="listitem" tabindex="0" aria-label="Continue item 1" data-group="rail-1" data-index="0" href="title-card.html?title=Echoes&poster=assets/images/thumb-1.jpg&src=assets/images/thumb-1.jpg&desc=Memories reverberate through time.&runtime=1h%2034m&tags=Drama">
+          <img src="assets/images/thumb-1.jpg" alt="Continue 1"/>
+        </a>
+        <a class="card" role="listitem" tabindex="0" aria-label="Continue item 2" data-group="rail-1" data-index="1" href="title-card.html?title=Pulse&poster=assets/images/thumb-2.jpg&src=assets/images/thumb-2.jpg&desc=The beat of the underground scene.&runtime=1h%2022m&tags=Music%2CIndie">
+          <img src="assets/images/thumb-2.jpg" alt="Continue 2"/>
+        </a>
+        <a class="card" role="listitem" tabindex="0" aria-label="Continue item 3" data-group="rail-1" data-index="2" href="title-card.html?title=Summit&poster=assets/images/thumb-3.jpg&src=assets/images/thumb-3.jpg&desc=A climb beyond limits.&runtime=1h%2050m&tags=Adventure">
+          <img src="assets/images/thumb-3.jpg" alt="Continue 3"/>
+        </a>
+        <a class="card" role="listitem" tabindex="0" aria-label="Continue item 4" data-group="rail-1" data-index="3" href="title-card.html?title=Night%20Drive&poster=assets/images/thumb-4.jpg&src=assets/images/thumb-4.jpg&desc=A suspenseful ride through the midnight city.&runtime=1h%2040m&tags=Thriller">
+          <img src="assets/images/thumb-4.jpg" alt="Continue 4"/>
+        </a>
+      </div>
+    </section>
+
+    <section class="rail" aria-label="Action">
+      <h3 class="rail-title">Action</h3>
+      <div class="rail-row" role="list" data-rail-index="2">
+        <a class="card" role="listitem" tabindex="0" aria-label="Action item 1" data-group="rail-2" data-index="0" href="title-card.html?title=Skyline%20Chase&poster=assets/images/thumb-1.jpg&src=assets/images/thumb-1.jpg&desc=A high-octane pursuit across neon skylines.&runtime=1h%2048m&tags=Action%2CThriller">
+          <img src="assets/images/thumb-1.jpg" alt="Action 1"/>
+        </a>
+        <a class="card" role="listitem" tabindex="0" aria-label="Action item 2" data-group="rail-2" data-index="1" href="title-card.html?title=Pulse&poster=assets/images/thumb-2.jpg&src=assets/images/thumb-2.jpg&desc=The beat of the underground scene.&runtime=1h%2022m&tags=Indie">
+          <img src="assets/images/thumb-2.jpg" alt="Action 2"/>
+        </a>
+        <a class="card" role="listitem" tabindex="0" aria-label="Action item 3" data-group="rail-2" data-index="2" href="title-card.html?title=Summit&poster=assets/images/thumb-3.jpg&src=assets/images/thumb-3.jpg&desc=A climb beyond limits.&runtime=1h%2050m&tags=Adventure">
+          <img src="assets/images/thumb-3.jpg" alt="Action 3"/>
+        </a>
+        <a class="card" role="listitem" tabindex="0" aria-label="Action item 4" data-group="rail-2" data-index="3" href="title-card.html?title=Night%20Drive&poster=assets/images/thumb-4.jpg&src=assets/images/thumb-4.jpg&desc=A suspenseful ride through the midnight city.&runtime=1h%2040m&tags=Thriller">
+          <img src="assets/images/thumb-4.jpg" alt="Action 4"/>
+        </a>
+      </div>
+    </section>
+
+    <section class="rail" aria-label="Drama">
+      <h3 class="rail-title">Drama</h3>
+      <div class="rail-row" role="list" data-rail-index="3">
+        <a class="card" role="listitem" tabindex="0" aria-label="Drama item 1" data-group="rail-3" data-index="0" href="title-card.html?title=Golden%20Dunes&poster=assets/images/thumb-5.jpg&src=assets/images/thumb-5.jpg&desc=Survival across the scorching sands.&runtime=1h%2052m&tags=Adventure%2CDrama">
+          <img src="assets/images/thumb-5.jpg" alt="Drama 1"/>
+        </a>
+        <a class="card" role="listitem" tabindex="0" aria-label="Drama item 2" data-group="rail-3" data-index="1" href="title-card.html?title=Blue%20Horizon&poster=assets/images/thumb-6.jpg&src=assets/images/thumb-6.jpg&desc=An inspiring journey across the open sea.&runtime=1h%2036m&tags=Drama%2CAdventure">
+          <img src="assets/images/thumb-6.jpg" alt="Drama 2"/>
+        </a>
+        <a class="card" role="listitem" tabindex="0" aria-label="Drama item 3" data-group="rail-3" data-index="2" href="title-card.html?title=Echoes&poster=assets/images/thumb-1.jpg&src=assets/images/thumb-1.jpg&desc=Memories reverberate through time.&runtime=1h%2034m&tags=Drama">
+          <img src="assets/images/thumb-1.jpg" alt="Drama 3"/>
+        </a>
+      </div>
+    </section>
+
+    <section class="rail" aria-label="Horror">
+      <h3 class="rail-title">Horror</h3>
+      <div class="rail-row" role="list" data-rail-index="4">
+        <a class="card" role="listitem" tabindex="0" aria-label="Horror item 1" data-group="rail-4" data-index="0" href="title-card.html?id=trending2">
+          <img src="assets/images/thumb-2.jpg" alt="Horror 1"/>
+        </a>
+        <a class="card" role="listitem" tabindex="0" aria-label="Horror item 2" data-group="rail-4" data-index="1" href="title-card.html?title=Whisper%20Woods&poster=assets/images/thumb-3.jpg&src=assets/images/thumb-3.jpg&desc=An eerie tale woven through ancient trees.&runtime=2h%2002m&tags=Horror%2CMystery">
+          <img src="assets/images/thumb-3.jpg" alt="Horror 2"/>
+        </a>
+        <a class="card" role="listitem" tabindex="0" aria-label="Horror item 3" data-group="rail-4" data-index="2" href="title-card.html?title=Night%20Drive&poster=assets/images/thumb-4.jpg&src=assets/images/thumb-4.jpg&desc=A suspenseful ride through the midnight city.&runtime=1h%2040m&tags=Thriller">
+          <img src="assets/images/thumb-4.jpg" alt="Horror 3"/>
+        </a>
+      </div>
+    </section>
+
+    <section class="rail subscriptions" aria-label="Available Subscriptions">
+      <h3 class="rail-title">Available Subscriptions</h3>
+      <div class="plans" data-rail-index="5">
+        <button class="plan-card" tabindex="0" data-group="subs" data-index="0" aria-label="Basic plan 9.99">
+          <div class="plan-name">Basic</div>
+          <div class="plan-price">$9.99</div>
+        </button>
+        <button class="plan-card" tabindex="0" data-group="subs" data-index="1" aria-label="Standard plan 13.99">
+          <div class="plan-name">Standard</div>
+          <div class="plan-price">$13.99</div>
+        </button>
+        <button class="plan-card" tabindex="0" data-group="subs" data-index="2" aria-label="Premium plan 17.99">
+          <div class="plan-name">Premium</div>
+          <div class="plan-price">$17.99</div>
+        </button>
+      </div>
+    </section>
   </main>
 
-  <!-- Attach the figma screen script and shared app script -->
-  <script src="assets/app.js"></script>
-  <script src="assets/35-4077-14472.js"></script>
-  <script>
-    // PUBLIC_INTERFACE
-    /**
-     * Adds simple DPAD navigation between Login and Signup on the homepage.
-     * Arrow keys move focus left/right; Enter triggers click.
-     * Also ensures an initial focus is set.
-     */
-    (function(){
-      var login = document.getElementById('btnLogin');
-      var signup = document.getElementById('btnSignup');
-
-      function tryFocus(el){
-        if (!el) return;
-        try { el.focus({ preventScroll:true }); } catch(e){ try { el.focus(); } catch(_){ } }
-      }
-
-      // Initial focus on Login
-      if (document.readyState === 'loading'){
-        document.addEventListener('DOMContentLoaded', function(){ tryFocus(login || signup); });
-      } else {
-        tryFocus(login || signup);
-      }
-
-      document.addEventListener('keydown', function(e){
-        var key = e.key || '';
-        if (key === 'ArrowLeft' || key === 'ArrowRight' || key === 'ArrowUp' || key === 'ArrowDown' || key === 'Enter' || key === ' ' || key === 'Spacebar'){
-          e.preventDefault();
-        }
-        var active = document.activeElement;
-
-        if (key === 'Enter' || key === ' ' || key === 'Spacebar'){
-          if (active && typeof active.click === 'function') active.click();
-          return;
-        }
-
-        // Horizontal toggle between the two CTAs
-        if (key === 'ArrowLeft' || key === 'ArrowRight' || key === 'ArrowUp' || key === 'ArrowDown'){
-          if (active === login) { tryFocus(signup); return; }
-          if (active === signup) { tryFocus(login); return; }
-          // If nothing focused or other element focused, focus login
-          tryFocus(login || signup);
-        }
-      }, true);
-    })();
-  </script>
+  <script src="app.js"></script>
 </body>
 </html>

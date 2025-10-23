@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+  <title>MyTV - Splash</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .splash-wrap{
+      min-height: 100vh;
+      display:grid;
+      place-content:center;
+      text-align:center;
+      background:
+        radial-gradient(1600px 800px at 0% 0%, rgba(57,106,252,0.22) 0%, rgba(57,106,252,0) 70%),
+        linear-gradient(135deg, rgba(10,20,35,0.9), rgba(15,30,55,0.8)),
+        var(--bg);
+    }
+    .splash-title{
+      font-size: clamp(48px, 8vw, 96px);
+      margin: 0;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-shadow: 0 16px 56px rgba(0,0,0,0.6);
+    }
+    .splash-sub{
+      margin: 8px 0 0 0;
+      font-size: clamp(16px, 2vw, 22px);
+      color: var(--text-dim);
+    }
+    .hint{
+      margin-top: 24px;
+      color: var(--text-dim);
+      font-size: clamp(14px, 1.6vw, 18px);
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body class="tv-bg">
+  <main class="splash-wrap" role="main" aria-label="Splash screen">
+    <h1 class="splash-title" tabindex="0">MyTV</h1>
+    <p class="splash-sub">Smart TV Entertainment</p>
+    <p class="hint">Loading… Press Enter to continue</p>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
