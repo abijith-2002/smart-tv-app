@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MyProjectTV - Welcome</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="assets/common.css" />
+</head>
+<body class="bg">
+  <div class="screen center-screen">
+    <div class="hero">
+      <h1 class="title">MyProjectTV</h1>
+      <p class="subtitle">Welcome to your smart TV experience</p>
+    </div>
+    <!-- Hidden initial focus element to ensure DPAD works on first key press without visible buttons -->
+    <button id="initFocus" class="visually-hidden" aria-hidden="true" tabindex="0">Init</button>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script>
+    // Landing logic: if user has session, go to home, else go to login after a short delay
+    window.addEventListener('load', function() {
+      const init = document.getElementById('initFocus');
+      if (init) init.focus();
+      setTimeout(function() {
+        const hasSession = !!localStorage.getItem('mptv_session');
+        if (hasSession) {
+          window.location.href = 'home.html';
+        } else {
+          window.location.href = 'login.html';
+        }
+      }, 600);
+    });
+  </script>
+</body>
+</html>

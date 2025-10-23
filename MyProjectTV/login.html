@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>MyProjectTV - Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="css/styles.css"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="assets/common.css"/>
+</head>
+<body class="bg">
+  <div class="screen center-screen card-panel">
+    <h1 class="title">Login</h1>
+    <div class="form">
+      <input id="email" type="email" placeholder="Email" class="input focusable" />
+      <input id="password" type="password" placeholder="Password" class="input focusable" />
+      <div class="actions">
+        <button id="loginBtn" class="btn primary focusable" data-action="do-login">Login</button>
+        <button class="btn ghost focusable" data-action="goto:signup">Create account</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script>
+    window.addEventListener('load', () => {
+      FocusManager.init({
+        container: document.body,
+        initial: document.getElementById('email')
+      });
+
+      AppRouter.register('goto:signup', () => window.location.href = 'signup.html');
+      AppRouter.register('do-login', () => {
+        const email = document.getElementById('email').value.trim();
+        const pwd = document.getElementById('password').value.trim();
+        if (email && pwd) {
+          localStorage.setItem('mptv_session', JSON.stringify({ email }));
+          window.location.href = 'home.html';
+        } else {
+          Toast.show('Please enter email and password');
+        }
+      });
+
+      // Enter key handling when input focused
+      document.getElementById('password').addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') document.getElementById('loginBtn').click();
+      });
+    });
+  </script>
+</body>
+</html>

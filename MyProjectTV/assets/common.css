@@ -1,0 +1,4 @@
+/* Common helpers for layout alignment */
+.row h2 { margin: 8px 0 12px; font-weight: 600; }
+.screen { width: 100%; }
+.grid[role="grid"] .card { aspect-ratio: 16/9; }

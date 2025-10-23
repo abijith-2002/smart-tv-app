@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget
+    xmlns="http://www.w3.org/ns/widgets"
+    xmlns:tizen="http://tizen.org/ns/widgets"
+    id="http://com.example.myprojecttv"
+    version="1.0.0"
+    viewmodes="maximized"
+    width="1920"
+    height="1080">
+    <name>MyProjectTV</name>
+    <tizen:profile name="tv"/>
+    <tizen:application id="com.example.myprojecttv" package="com.example.myprojecttv" required_version="4.0"/>
+    <content src="index.html"/>
+    <icon src="icons/app-icon-96.png"/>
+    <tizen:icon section="tv" src="icons/app-icon-192.png"/>
+    <tizen:privilege name="http://tizen.org/privilege/internet"/>
+    <tizen:setting screen-orientation="landscape" context-menu="disable" background-support="disable" encryption="disable" install-location="auto"/>
+    <tizen:metadata key="http://samsung.com/tv/metadata/use.network" value="true"/>
+    <description>Smart TV web app with remote navigation</description>
+    <author href="https://example.com" email="dev@example.com">MyProjectTV Team</author>
+    <license href="https://opensource.org/licenses/MIT">MIT</license>
+</widget>
