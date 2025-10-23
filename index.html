@@ -33,9 +33,51 @@
     }
     .hint{
       margin-top: 12px;
+      margin-bottom: 32px;
       color: var(--text-dim);
       font-size: clamp(0.95rem, 2.2vw, 1.25rem);
       opacity: 0.85;
+    }
+    
+    .cta-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+    }
+    
+    .cta-button {
+      appearance: none;
+      text-decoration: none;
+      color: #fff;
+      border: 2px solid transparent;
+      border-radius: 14px;
+      min-width: clamp(10rem, 22vw, 20rem);
+      min-height: clamp(3.2rem, 7vh, 4.2rem);
+      padding: 0.9rem 1.25rem;
+      font-size: clamp(1.1rem, 2.6vw, 1.6rem);
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease, background 160ms ease;
+      cursor: pointer;
+    }
+    
+    .cta-button.primary {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+    }
+    
+    .cta-button.secondary {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.06);
+    }
+    
+    .cta-button:focus, .cta-button:focus-visible {
+      outline: none;
+      border-color: var(--focus);
+      box-shadow: 0 0 0 4px rgba(255,209,102,0.36), 0 16px 40px rgba(0,0,0,0.5);
+      transform: translateY(-1px) scale(1.03);
     }
 
     @keyframes fadeIn {
@@ -49,31 +91,52 @@
   </style>
 </head>
 <body class="tv-bg">
-  <main class="splash-wrap" role="main" aria-label="Launch screen">
+  <main class="splash-wrap" role="main" aria-label="Landing screen">
     <div>
       <h1 class="brand">MyTV</h1>
-      <p class="hint">Launching experience...</p>
-      <noscript>
-        <p class="hint"><a class="page-link" href="home.html">Continue to Home</a></p>
-      </noscript>
+      <p class="hint">Welcome to your smart TV experience</p>
+      <div class="cta-row" role="group" aria-label="Main actions">
+        <a href="home.html" class="cta-button primary" role="button" tabindex="0" data-index="0" aria-label="Enter the app">Enter</a>
+        <a href="login.html" class="cta-button secondary" role="button" tabindex="0" data-index="1" aria-label="Login to your account">Login</a>
+      </div>
     </div>
   </main>
 
   <script>
     // PUBLIC_INTERFACE
     /**
-     * Splash: fade out then redirect; Enter/OK to skip immediately.
+     * Landing page with Enter/Login buttons and remote navigation.
      */
     (function(){
-      try {
-        // app.js will also attach key handler; keep fallback timer here
-        setTimeout(function(){
-          document.body.classList.add('fade-out');
-          setTimeout(function(){ window.location.href = 'home.html'; }, 450);
-        }, 3000);
-      } catch(e) {}
+      var buttons = document.querySelectorAll('.cta-button');
+      
+      // Focus first button initially
+      if (buttons.length > 0) {
+        buttons[0].focus();
+      }
+      
+      // Handle remote navigation between buttons
+      document.addEventListener('keydown', function(e) {
+        var key = e.key || '';
+        var activeEl = document.activeElement;
+        var currentIndex = parseInt(activeEl.getAttribute('data-index') || '0');
+        
+        if (key === 'ArrowLeft' && currentIndex > 0) {
+          e.preventDefault();
+          buttons[currentIndex - 1].focus();
+        } else if (key === 'ArrowRight' && currentIndex < buttons.length - 1) {
+          e.preventDefault();
+          buttons[currentIndex + 1].focus();
+        } else if (key === 'Enter' || key === ' ') {
+          e.preventDefault();
+          if (activeEl && activeEl.href) {
+            window.location.href = activeEl.href;
+          }
+        }
+      });
     })();
   </script>
+=======
   <script src="app.js"></script>
 </body>
 </html>

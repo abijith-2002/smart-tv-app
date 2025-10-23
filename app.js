@@ -18,6 +18,7 @@
   function isHomePage(){ return pageName() === 'home.html'; }
   function isLoginPage(){ return pageName() === 'login.html'; }
   function isMyPlanPage(){ return pageName() === 'myplan.html' || pageName() === 'my-plan.html'; }
+  function isVideoDetailPage(){ return pageName() === 'video-detail.html'; }
 
   // Tizen key code map and safe access
   var TIZEN = (function(){
@@ -80,8 +81,9 @@
         if (ev && ev.keyName === 'back') {
           ev.preventDefault();
           if (handler && handler({ type:'BACK' })) return;
-          // default fallback: navigate from subpages to home, from home to index
-          if (isHomePage()) window.location.href = 'index.html';
+          // default fallback: navigate in the flow
+          if (isVideoDetailPage()) window.location.href = 'home.html';
+          else if (isHomePage()) window.location.href = 'index.html';
           else window.location.href = 'home.html';
         }
       } catch (e) {}
@@ -121,7 +123,8 @@
 
       // If not handled:
       if (op === 'BACK'){
-        if (isHomePage()) window.location.href = 'index.html';
+        if (isVideoDetailPage()) window.location.href = 'home.html';
+        else if (isHomePage()) window.location.href = 'index.html';
         else window.location.href = 'home.html';
       } else if (op === 'ENTER') {
         var a = document.activeElement;

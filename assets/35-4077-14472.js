@@ -27,12 +27,50 @@
     window.addEventListener('resize', scheduleScale);
     scheduleScale();
 
-    // Icon buttons: basic keyboard activation (Replay and Record)
-    var iconBtns = [
-      document.getElementById('el-I4077-14475-456-11843'),
-      document.getElementById('el-I4077-14475-456-11845')
-    ].filter(Boolean);
+    // Update current time display
+    function updateTime() {
+      var now = new Date();
+      var timeEl = document.getElementById('el-I4077-14476-456-15482-1-482');
+      var dateEl = document.getElementById('el-I4077-14476-456-15483-1-483');
+      
+      if (timeEl) {
+        timeEl.textContent = now.toLocaleTimeString('en-US', { 
+          hour: '2-digit', 
+          minute: '2-digit',
+          hour12: false 
+        });
+      }
+      
+      if (dateEl) {
+        dateEl.textContent = now.toLocaleDateString('en-US', { 
+          day: 'numeric', 
+          month: 'short' 
+        });
+      }
+    }
+    
+    // Update time every minute
+    updateTime();
+    setInterval(updateTime, 60000);
 
+    // Enhanced icon buttons with proper actions
+    var replayBtn = document.getElementById('el-I4077-14475-456-11843');
+    var recordBtn = document.getElementById('el-I4077-14475-456-11845');
+    
+    if (replayBtn) {
+      replayBtn.addEventListener('click', function() {
+        alert('Replay functionality - would restart the content');
+      });
+    }
+    
+    if (recordBtn) {
+      recordBtn.addEventListener('click', function() {
+        alert('Record functionality - would schedule recording');
+      });
+    }
+
+    // Focus management for small icon buttons
+    var iconBtns = [replayBtn, recordBtn].filter(Boolean);
     iconBtns.forEach(function(btn, idx){
       if (!btn.hasAttribute('tabindex')) btn.setAttribute('tabindex','0');
       btn.addEventListener('keydown', function(e){
@@ -52,7 +90,6 @@
           try { prev.focus(); } catch(_){}
         }
       });
-      btn.addEventListener('click', function(){ /* placeholder: wire to app actions if needed */ });
     });
   }
 
