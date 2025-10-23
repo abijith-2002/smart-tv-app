@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+  <title>MyTV - Title</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="title-card.css"/>
+</head>
+<body class="tv-bg title-card-bg">
+  <header class="top-menu" role="menu" aria-label="Top navigation">
+    <nav class="menu-container">
+      <a href="home.html" class="menu-item" role="menuitem" tabindex="0" aria-label="Back to Home" id="backBtn">Back</a>
+      <a href="login.html" class="menu-item" role="menuitem" tabindex="0">Login</a>
+      <a href="myplan.html" class="menu-item" role="menuitem" tabindex="0">My Plan</a>
+    </nav>
+  </header>
+
+  <main class="title-hero" role="main" aria-label="Title details">
+    <div class="hero-poster-wrap">
+      <img id="heroPoster" class="hero-poster" src="assets/images/thumb-1.jpg" alt="Poster"/>
+      <div class="hero-gradient"></div>
+    </div>
+
+    <section class="hero-meta">
+      <h1 id="heroTitle" class="hero-title">Loading…</h1>
+      <div class="hero-submeta">
+        <span id="heroRuntime" class="chip">--</span>
+        <span id="heroTags" class="chip">--</span>
+      </div>
+      <p id="heroDesc" class="hero-desc">Description will appear here.</p>
+
+      <div class="hero-actions" role="group" aria-label="Actions">
+        <a href="#" id="playBtn" class="cta primary-btn" role="button" tabindex="0" aria-label="Play">Play</a>
+        <button id="addBtn" class="cta secondary-btn" role="button" tabindex="0" aria-label="Add to List">Add to List</button>
+        <button id="infoBtn" class="cta secondary-btn" role="button" tabindex="0" aria-label="More Info">More Info</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+  <script src="title-card.js"></script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+[
+  {
+    "id": "trending1",
+    "title": "Skyline Chase",
+    "src": "assets/images/placeholder/trending1.jpg",
+    "poster": "assets/images/placeholder/trending1.jpg",
+    "desc": "A high-octane pursuit across neon skylines where every turn raises the stakes.",
+    "runtime": "1h 48m",
+    "tags": ["Action", "Thriller"]
+  },
+  {
+    "id": "trending2",
+    "title": "Whisper Woods",
+    "src": "assets/images/placeholder/trending2.jpg",
+    "poster": "assets/images/placeholder/trending2.jpg",
+    "desc": "An eerie tale woven through ancient trees where silence hides secrets.",
+    "runtime": "2h 02m",
+    "tags": ["Horror", "Mystery"]
+  },
+  {
+    "id": "trending3",
+    "title": "Blue Horizon",
+    "src": "assets/images/placeholder/trending3.jpg",
+    "poster": "assets/images/placeholder/trending3.jpg",
+    "desc": "An inspiring journey across the open sea, testing courage and friendship.",
+    "runtime": "1h 36m",
+    "tags": ["Drama", "Adventure"]
+  }
+]
