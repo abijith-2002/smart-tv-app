@@ -111,9 +111,7 @@
     <div>
       <h1 class="brand">MyTV</h1>
       <p class="hint">Welcome to your smart TV experience</p>
-      <div class="cta-row" role="group" aria-label="Main actions">
-        <a href="login.html" class="cta-button secondary" role="button" tabindex="0" data-index="0" aria-label="Login to your account">Login</a>
-      </div>
+
       <div class="countdown-indicator" id="countdownIndicator">
         <p>Automatically entering in <span id="countdownText">5</span> seconds...</p>
       </div>
@@ -123,20 +121,16 @@
   <script>
     // PUBLIC_INTERFACE
     /**
-     * Landing page with countdown auto-navigation and Login button.
+     * Landing page with countdown auto-navigation. Login button removed.
      */
     (function(){
-      var loginButton = document.querySelector('.cta-button');
       var countdownElement = document.getElementById('countdownText');
       var countdownSeconds = 5;
       var navigationCancelled = false;
       var countdownInterval;
       var navigationTimeout;
       
-      // Focus login button initially
-      if (loginButton) {
-        loginButton.focus();
-      }
+      // No initial focus needed since there are no CTA buttons
       
       // Update countdown display
       function updateCountdown() {
@@ -174,18 +168,17 @@
         if (navigationTimeout) {
           clearTimeout(navigationTimeout);
         }
-        // Hide countdown indicator
+        // Update countdown indicator to show cancellation
         var indicator = document.getElementById('countdownIndicator');
         if (indicator) {
           indicator.style.opacity = '0.3';
-          indicator.innerHTML = '<p>Navigation cancelled. Press Enter on Login or wait for manual navigation.</p>';
+          indicator.innerHTML = '<p>Navigation cancelled. Auto-navigation disabled.</p>';
         }
       }
       
       // Handle remote navigation and cancellation
       document.addEventListener('keydown', function(e) {
         var key = e.key || '';
-        var activeEl = document.activeElement;
         
         // Back/Escape cancels auto-navigation
         if (key === 'Escape' || key === 'Backspace' || key === 'GoBack' || key === 'BrowserBack') {
@@ -194,13 +187,10 @@
           return;
         }
         
-        // Enter activates focused element (Login button)
+        // Enter key does nothing since there are no CTA buttons
         if (key === 'Enter' || key === ' ') {
           e.preventDefault();
-          if (activeEl && activeEl.href) {
-            cancelNavigation();
-            window.location.href = activeEl.href;
-          }
+          // No action needed - no buttons to activate
         }
       });
       
