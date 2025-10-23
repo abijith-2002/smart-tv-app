@@ -78,18 +78,18 @@
     }
   </style>
 </head>
-<body class="tv-bg">
+<body class="tv-bg" data-focus-container="true">
   <!-- Top navigation menu -->
   <header class="top-menu" role="menu" aria-label="Top navigation">
     <nav class="menu-container">
-      <a href="home.html" class="menu-item" role="menuitem" tabindex="0" aria-label="Back to Home">Home</a>
-      <a href="login.html" class="menu-item" role="menuitem" tabindex="0">Login</a>
-      <a href="myplan.html" class="menu-item" role="menuitem" tabindex="0">My Plan</a>
+      <a href="home.html" class="menu-item" role="menuitem" tabindex="0" aria-label="Back to Home" data-focus="true" data-focus-index="0">Home</a>
+      <a href="login.html" class="menu-item" role="menuitem" tabindex="0" data-focus="true" data-focus-index="1">Login</a>
+      <a href="myplan.html" class="menu-item" role="menuitem" tabindex="0" data-focus="true" data-focus-index="2">My Plan</a>
     </nav>
   </header>
 
   <!-- Back button for easy navigation -->
-  <a href="home.html" class="back-btn" tabindex="0" aria-label="Back to Home">← Back</a>
+  <a href="home.html" class="back-btn" tabindex="0" aria-label="Back to Home" data-focus="true" data-focus-index="3" role="button">← Back</a>
 
   <!-- Screen container: dimensions from the screen JSON -->
   <main id="screen-35-4077-14472" class="screen" role="main" aria-label="Video Detail">

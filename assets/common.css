@@ -210,8 +210,8 @@ body {
 .bg-style-129 { background-color: var(--style-129-bg); border-radius: var(--style-129-radius); }
 
 /* Focus styling for TV/keyboard navigation */
-[tabindex]:focus, button:focus {
+[tabindex]:focus, button:focus, a:focus {
   outline: none;
-  box-shadow: 0 0 0 4px rgba(255,209,102,0.35);
+  box-shadow: 0 0 0 4px rgba(255,209,102,0.6), 0 0 18px rgba(255,209,102,0.35);
   border-color: #ffd166;
 }

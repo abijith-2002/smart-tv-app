@@ -7,7 +7,7 @@
   <title>Login - MyTV</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-<body class="tv-bg">
+<body class="tv-bg" data-focus-container="true">
   <header class="top-menu" role="menu" aria-label="Top navigation">
     <nav class="menu-container">
       <a href="home.html" class="menu-item" role="menuitem" tabindex="0">Home</a>
@@ -21,13 +21,13 @@
     <h1 class="page-title">Login</h1>
     <form class="auth-form" onsubmit="alert('Sign in placeholder'); return false;">
       <label class="auth-label" for="email">Email</label>
-      <input id="email" class="auth-input" type="email" placeholder="you@example.com" tabindex="0"/>
+      <input id="email" class="auth-input" type="email" placeholder="you@example.com" tabindex="0" data-focus="true" aria-label="Email input"/>
 
       <label class="auth-label" for="password">Password</label>
-      <input id="password" class="auth-input" type="password" placeholder="••••••••" tabindex="0"/>
+      <input id="password" class="auth-input" type="password" placeholder="••••••••" tabindex="0" data-focus="true" aria-label="Password input"/>
 
-      <button type="submit" class="primary-btn auth-submit" tabindex="0">Sign In</button>
-      <a href="home.html" class="secondary-link" tabindex="0">Back to Home</a>
+      <button type="submit" class="primary-btn auth-submit" tabindex="0" data-focus="true" role="button" aria-label="Sign in">Sign In</button>
+      <a href="home.html" class="secondary-link" tabindex="0" data-focus="true" role="button" aria-label="Back to Home">Back to Home</a>
     </form>
   </main>
 
