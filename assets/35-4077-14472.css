@@ -1,22 +1,81 @@
 :root{
-  --bg-white: #ffffff;
-  --text-dark: #0a0a0a;
-  --overlay-top: rgba(0,0,0,0.0);
-  --overlay-bottom: rgba(0,0,0,0.75);
-  --chip-bg: rgba(255,255,255,0.1);
+  /* Basic palette from design_system.colors resolved to variables */
+  --color-ffffff: #ffffff;
+  --color-000000: #000000;
+  --color-121212: #121212;
+  --color-d6e0ff: #d6e0ff;
   --focus: #ffd166;
-  --panel-tile-bg: rgba(255,255,255,0.08);
-  --panel-tile-border: rgba(255,255,255,0.18);
-  --panel-tile-size: 104px; /* icon tile inner per JSON */
-  --tv-font: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+
+  /* Typography shortcuts from used typographies */
+  --typo-149-family: 'Roboto', sans-serif;
+  --typo-149-size: 32px;
+  --typo-149-weight: 800;
+  --typo-149-line: 37.5px;
+
+  --typo-165-family: 'Roboto', sans-serif;
+  --typo-165-size: 32px;
+  --typo-165-weight: 800;
+  --typo-165-line: 37.5px;
+
+  --typo-166-family: 'Roboto', sans-serif;
+  --typo-166-size: 60px;
+  --typo-166-weight: 400;
+  --typo-166-line: 70.3125px;
+
+  --typo-167-family: 'Roboto', sans-serif;
+  --typo-167-size: 25px;
+  --typo-167-weight: 400;
+  --typo-167-line: 29.296875px;
+
+  --typo-168-family: 'Roboto', sans-serif;
+  --typo-168-size: 24px;
+  --typo-168-weight: 400;
+  --typo-168-line: 32px;
+
+  --typo-169-family: 'Roboto', sans-serif;
+  --typo-169-size: 22px;
+  --typo-169-weight: 500;
+  --typo-169-line: 32px;
+
+  --typo-170-family: 'Roboto', sans-serif;
+  --typo-170-size: 28px;
+  --typo-170-weight: 400;
+  --typo-170-line: 32.8125px;
+
+  --typo-171-family: 'Roboto', sans-serif;
+  --typo-171-size: 26px;
+  --typo-171-weight: 400;
+  --typo-171-line: 39px;
+
+  --typo-172-family: 'Roboto', sans-serif;
+  --typo-172-size: 22px;
+  --typo-172-weight: 500;
+  --typo-172-line: 24px;
+
+  --typo-173-family: 'Roboto', sans-serif;
+  --typo-173-size: 40px;
+  --typo-173-weight: 400;
+  --typo-173-line: 46.875px;
+
+  --typo-146-family: 'Roboto', sans-serif;
+  --typo-146-size: 28px;
+  --typo-146-weight: 400;
+  --typo-146-line: 32.8125px;
+
+  /* Spacing helpers */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
 }
 
 *{ box-sizing: border-box; }
 html, body{
   margin:0; padding:0;
-  background: var(--bg-white);
-  font-family: var(--tv-font);
-  color: #fff;
+  background: var(--color-000000);
+  color: var(--color-ffffff);
+  font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   width: 100%;
@@ -40,10 +99,9 @@ html, body{
   left: 0; top: 0;
   width: 1920px; height: 1080px;
   object-fit: cover;
-  filter: brightness(0.85) saturate(1.05);
 }
 
-/* Gradient overlay from JSON "GradientHorizontalFull" -> Degradado_abajo spans full frame */
+/* Gradient overlay from component "GradientHorizontalFull" -> Degradado_abajo spans full frame */
 #gradient-horizontal-full{
   position: absolute;
   left: 0; top: 0;
@@ -54,39 +112,22 @@ html, body{
   position: absolute;
   left: 0; top: 0;
   width: 100%; height: 100%;
-  background: linear-gradient(180deg, var(--overlay-top) 0%, rgba(0,0,0,0.45) 60%, var(--overlay-bottom) 100%);
+  background: linear-gradient(180deg, rgba(0,0,0,0.00) 0%, rgba(0,0,0,0.45) 60%, rgba(0,0,0,0.75) 100%);
 }
 
-/* Panel positioning:
-   Using base frame offsets determined by JSON and mapped into relative pixels here.
+/* Calculate base offsets:
+   Frame origin = (x:17311, y:23318)
+   MetadataInfoPanel at (x:17407, y:23426) → left: 96, top: 108
 */
 #metadata-info-panel{
   position: absolute;
-  left: 96px;  /* derived from JSON offsets */
-  top: 108px;  /* derived from JSON offsets */
+  left: 96px;
+  top: 108px;
   width: 1150px;
   height: 590px;
 }
 
-/* Typography mapping (approx, fallback) based on JSON typography refs */
-.channel-number{
-  display: inline-block;
-  width: 56px; height: 38px;
-  font-weight: 800;
-  font-size: 30px;
-  line-height: 38px;
-  text-align: center;
-}
-.channel-name{
-  display:inline-block;
-  height: 40px;
-  font-weight: 700;
-  font-size: 28px;
-  line-height: 40px;
-  padding-left: 16px;
-}
-
-.row{ display: block; }
+/* Channel row */
 .frame-29360{
   position: absolute;
   left: 0px;
@@ -101,28 +142,43 @@ html, body{
   width: 529px;
   height: 40px;
   display: flex; align-items: center;
+  gap: 8px;
 }
 .channel-adaptable{
   width: 56px; height: 40px;
   display: flex; align-items: center; justify-content: center;
-  background: var(--chip-bg);
+  background: rgba(255,255,255,0.10);
   border-radius: 8px;
   border: 2px solid transparent;
 }
-.channel-adaptable:focus-within{ outline: none; box-shadow: 0 0 0 4px rgba(255,209,102,0.35); border-color: var(--focus); }
-
+.channel-number{
+  display: inline-block;
+  width: 56px; height: 38px;
+  text-align: center;
+  font-family: var(--typo-149-family);
+  font-size: var(--typo-149-size);
+  font-weight: var(--typo-149-weight);
+  line-height: var(--typo-149-line);
+}
 .channel-small{
-  margin-left: 8px;
+  height: 40px;
+  display: flex; align-items: center;
+  padding-left: 8px;
   border-radius: 8px;
-  padding: 0 10px;
   border: 2px solid transparent;
 }
-.channel-small:focus-within{ outline: none; box-shadow: 0 0 0 4px rgba(255,209,102,0.35); border-color: var(--focus); }
+.channel-name{
+  font-family: var(--typo-165-family);
+  font-size: var(--typo-165-size);
+  font-weight: var(--typo-165-weight);
+  line-height: var(--typo-165-line);
+}
 
+/* Program block at y: 67 from top of .frame-29360 */
 .frame-29359{
   position: absolute;
   left: 0px;
-  top: 67px; /* aligns per JSON */
+  top: 67px;
   width: 1150px;
   height: 160px;
 }
@@ -130,9 +186,10 @@ html, body{
   position: absolute;
   left: 0px; top: 0px;
   width: 1150px; height: 70px;
-  font-weight: 800;
-  font-size: 56px;
-  line-height: 70px;
+  font-family: var(--typo-166-family);
+  font-size: var(--typo-166-size);
+  font-weight: var(--typo-166-weight);
+  line-height: var(--typo-166-line);
   text-shadow: 0 6px 22px rgba(0,0,0,0.55);
 }
 .frame-29352{
@@ -148,26 +205,25 @@ html, body{
   gap: 14px;
 }
 .meta-text{
-  font-weight: 600;
-  font-size: 24px;
-  line-height: 29px;
+  font-family: var(--typo-167-family);
+  font-size: var(--typo-167-size);
+  font-weight: var(--typo-167-weight);
+  line-height: var(--typo-167-line);
   opacity: 0.95;
 }
-.divider{
-  font-size: 24px; line-height: 29px; opacity: 0.7;
-}
+.divider{ font-size: var(--typo-167-size); line-height: var(--typo-167-line); opacity: 0.7; }
 .tag-age{
   display:inline-flex; align-items:center; justify-content:center;
   min-width: 124px; height: 32px;
   padding: 0 10px;
   border-radius: 999px;
-  background: var(--chip-bg);
-  font-weight: 700;
-  font-size: 18px;
+  background: rgba(255,255,255,0.12);
+  font-family: var(--typo-168-family);
+  font-size: var(--typo-168-size);
+  font-weight: var(--typo-168-weight);
+  line-height: var(--typo-168-line);
   border: 2px solid transparent;
 }
-.tag-age:focus{ outline:none; box-shadow: 0 0 0 4px rgba(255,209,102,0.35); border-color: var(--focus); }
-
 .meta-timestamp{
   position: absolute;
   left: 0px; top: 46px;
@@ -180,17 +236,22 @@ html, body{
   min-width: 156px; height: 32px;
   padding: 0 10px;
   border-radius: 999px;
-  background: rgba(255,255,255,0.12);
-  font-weight: 800;
-  font-size: 16px;
+  background: rgba(255,255,255,0.14);
+  font-family: var(--typo-169-family);
+  font-size: var(--typo-169-size);
+  font-weight: var(--typo-169-weight);
+  line-height: var(--typo-169-line);
   letter-spacing: 1px;
   border: 2px solid transparent;
 }
-.tag-later:focus{ outline:none; box-shadow: 0 0 0 4px rgba(255,209,102,0.35); border-color: var(--focus); }
-
-.hour{ font-size: 24px; line-height: 32px; font-weight: 700; }
-.bar{ font-size: 24px; line-height: 32px; opacity: 0.8; }
-.divider32{ font-size: 24px; line-height: 29px; opacity: 0.7; }
+.hour{
+  font-family: var(--typo-167-family);
+  font-size: var(--typo-167-size);
+  font-weight: var(--typo-167-weight);
+  line-height: var(--typo-167-line);
+}
+.bar{ font-size: var(--typo-167-size); line-height: var(--typo-167-line); opacity: 0.8; }
+.divider32{ font-size: var(--typo-170-size); line-height: var(--typo-170-line); opacity: 0.7; }
 
 /* Icon buttons (32x32) */
 .icon-button{
@@ -200,13 +261,8 @@ html, body{
   border: 2px solid transparent;
   cursor: pointer;
 }
-.icon-button:focus{
-  outline: none;
-  border-color: var(--focus);
-  box-shadow: 0 0 0 4px rgba(255,209,102,0.35);
-}
 
-/* Second block container */
+/* Second block container relative to panel: (top: 384) */
 #metadata-info-panel .frame-29355{
   position: absolute;
   left: 0px;
@@ -220,22 +276,26 @@ html, body{
   top: 11px;
   width: 925px;
   height: 117px;
-  font-size: 20px;
-  line-height: 1.45;
+  font-family: var(--typo-171-family);
+  font-size: var(--typo-171-size);
+  font-weight: var(--typo-171-weight);
+  line-height: var(--typo-171-line);
   color: rgba(255,255,255,0.92);
   margin: 0;
 }
+
+/* Panel buttons band at (left:0, top:158) with width 916, height 156 */
 .panel-buttons{
   position: absolute;
   left: 0px; top: 158px;
   width: 916px; height: 156px;
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: 142px; /* each panel button frame width */
+  grid-auto-columns: 142px; /* per JSON */
   gap: 12px;
 }
 
-/* Panel button tile */
+/* Panel button tile 142x156 */
 .panel-btn{
   appearance: none;
   width: 142px;
@@ -250,18 +310,13 @@ html, body{
   color: #fff;
   cursor: pointer;
 }
-.panel-btn:focus{
-  outline: none;
-  border-color: var(--focus);
-  box-shadow: 0 0 0 4px rgba(255,209,102,0.35);
-}
 .panel-btn-icon{
   margin-top: 8px;
-  width: var(--panel-tile-size);
-  height: 80px; /* inner 80 per JSON for focused icon tile area */
+  width: 104px;
+  height: 80px; /* inner focus icon area */
   border-radius: 16px;
-  background: var(--panel-tile-bg);
-  border: 2px solid var(--panel-tile-border);
+  background: rgba(255,255,255,0.08);
+  border: 2px solid rgba(255,255,255,0.18);
   background-size: 32px 32px;
   background-position: center;
   background-repeat: no-repeat;
@@ -271,12 +326,18 @@ html, body{
   height: 28px;
   display: inline-block;
   text-align: center;
-  font-size: 18px;
-  line-height: 24px;
+  font-family: var(--typo-172-family);
+  font-size: var(--typo-172-size);
+  font-weight: var(--typo-172-weight);
+  line-height: var(--typo-172-line);
   opacity: 0.95;
 }
 
-/* SystemDate positioning */
+/* SystemDate positioning:
+   Frame origin (17311,23318)
+   SystemDate at (19035,23373) with size (100x90)
+   → left: 724, top: 55
+*/
 #system-date{
   position: absolute;
   left: 724px;
@@ -288,29 +349,31 @@ html, body{
   position: absolute;
   left: 0px; top: 0px;
   width: 100px; height: 48px;
-  font-weight: 800;
-  font-size: 36px;
-  line-height: 48px;
+  font-family: var(--typo-173-family);
+  font-size: var(--typo-173-size);
+  font-weight: var(--typo-173-weight);
+  line-height: var(--typo-173-line);
 }
 #system-date .date{
   position: absolute;
   left: 19px;
   top: 58px;
   width: 81px; height: 32px;
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 32px;
+  font-family: var(--typo-146-family);
+  font-size: var(--typo-146-size);
+  font-weight: var(--typo-146-weight);
+  line-height: var(--typo-146-line);
   opacity: 0.9;
 }
 
-/* Strong focus visibility for TV navigation (all focusables) */
-[tabindex]:focus, button:focus {
+/* Focus ring for TV navigation */
+[tabindex]:focus, button:focus, .panel-btn:focus{
   outline: none;
   box-shadow: 0 0 0 4px rgba(255,209,102,0.35);
   border-color: var(--focus);
 }
 
-/* Screen-reader only */
+/* Screen-reader only utility */
 .sr-only{
   position: absolute !important;
   width: 1px; height: 1px;
