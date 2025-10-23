@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+  <title>MyTV - Tizen Web App</title>
+  <link rel="stylesheet" href="../../style.css"/>
+  <style>
+    .center-stage{
+      min-height: 100vh;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      text-align: center;
+      padding: 10vh 4vw;
+    }
+    .cta-row{
+      display:flex; align-items:center; justify-content:center;
+      margin-left:-10px; margin-right:-10px;
+    }
+    .cta-row > *{ margin-left:10px; margin-right:10px; }
+    @supports (gap: 20px){
+      .cta-row{ gap:20px; margin-left:0; margin-right:0; }
+      .cta-row > *{ margin-left:0; margin-right:0; }
+    }
+    /* Ensure our focus style works even without external CSS */
+    [data-focusable]{ outline:none; border:2px solid transparent; }
+    [data-focusable].is-focused, [data-focusable][aria-selected="true"]{
+      box-shadow: 0 0 0 4px rgba(255,209,102,0.35);
+      border-color: #ffd166;
+    }
+  </style>
+</head>
+<body class="tv-bg">
+  <main class="center-stage" role="main" aria-label="Landing">
+    <h1 class="app-title">Welcome to MyTV</h1>
+    <p class="app-subtitle">Navigate with your TV remote. Use arrows to select, Enter to activate, Back to return.</p>
+
+    <div class="cta-row" role="group" aria-label="Primary actions">
+      <a href="../../login.html"
+         class="cta-button"
+         data-focusable="true"
+         data-row="0" data-col="0"
+         aria-label="Login">
+        Login
+      </a>
+      <a href="../../signup.html"
+         class="cta-button secondary"
+         data-focusable="true"
+         data-row="0" data-col="1"
+         aria-label="Signup">
+        Signup
+      </a>
+    </div>
+  </main>
+
+  <script src="./js/remote.js"></script>
+  <script>
+    // Initialize remote navigation for this page
+    // PUBLIC_INTERFACE
+    /**
+     * Initialize the Tizen remote helper so DPAD/Enter/Back work over the focusable CTAs.
+     */
+    (function(){
+      window.RemoteNav && window.RemoteNav.initRemoteNavigation({
+        scope: document,
+        initialFocus: document.querySelector('[data-focusable]'),
+        onNavigate: function(type, el){
+          // Optional hook for custom behavior
+          // e.g., analytics or conditionally block Back
+          if (type === 'BACK') {
+            // Let default back handler try history.back(); otherwise noop.
+            return false;
+          }
+          return false;
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
