@@ -147,27 +147,40 @@
 
   // PUBLIC_INTERFACE
   /**
-   * Initialize Splash page: 3s timer with CSS fade-out, Enter/OK to skip immediately.
+   * Initialize Splash page: 5s timer with CSS fade-out, Back/Escape to cancel navigation.
    */
   function initSplash(){
-    var root = document.documentElement;
+    var navigationCancelled = false;
+    var navigationTimeout;
+    
     var skipToHome = function(){
-      // add fade-out class and navigate after short delay
-      var body = document.body;
-      if (body) body.classList.add('fade-out');
-      setTimeout(function(){ window.location.href = 'home.html'; }, 450);
-    };
-    // auto timer
-    setTimeout(skipToHome, 3000);
-    // key handling: Enter triggers skip
-    installGlobalKeyDispatcher(function(inp){
-      if (inp.type === 'ENTER'){
-        skipToHome();
-        return true;
+      if (!navigationCancelled) {
+        // add fade-out class and navigate after short delay
+        var body = document.body;
+        if (body) body.classList.add('fade-out');
+        setTimeout(function(){ window.location.href = 'home.html'; }, 450);
       }
+    };
+    
+    var cancelNavigation = function(){
+      navigationCancelled = true;
+      if (navigationTimeout) {
+        clearTimeout(navigationTimeout);
+      }
+    };
+    
+    // auto timer - 5 seconds instead of 3
+    navigationTimeout = setTimeout(skipToHome, 5000);
+    
+    // key handling: Back/Escape cancels navigation, Enter still works for Login button
+    installGlobalKeyDispatcher(function(inp){
       if (inp.type === 'BACK'){
-        // ignore on splash to avoid app exit while loading
-        return true;
+        cancelNavigation();
+        return true; // handled - don't exit app
+      }
+      if (inp.type === 'ENTER'){
+        // Let the inline script handle Enter for Login button
+        return false;
       }
       return false;
     });

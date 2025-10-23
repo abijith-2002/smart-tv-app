@@ -88,6 +88,22 @@
       from { opacity: 0; transform: translateY(12px); }
       to { opacity: 1; transform: translateY(0); }
     }
+    
+    .countdown-indicator {
+      margin-top: 20px;
+      opacity: 0.7;
+      font-size: clamp(0.9rem, 2vw, 1.1rem);
+      color: var(--text-dim);
+    }
+    
+    .countdown-indicator p {
+      margin: 0;
+    }
+    
+    .countdown-indicator span {
+      font-weight: 700;
+      color: var(--text);
+    }
   </style>
 </head>
 <body class="tv-bg">
@@ -96,8 +112,10 @@
       <h1 class="brand">MyTV</h1>
       <p class="hint">Welcome to your smart TV experience</p>
       <div class="cta-row" role="group" aria-label="Main actions">
-        <a href="home.html" class="cta-button primary" role="button" tabindex="0" data-index="0" aria-label="Enter the app">Enter</a>
-        <a href="login.html" class="cta-button secondary" role="button" tabindex="0" data-index="1" aria-label="Login to your account">Login</a>
+        <a href="login.html" class="cta-button secondary" role="button" tabindex="0" data-index="0" aria-label="Login to your account">Login</a>
+      </div>
+      <div class="countdown-indicator" id="countdownIndicator">
+        <p>Automatically entering in <span id="countdownText">5</span> seconds...</p>
       </div>
     </div>
   </main>
@@ -105,35 +123,97 @@
   <script>
     // PUBLIC_INTERFACE
     /**
-     * Landing page with Enter/Login buttons and remote navigation.
+     * Landing page with countdown auto-navigation and Login button.
      */
     (function(){
-      var buttons = document.querySelectorAll('.cta-button');
+      var loginButton = document.querySelector('.cta-button');
+      var countdownElement = document.getElementById('countdownText');
+      var countdownSeconds = 5;
+      var navigationCancelled = false;
+      var countdownInterval;
+      var navigationTimeout;
       
-      // Focus first button initially
-      if (buttons.length > 0) {
-        buttons[0].focus();
+      // Focus login button initially
+      if (loginButton) {
+        loginButton.focus();
       }
       
-      // Handle remote navigation between buttons
+      // Update countdown display
+      function updateCountdown() {
+        if (countdownElement && !navigationCancelled) {
+          countdownElement.textContent = countdownSeconds;
+          if (countdownSeconds > 0) {
+            countdownSeconds--;
+          }
+        }
+      }
+      
+      // Start countdown and auto-navigation
+      function startAutoNavigation() {
+        // Update countdown every second
+        countdownInterval = setInterval(updateCountdown, 1000);
+        
+        // Navigate to home after 5 seconds
+        navigationTimeout = setTimeout(function() {
+          if (!navigationCancelled) {
+            var body = document.body;
+            if (body) body.classList.add('fade-out');
+            setTimeout(function() {
+              window.location.href = 'home.html';
+            }, 450);
+          }
+        }, 5000);
+      }
+      
+      // Cancel navigation and cleanup timers
+      function cancelNavigation() {
+        navigationCancelled = true;
+        if (countdownInterval) {
+          clearInterval(countdownInterval);
+        }
+        if (navigationTimeout) {
+          clearTimeout(navigationTimeout);
+        }
+        // Hide countdown indicator
+        var indicator = document.getElementById('countdownIndicator');
+        if (indicator) {
+          indicator.style.opacity = '0.3';
+          indicator.innerHTML = '<p>Navigation cancelled. Press Enter on Login or wait for manual navigation.</p>';
+        }
+      }
+      
+      // Handle remote navigation and cancellation
       document.addEventListener('keydown', function(e) {
         var key = e.key || '';
         var activeEl = document.activeElement;
-        var currentIndex = parseInt(activeEl.getAttribute('data-index') || '0');
         
-        if (key === 'ArrowLeft' && currentIndex > 0) {
+        // Back/Escape cancels auto-navigation
+        if (key === 'Escape' || key === 'Backspace' || key === 'GoBack' || key === 'BrowserBack') {
           e.preventDefault();
-          buttons[currentIndex - 1].focus();
-        } else if (key === 'ArrowRight' && currentIndex < buttons.length - 1) {
-          e.preventDefault();
-          buttons[currentIndex + 1].focus();
-        } else if (key === 'Enter' || key === ' ') {
+          cancelNavigation();
+          return;
+        }
+        
+        // Enter activates focused element (Login button)
+        if (key === 'Enter' || key === ' ') {
           e.preventDefault();
           if (activeEl && activeEl.href) {
+            cancelNavigation();
             window.location.href = activeEl.href;
           }
         }
       });
+      
+      // Handle Tizen hardware back button
+      document.addEventListener('tizenhwkey', function(e) {
+        if (e.keyName === 'back') {
+          e.preventDefault();
+          cancelNavigation();
+        }
+      });
+      
+      // Start the auto-navigation process
+      startAutoNavigation();
     })();
   </script>
 =======
