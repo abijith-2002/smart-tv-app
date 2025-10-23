@@ -19,6 +19,9 @@ html, body{
   color: #fff;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
 }
 
 /* Root fixed canvas reflecting Figma frame */
@@ -54,27 +57,18 @@ html, body{
   background: linear-gradient(180deg, var(--overlay-top) 0%, rgba(0,0,0,0.45) 60%, var(--overlay-bottom) 100%);
 }
 
-/* MetadataInfoPanel positioning
-   JSON panel dimensions: x:17407->(relative x = 17407-17311=96), y:23426->(relative y = 23426-23318=108),
-   width: 1150, height: 590
+/* Panel positioning:
+   Using base frame offsets determined by JSON and mapped into relative pixels here.
 */
 #metadata-info-panel{
   position: absolute;
-  left: 96px; /* 17407 - 17311 */
-  top: 108px;  /* 23426 - 23318 */
+  left: 96px;  /* derived from JSON offsets */
+  top: 108px;  /* derived from JSON offsets */
   width: 1150px;
   height: 590px;
 }
 
-/* Typography mapping (approx, fallback) based on JSON typography refs:
-   - typo_149 channel number (38px height)
-   - typo_165 channel small (40px height)
-   - typo_166 program name (70px height)
-   - typo_167 general meta (28-32px height)
-   - typo_168 age tag (32px height)
-   - typo_169 LATER chip (32px height)
-   We use pixel sizes close to given heights.
-*/
+/* Typography mapping (approx, fallback) based on JSON typography refs */
 .channel-number{
   display: inline-block;
   width: 56px; height: 38px;
@@ -128,7 +122,7 @@ html, body{
 .frame-29359{
   position: absolute;
   left: 0px;
-  top: 67px; /* 23493 - 23426 = 67 */
+  top: 67px; /* aligns per JSON */
   width: 1150px;
   height: 160px;
 }
@@ -143,7 +137,7 @@ html, body{
 }
 .frame-29352{
   position: absolute;
-  left: 0px; top: 76px; /* 23569 - 23493 */
+  left: 0px; top: 76px;
   width: 743px; height: 84px;
 }
 .meta-line{
@@ -176,7 +170,7 @@ html, body{
 
 .meta-timestamp{
   position: absolute;
-  left: 0px; top: 46px; /* 23615 - 23569 */
+  left: 0px; top: 46px;
   height: 32px;
   display: flex; align-items: center;
   gap: 12px;
@@ -211,20 +205,19 @@ html, body{
   border-color: var(--focus);
   box-shadow: 0 0 0 4px rgba(255,209,102,0.35);
 }
-/* Optional background images for icons can be assigned by JS if provided in JSON assets */
 
-/* Second block container at y:23702 -> relative top = 23702-23318 = 384 */
+/* Second block container */
 #metadata-info-panel .frame-29355{
   position: absolute;
   left: 0px;
-  top: 384px; /* aligns to JSON */
+  top: 384px;
   width: 1150px;
   height: 314px;
 }
 .textbox3lines{
   position: absolute;
-  left: 1px; /* per JSON x=17408 -> +1 from panel left */
-  top: 11px; /* 23713 - 23702 */
+  left: 1px;
+  top: 11px;
   width: 925px;
   height: 117px;
   font-size: 20px;
@@ -234,7 +227,7 @@ html, body{
 }
 .panel-buttons{
   position: absolute;
-  left: 0px; top: 158px; /* 23860 - 23702 = 158 */
+  left: 0px; top: 158px;
   width: 916px; height: 156px;
   display: grid;
   grid-auto-flow: column;
@@ -269,6 +262,9 @@ html, body{
   border-radius: 16px;
   background: var(--panel-tile-bg);
   border: 2px solid var(--panel-tile-border);
+  background-size: 32px 32px;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 .panel-btn-text{
   width: 138px;
@@ -280,10 +276,7 @@ html, body{
   opacity: 0.95;
 }
 
-/* SystemDate at x:19035,y:23373 -> relative left/top = (724,55).
-   DateHour: width 100, height 48
-   Date: x:19054,y:23431 -> relative (743,113) sized 81x32
-*/
+/* SystemDate positioning */
 #system-date{
   position: absolute;
   left: 724px;
@@ -301,8 +294,8 @@ html, body{
 }
 #system-date .date{
   position: absolute;
-  left: 19px; /* 743 - 724 */
-  top: 58px;  /* 113 - 55 */
+  left: 19px;
+  top: 58px;
   width: 81px; height: 32px;
   font-weight: 600;
   font-size: 18px;
@@ -317,7 +310,7 @@ html, body{
   border-color: var(--focus);
 }
 
-/* Screen-reader only text utility */
+/* Screen-reader only */
 .sr-only{
   position: absolute !important;
   width: 1px; height: 1px;
