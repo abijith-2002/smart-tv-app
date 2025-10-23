@@ -1,0 +1,328 @@
+:root{
+  --bg-white: #ffffff;
+  --text-dark: #0a0a0a;
+  --overlay-top: rgba(0,0,0,0.0);
+  --overlay-bottom: rgba(0,0,0,0.75);
+  --chip-bg: rgba(255,255,255,0.1);
+  --focus: #ffd166;
+  --panel-tile-bg: rgba(255,255,255,0.08);
+  --panel-tile-border: rgba(255,255,255,0.18);
+  --panel-tile-size: 104px; /* icon tile inner per JSON */
+  --tv-font: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+*{ box-sizing: border-box; }
+html, body{
+  margin:0; padding:0;
+  background: var(--bg-white);
+  font-family: var(--tv-font);
+  color: #fff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Root fixed canvas reflecting Figma frame */
+#screen-root{
+  position: relative;
+  width: 1920px;
+  height: 1080px;
+  margin: 0 auto;
+  overflow: hidden;
+  background: #000; /* until bg image loads */
+}
+
+/* Background image covers full frame */
+#bg-image{
+  position: absolute;
+  left: 0; top: 0;
+  width: 1920px; height: 1080px;
+  object-fit: cover;
+  filter: brightness(0.85) saturate(1.05);
+}
+
+/* Gradient overlay from JSON "GradientHorizontalFull" -> Degradado_abajo spans full frame */
+#gradient-horizontal-full{
+  position: absolute;
+  left: 0; top: 0;
+  width: 1920px; height: 1080px;
+  pointer-events: none;
+}
+#gradient-horizontal-full .degradado-abajo{
+  position: absolute;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(180deg, var(--overlay-top) 0%, rgba(0,0,0,0.45) 60%, var(--overlay-bottom) 100%);
+}
+
+/* MetadataInfoPanel positioning
+   JSON panel dimensions: x:17407->(relative x = 17407-17311=96), y:23426->(relative y = 23426-23318=108),
+   width: 1150, height: 590
+*/
+#metadata-info-panel{
+  position: absolute;
+  left: 96px; /* 17407 - 17311 */
+  top: 108px;  /* 23426 - 23318 */
+  width: 1150px;
+  height: 590px;
+}
+
+/* Typography mapping (approx, fallback) based on JSON typography refs:
+   - typo_149 channel number (38px height)
+   - typo_165 channel small (40px height)
+   - typo_166 program name (70px height)
+   - typo_167 general meta (28-32px height)
+   - typo_168 age tag (32px height)
+   - typo_169 LATER chip (32px height)
+   We use pixel sizes close to given heights.
+*/
+.channel-number{
+  display: inline-block;
+  width: 56px; height: 38px;
+  font-weight: 800;
+  font-size: 30px;
+  line-height: 38px;
+  text-align: center;
+}
+.channel-name{
+  display:inline-block;
+  height: 40px;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 40px;
+  padding-left: 16px;
+}
+
+.row{ display: block; }
+.frame-29360{
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 1150px;
+  height: 227px;
+}
+.frame-29354{
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 529px;
+  height: 40px;
+  display: flex; align-items: center;
+}
+.channel-adaptable{
+  width: 56px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--chip-bg);
+  border-radius: 8px;
+  border: 2px solid transparent;
+}
+.channel-adaptable:focus-within{ outline: none; box-shadow: 0 0 0 4px rgba(255,209,102,0.35); border-color: var(--focus); }
+
+.channel-small{
+  margin-left: 8px;
+  border-radius: 8px;
+  padding: 0 10px;
+  border: 2px solid transparent;
+}
+.channel-small:focus-within{ outline: none; box-shadow: 0 0 0 4px rgba(255,209,102,0.35); border-color: var(--focus); }
+
+.frame-29359{
+  position: absolute;
+  left: 0px;
+  top: 67px; /* 23493 - 23426 = 67 */
+  width: 1150px;
+  height: 160px;
+}
+.program-name{
+  position: absolute;
+  left: 0px; top: 0px;
+  width: 1150px; height: 70px;
+  font-weight: 800;
+  font-size: 56px;
+  line-height: 70px;
+  text-shadow: 0 6px 22px rgba(0,0,0,0.55);
+}
+.frame-29352{
+  position: absolute;
+  left: 0px; top: 76px; /* 23569 - 23493 */
+  width: 743px; height: 84px;
+}
+.meta-line{
+  position: absolute;
+  left: 0px; top: 0px;
+  height: 32px;
+  display: flex; align-items: center;
+  gap: 14px;
+}
+.meta-text{
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 29px;
+  opacity: 0.95;
+}
+.divider{
+  font-size: 24px; line-height: 29px; opacity: 0.7;
+}
+.tag-age{
+  display:inline-flex; align-items:center; justify-content:center;
+  min-width: 124px; height: 32px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: var(--chip-bg);
+  font-weight: 700;
+  font-size: 18px;
+  border: 2px solid transparent;
+}
+.tag-age:focus{ outline:none; box-shadow: 0 0 0 4px rgba(255,209,102,0.35); border-color: var(--focus); }
+
+.meta-timestamp{
+  position: absolute;
+  left: 0px; top: 46px; /* 23615 - 23569 */
+  height: 32px;
+  display: flex; align-items: center;
+  gap: 12px;
+}
+.tag-later{
+  display:inline-flex; align-items:center; justify-content:center;
+  min-width: 156px; height: 32px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.12);
+  font-weight: 800;
+  font-size: 16px;
+  letter-spacing: 1px;
+  border: 2px solid transparent;
+}
+.tag-later:focus{ outline:none; box-shadow: 0 0 0 4px rgba(255,209,102,0.35); border-color: var(--focus); }
+
+.hour{ font-size: 24px; line-height: 32px; font-weight: 700; }
+.bar{ font-size: 24px; line-height: 32px; opacity: 0.8; }
+.divider32{ font-size: 24px; line-height: 29px; opacity: 0.7; }
+
+/* Icon buttons (32x32) */
+.icon-button{
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.14);
+  border: 2px solid transparent;
+  cursor: pointer;
+}
+.icon-button:focus{
+  outline: none;
+  border-color: var(--focus);
+  box-shadow: 0 0 0 4px rgba(255,209,102,0.35);
+}
+/* Optional background images for icons can be assigned by JS if provided in JSON assets */
+
+/* Second block container at y:23702 -> relative top = 23702-23318 = 384 */
+#metadata-info-panel .frame-29355{
+  position: absolute;
+  left: 0px;
+  top: 384px; /* aligns to JSON */
+  width: 1150px;
+  height: 314px;
+}
+.textbox3lines{
+  position: absolute;
+  left: 1px; /* per JSON x=17408 -> +1 from panel left */
+  top: 11px; /* 23713 - 23702 */
+  width: 925px;
+  height: 117px;
+  font-size: 20px;
+  line-height: 1.45;
+  color: rgba(255,255,255,0.92);
+  margin: 0;
+}
+.panel-buttons{
+  position: absolute;
+  left: 0px; top: 158px; /* 23860 - 23702 = 158 */
+  width: 916px; height: 156px;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 142px; /* each panel button frame width */
+  gap: 12px;
+}
+
+/* Panel button tile */
+.panel-btn{
+  appearance: none;
+  width: 142px;
+  height: 156px;
+  background: transparent;
+  border: 2px solid transparent;
+  border-radius: 16px;
+  display: grid;
+  grid-template-rows: 104px 28px; /* icon tile + text line */
+  align-content: start;
+  justify-items: center;
+  color: #fff;
+  cursor: pointer;
+}
+.panel-btn:focus{
+  outline: none;
+  border-color: var(--focus);
+  box-shadow: 0 0 0 4px rgba(255,209,102,0.35);
+}
+.panel-btn-icon{
+  margin-top: 8px;
+  width: var(--panel-tile-size);
+  height: 80px; /* inner 80 per JSON for focused icon tile area */
+  border-radius: 16px;
+  background: var(--panel-tile-bg);
+  border: 2px solid var(--panel-tile-border);
+}
+.panel-btn-text{
+  width: 138px;
+  height: 28px;
+  display: inline-block;
+  text-align: center;
+  font-size: 18px;
+  line-height: 24px;
+  opacity: 0.95;
+}
+
+/* SystemDate at x:19035,y:23373 -> relative left/top = (724,55).
+   DateHour: width 100, height 48
+   Date: x:19054,y:23431 -> relative (743,113) sized 81x32
+*/
+#system-date{
+  position: absolute;
+  left: 724px;
+  top: 55px;
+  width: 150px; height: 90px;
+  text-align: right;
+}
+#system-date .date-hour{
+  position: absolute;
+  left: 0px; top: 0px;
+  width: 100px; height: 48px;
+  font-weight: 800;
+  font-size: 36px;
+  line-height: 48px;
+}
+#system-date .date{
+  position: absolute;
+  left: 19px; /* 743 - 724 */
+  top: 58px;  /* 113 - 55 */
+  width: 81px; height: 32px;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 32px;
+  opacity: 0.9;
+}
+
+/* Strong focus visibility for TV navigation (all focusables) */
+[tabindex]:focus, button:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(255,209,102,0.35);
+  border-color: var(--focus);
+}
+
+/* Screen-reader only text utility */
+.sr-only{
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap; border: 0;
+}
