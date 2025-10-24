@@ -1,4 +1,10 @@
-/* Common helpers for layout alignment */
-.row h2 { margin: 8px 0 12px; font-weight: 600; }
-.screen { width: 100%; }
-.grid[role="grid"] .card { aspect-ratio: 16/9; }
+html, body {
+  margin: 0;
+  padding: 0;
+}
+.visually-hidden {
+  position: absolute !important;
+  height: 1px; width: 1px;
+  overflow: hidden; clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap; border: 0; padding: 0;
+}

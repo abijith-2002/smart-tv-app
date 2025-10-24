@@ -1,72 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
+  <meta charset="UTF-8" />
   <title>MyProjectTV - Home</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="stylesheet" href="css/styles.css"/>
-  <link rel="stylesheet" href="css/style.css"/>
-  <link rel="stylesheet" href="assets/common.css"/>
+  <meta name="viewport" content="width=1920, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline';" />
+  <link rel="stylesheet" href="assets/common.css" />
+  <link rel="stylesheet" href="css/styles.css" />
 </head>
-<body class="bg">
-  <header class="topbar">
-    <div class="brand">MyProjectTV</div>
-    <nav class="topnav">
-      <button class="btn nav-btn focusable" data-next="row-1-0" data-action="goto:home">Home</button>
-      <button class="btn nav-btn focusable" data-action="goto:myplan">My Plan</button>
-      <button class="btn nav-btn focusable" data-action="goto:login">Logout</button>
-    </nav>
-  </header>
-
-  <main class="content">
-    <section class="row">
-      <h2>Trending</h2>
-      <div class="grid" role="grid" aria-label="Trending">
-        <button class="card focusable" data-action="open-detail" data-id="1">
-          <img src="assets/images/thumb-1.jpg" alt="Trending 1"/>
-        </button>
-        <button class="card focusable" data-action="open-detail" data-id="2">
-          <img src="assets/images/thumb-2.jpg" alt="Trending 2"/>
-        </button>
-        <button class="card focusable" data-action="open-detail" data-id="3">
-          <img src="assets/images/thumb-3.jpg" alt="Trending 3"/>
-        </button>
-        <button class="card focusable" data-action="open-detail" data-id="4">
-          <img src="assets/images/thumb-4.jpg" alt="Trending 4"/>
-        </button>
-      </div>
-    </section>
-
-    <section class="row">
-      <h2>Continue Watching</h2>
-      <div class="grid" role="grid" aria-label="Continue Watching">
-        <button class="card focusable" data-action="open-detail" data-id="5">
-          <img src="assets/images/thumb-5.jpg" alt="Continue 1"/>
-        </button>
-        <button class="card focusable" data-action="open-detail" data-id="6">
-          <img src="assets/images/thumb-6.jpg" alt="Continue 2"/>
-        </button>
-      </div>
-    </section>
-  </main>
+<body class="tv-bg">
+  <div id="app" class="tv-container">
+    <h1 class="tv-title">Home</h1>
+    <div id="rows">
+      <section class="row" data-row="0" aria-label="Featured">
+        <h2 class="row-title">Featured</h2>
+        <div class="card-row" role="list">
+          <button class="card focusable" role="listitem" tabindex="0">Item 1</button>
+          <button class="card focusable" role="listitem" tabindex="-1">Item 2</button>
+          <button class="card focusable" role="listitem" tabindex="-1">Item 3</button>
+          <button class="card focusable" role="listitem" tabindex="-1">Item 4</button>
+        </div>
+      </section>
+      <section class="row" data-row="1" aria-label="Continue Watching">
+        <h2 class="row-title">Continue Watching</h2>
+        <div class="card-row" role="list">
+          <button class="card focusable" role="listitem" tabindex="-1">Continue 1</button>
+          <button class="card focusable" role="listitem" tabindex="-1">Continue 2</button>
+          <button class="card focusable" role="listitem" tabindex="-1">Continue 3</button>
+          <button class="card focusable" role="listitem" tabindex="-1">Continue 4</button>
+        </div>
+      </section>
+      <section class="row" data-row="2" aria-label="Trending">
+        <h2 class="row-title">Trending</h2>
+        <div class="card-row" role="list">
+          <button class="card focusable" role="listitem" tabindex="-1">Trending 1</button>
+          <button class="card focusable" role="listitem" tabindex="-1">Trending 2</button>
+          <button class="card focusable" role="listitem" tabindex="-1">Trending 3</button>
+          <button class="card focusable" role="listitem" tabindex="-1">Trending 4</button>
+        </div>
+      </section>
+    </div>
+    <p class="tv-hint">Use arrows to move, Enter to select, Back to return.</p>
+  </div>
 
   <script src="js/app.js"></script>
   <script>
-    window.addEventListener('load', () => {
-      FocusManager.init({
-        container: document.body,
-        initial: document.querySelector('.grid .focusable')
-      });
+    // Initialize home page focus grid: multiple rows, 4 columns
+    window.TVApp && window.TVApp.init({
+      page: 'home',
+      grid: { rows: 3, cols: 4 },
+      containerSelector: '#rows',
+      focusSelector: '.focusable',
+      initialIndex: 0
+    });
 
-      AppRouter.register('goto:login', () => {
-        localStorage.removeItem('mptv_session');
-        window.location.href = 'login.html';
-      });
-      AppRouter.register('goto:home', () => window.location.href = 'home.html');
-      AppRouter.register('goto:myplan', () => window.location.href = 'myplan.html');
-      AppRouter.register('open-detail', (btn) => {
-        const id = btn.dataset.id || '1';
-        window.location.href = `video-detail.html?id=${encodeURIComponent(id)}`;
+    // Demo click handler
+    document.querySelectorAll('.card.focusable').forEach(card => {
+      card.addEventListener('click', (e) => {
+        const label = e.currentTarget.textContent.trim();
+        // For preview demo, just flash focus or console
+        console.log('Selected:', label);
+        e.currentTarget.classList.add('card-active');
+        setTimeout(() => e.currentTarget.classList.remove('card-active'), 200);
       });
     });
   </script>

@@ -2,36 +2,45 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>MyProjectTV - Welcome</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="stylesheet" href="css/styles.css" />
-  <link rel="stylesheet" href="css/style.css" />
+  <title>MyProjectTV - Landing</title>
+  <meta name="viewport" content="width=1920, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline';" />
   <link rel="stylesheet" href="assets/common.css" />
+  <link rel="stylesheet" href="css/styles.css" />
 </head>
-<body class="bg">
-  <div class="screen center-screen">
-    <div class="hero">
-      <h1 class="title">MyProjectTV</h1>
-      <p class="subtitle">Welcome to your smart TV experience</p>
+<body class="tv-bg">
+  <div id="app" class="tv-container">
+    <h1 class="tv-title">Welcome to MyProjectTV</h1>
+    <div class="button-row" role="menu" aria-label="Landing actions">
+      <button class="tv-button focusable" data-action="login" role="menuitem" tabindex="0">Login</button>
+      <button class="tv-button focusable" data-action="signup" role="menuitem" tabindex="-1">Signup</button>
     </div>
-    <!-- Hidden initial focus element to ensure DPAD works on first key press without visible buttons -->
-    <button id="initFocus" class="visually-hidden" aria-hidden="true" tabindex="0">Init</button>
+    <p class="tv-hint">Use arrow keys to navigate. Press Enter to select.</p>
   </div>
 
   <script src="js/app.js"></script>
   <script>
-    // Landing logic: if user has session, go to home, else go to login after a short delay
-    window.addEventListener('load', function() {
-      const init = document.getElementById('initFocus');
-      if (init) init.focus();
-      setTimeout(function() {
-        const hasSession = !!localStorage.getItem('mptv_session');
-        if (hasSession) {
+    // Initialize landing page focus grid: 1 row, 2 columns
+    window.TVApp && window.TVApp.init({
+      page: 'landing',
+      grid: { rows: 1, cols: 2 },
+      containerSelector: '.button-row',
+      focusSelector: '.focusable',
+      initialIndex: 0
+    });
+
+    // Click handlers for landing actions
+    document.querySelectorAll('.focusable').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const action = e.currentTarget.getAttribute('data-action');
+        if (action === 'login') {
+          // For preview flow, navigate to home.html after login selection
           window.location.href = 'home.html';
-        } else {
-          window.location.href = 'login.html';
+        } else if (action === 'signup') {
+          // For preview flow, navigate to home.html after signup selection
+          window.location.href = 'home.html';
         }
-      }, 600);
+      });
     });
   </script>
 </body>
