@@ -12,6 +12,8 @@
 
     <!-- App icon (relative path for Tizen packaging) -->
     <icon src="icons/app-icon-192.png"/>
+    <!-- TV-specific icon declaration -->
+    <tizen:icon section="tv" src="icons/app-icon-192.png"/>
 
     <!-- Tizen application metadata -->
     <tizen:application id="mytv.app.Main"
