@@ -9,13 +9,13 @@
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body class="tv-bg">
-  <div id="app" class="tv-container">
+  <div id="app" class="tv-container" data-focus-container="true">
     <h1 class="tv-title">Welcome to MyProjectTV</h1>
     <div class="button-row" role="menu" aria-label="Landing actions">
-      <button class="tv-button focusable" data-action="login" role="menuitem" tabindex="0">Login</button>
-      <button class="tv-button focusable" data-action="signup" role="menuitem" tabindex="-1">Signup</button>
+      <button class="tv-button focusable" data-focus="true" data-focus-index="0" data-action="login" role="menuitem" tabindex="0">Login</button>
+      <button class="tv-button focusable" data-focus="true" data-focus-index="1" data-action="signup" role="menuitem" tabindex="-1">Signup</button>
     </div>
-    <p class="tv-hint">Use arrow keys to navigate. Press Enter to select.</p>
+    <p class="tv-hint">Use arrow keys to navigate. Press Enter to select. Back exits the app on TV.</p>
   </div>
 
   <script src="js/app.js"></script>

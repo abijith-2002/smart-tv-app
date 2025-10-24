@@ -67,7 +67,8 @@ html, body {
 }
 
 .tv-button.focused,
-.tv-button:focus {
+.tv-button:focus,
+.tv-button:focus-visible {
   border-color: var(--focus);
   box-shadow: 0 0 0 4px rgba(255,255,255,0.25);
   transform: scale(1.02);
@@ -113,7 +114,8 @@ html, body {
 }
 
 .card.focused,
-.card:focus {
+.card:focus,
+.card:focus-visible {
   border-color: var(--focus);
   box-shadow: 0 0 0 4px rgba(255,255,255,0.25);
   transform: scale(1.02);

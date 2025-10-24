@@ -9,34 +9,34 @@
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body class="tv-bg">
-  <div id="app" class="tv-container">
+  <div id="app" class="tv-container" data-focus-container="true">
     <h1 class="tv-title">Home</h1>
     <div id="rows">
       <section class="row" data-row="0" aria-label="Featured">
         <h2 class="row-title">Featured</h2>
         <div class="card-row" role="list">
-          <button class="card focusable" role="listitem" tabindex="0">Item 1</button>
-          <button class="card focusable" role="listitem" tabindex="-1">Item 2</button>
-          <button class="card focusable" role="listitem" tabindex="-1">Item 3</button>
-          <button class="card focusable" role="listitem" tabindex="-1">Item 4</button>
+          <button class="card focusable" data-focus="true" data-focus-index="0" role="listitem" tabindex="0">Item 1</button>
+          <button class="card focusable" data-focus="true" data-focus-index="1" role="listitem" tabindex="-1">Item 2</button>
+          <button class="card focusable" data-focus="true" data-focus-index="2" role="listitem" tabindex="-1">Item 3</button>
+          <button class="card focusable" data-focus="true" data-focus-index="3" role="listitem" tabindex="-1">Item 4</button>
         </div>
       </section>
       <section class="row" data-row="1" aria-label="Continue Watching">
         <h2 class="row-title">Continue Watching</h2>
         <div class="card-row" role="list">
-          <button class="card focusable" role="listitem" tabindex="-1">Continue 1</button>
-          <button class="card focusable" role="listitem" tabindex="-1">Continue 2</button>
-          <button class="card focusable" role="listitem" tabindex="-1">Continue 3</button>
-          <button class="card focusable" role="listitem" tabindex="-1">Continue 4</button>
+          <button class="card focusable" data-focus="true" data-focus-index="4" role="listitem" tabindex="-1">Continue 1</button>
+          <button class="card focusable" data-focus="true" data-focus-index="5" role="listitem" tabindex="-1">Continue 2</button>
+          <button class="card focusable" data-focus="true" data-focus-index="6" role="listitem" tabindex="-1">Continue 3</button>
+          <button class="card focusable" data-focus="true" data-focus-index="7" role="listitem" tabindex="-1">Continue 4</button>
         </div>
       </section>
       <section class="row" data-row="2" aria-label="Trending">
         <h2 class="row-title">Trending</h2>
         <div class="card-row" role="list">
-          <button class="card focusable" role="listitem" tabindex="-1">Trending 1</button>
-          <button class="card focusable" role="listitem" tabindex="-1">Trending 2</button>
-          <button class="card focusable" role="listitem" tabindex="-1">Trending 3</button>
-          <button class="card focusable" role="listitem" tabindex="-1">Trending 4</button>
+          <button class="card focusable" data-focus="true" data-focus-index="8" role="listitem" tabindex="-1">Trending 1</button>
+          <button class="card focusable" data-focus="true" data-focus-index="9" role="listitem" tabindex="-1">Trending 2</button>
+          <button class="card focusable" data-focus="true" data-focus-index="10" role="listitem" tabindex="-1">Trending 3</button>
+          <button class="card focusable" data-focus="true" data-focus-index="11" role="listitem" tabindex="-1">Trending 4</button>
         </div>
       </section>
     </div>
