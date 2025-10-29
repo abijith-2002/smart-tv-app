@@ -1,12 +1,28 @@
 {
-  "name": "samsung-my-tv-zipping",
+  "name": "smart-tv-app",
   "version": "1.0.0",
+  "description": "A frontend web application designed for smart TVs, providing a user-friendly login and signup interface with remote navigation support.",
   "private": true,
-  "description": "Utility to zip the Samsung-My-TV directory into Samsung-My-TV.zip",
   "scripts": {
-    "zip:tizen": "node scripts/zip.js"
+    "start": "webpack serve --open --port 3000",
+    "build": "webpack --mode production"
   },
-  "dependencies": {
-    "archiver": "^5.3.2"
+  "keywords": [
+    "smart-tv",
+    "webpack",
+    "static",
+    "tv",
+    "login",
+    "signup"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "css-loader": "^6.10.0",
+    "html-webpack-plugin": "^5.6.0",
+    "style-loader": "^3.3.4",
+    "webpack": "^5.95.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.1.0"
   }
 }
