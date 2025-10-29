@@ -312,3 +312,124 @@
 2025-10-29 06:12:30,696 - Knowledge - INFO - [WEBSOCKET] Sent: Type=progress_update, Size: 240, Duration: 0ms
 2025-10-29 06:12:30,911 - Knowledge - INFO - Saving knowledge to Redis...
 2025-10-29 06:12:31,065 - Knowledge - INFO - Knowledge saved to Redis successfully
+2025-10-29 06:20:36,041 - Knowledge - INFO - Created shared MongoDB connection pool
+2025-10-29 06:20:36,365 - Knowledge - INFO - Starting Knowledge Graph processing with 50 threads
+2025-10-29 06:20:36,518 - Knowledge - INFO - Initial configuration: chunk_size=65536, max_cache_size=500
+2025-10-29 06:20:37,513 - Knowledge - INFO - load persisted knowledge: begin
+2025-10-29 06:20:37,740 - Knowledge - INFO - Persisted knowledge files in /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/.knowledge have been renamed to use .json
+2025-10-29 06:20:37,901 - Knowledge - INFO - Found code-base-name: https://github.com/abijith-2002/smart-tv-app.git:main
+2025-10-29 06:20:38,083 - Knowledge - INFO - Found code_base: <app.utils.kg_build.knowledge.KnowledgeCodeBase object at 0x7f0c446dc910>
+2025-10-29 06:20:38,293 - Knowledge - INFO - process ingested knowledge for /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/css/style.css
+2025-10-29 06:20:38,441 - Knowledge - INFO - Found code-base-name: https://github.com/abijith-2002/smart-tv-app.git:main
+2025-10-29 06:20:38,592 - Knowledge - INFO - Found code_base: <app.utils.kg_build.knowledge.KnowledgeCodeBase object at 0x7f0c446dc910>
+2025-10-29 06:20:38,775 - Knowledge - INFO - process ingested knowledge for /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/login.html
+2025-10-29 06:20:38,920 - Knowledge - INFO - Found code-base-name: https://github.com/abijith-2002/smart-tv-app.git:main
+2025-10-29 06:20:39,100 - Knowledge - INFO - Found code_base: <app.utils.kg_build.knowledge.KnowledgeCodeBase object at 0x7f0c446dc910>
+2025-10-29 06:20:39,281 - Knowledge - INFO - process ingested knowledge for /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/js/main.js
+2025-10-29 06:20:39,437 - Knowledge - INFO - Found code-base-name: https://github.com/abijith-2002/smart-tv-app.git:main
+2025-10-29 06:20:39,624 - Knowledge - INFO - Found code_base: <app.utils.kg_build.knowledge.KnowledgeCodeBase object at 0x7f0c446dc910>
+2025-10-29 06:20:39,781 - Knowledge - INFO - process ingested knowledge for /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/signup.html
+2025-10-29 06:20:39,964 - Knowledge - INFO - Found code-base-name: https://github.com/abijith-2002/smart-tv-app.git:main
+2025-10-29 06:20:40,151 - Knowledge - INFO - Found code_base: <app.utils.kg_build.knowledge.KnowledgeCodeBase object at 0x7f0c446dc910>
+2025-10-29 06:20:40,295 - Knowledge - INFO - process ingested knowledge for /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/config.xml
+2025-10-29 06:20:40,464 - Knowledge - INFO - Found code-base-name: https://github.com/abijith-2002/smart-tv-app.git:main
+2025-10-29 06:20:40,645 - Knowledge - INFO - Found code_base: <app.utils.kg_build.knowledge.KnowledgeCodeBase object at 0x7f0c446dc910>
+2025-10-29 06:20:40,811 - Knowledge - INFO - process ingested knowledge for /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/index.html
+2025-10-29 06:20:40,997 - Knowledge - INFO - Loaded 6 files from persisted knowledge
+2025-10-29 06:20:41,174 - Knowledge - INFO - load persisted knowledge: end
+2025-10-29 06:20:41,360 - Knowledge - INFO - Redis support added with prefix knowledge:b67654p:
+2025-10-29 06:20:41,590 - Knowledge - INFO - load persisted docinfo: begin
+2025-10-29 06:20:41,772 - Knowledge - INFO - load persisted docinfo: end
+2025-10-29 06:20:41,974 - Knowledge - INFO - Worker kw1 created using shared MongoDB connection pool
+2025-10-29 06:20:42,150 - Knowledge - INFO - knowledge worker kw1 start
+2025-10-29 06:20:42,151 - Knowledge - INFO - Worker kw2 created using shared MongoDB connection pool
+2025-10-29 06:20:42,300 - Knowledge - INFO - [kw1] Queue=6, InProgress=0, PendingWorkers=0/1, Completed=0/6 (0.0%)
+2025-10-29 06:20:42,429 - Knowledge - INFO - knowledge worker kw2 start
+2025-10-29 06:20:42,430 - Knowledge - INFO - Worker kw3 created using shared MongoDB connection pool
+2025-10-29 06:20:42,502 - Knowledge - INFO - Dynamic batch size: 6 for queue=6
+2025-10-29 06:20:42,605 - Knowledge - INFO - [kw2] Queue=6, InProgress=0, PendingWorkers=0/2, Completed=0/6 (0.0%)
+2025-10-29 06:20:42,718 - Knowledge - INFO - knowledge worker kw3 start
+2025-10-29 06:20:42,718 - Knowledge - INFO - Worker kw4 created using shared MongoDB connection pool
+2025-10-29 06:20:42,819 - Knowledge - INFO - Worker kw1 processing /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/css/style.css
+2025-10-29 06:20:42,924 - Knowledge - INFO - Dynamic batch size: 6 for queue=6
+2025-10-29 06:20:43,138 - Knowledge - INFO - knowledge worker kw4 start
+2025-10-29 06:20:43,138 - Knowledge - INFO - Worker kw5 created using shared MongoDB connection pool
+2025-10-29 06:20:43,255 - Knowledge - INFO - Fast-tracked /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/css/style.css (ext=.css, size=839)
+2025-10-29 06:20:43,471 - Knowledge - INFO - knowledge worker kw5 start
+2025-10-29 06:20:43,473 - Knowledge - INFO - Worker kw6 created using shared MongoDB connection pool
+2025-10-29 06:20:43,542 - Knowledge - INFO - Worker kw1 processing /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/login.html
+2025-10-29 06:20:43,735 - Knowledge - INFO - knowledge worker kw6 start
+2025-10-29 06:20:43,824 - Knowledge - INFO - Fast-tracked /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/login.html (ext=.html, size=1725)
+2025-10-29 06:20:44,023 - Knowledge - INFO - Worker kw1 processing /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/js/main.js
+2025-10-29 06:20:44,166 - Knowledge - INFO - Fast-tracked /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/js/main.js (ext=.js, size=1486)
+2025-10-29 06:20:44,316 - Knowledge - INFO - Worker kw1 processing /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/signup.html
+2025-10-29 06:20:44,493 - Knowledge - INFO - Fast-tracked /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/signup.html (ext=.html, size=1725)
+2025-10-29 06:20:44,644 - Knowledge - INFO - Worker kw1 processing /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/config.xml
+2025-10-29 06:20:44,835 - Knowledge - INFO - Fast-tracked /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/config.xml (ext=.xml, size=792)
+2025-10-29 06:20:45,004 - Knowledge - INFO - Worker kw1 processing /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/index.html
+2025-10-29 06:20:45,219 - Knowledge - INFO - Fast-tracked /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/index.html (ext=.html, size=517)
+2025-10-29 06:20:45,403 - Knowledge - INFO - Processing batch of 6 files
+2025-10-29 06:20:45,595 - Knowledge - INFO - process ingested knowledge for /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/css/style.css
+2025-10-29 06:20:45,807 - Knowledge - INFO - process ingested knowledge for /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/login.html
+2025-10-29 06:20:45,945 - Knowledge - INFO - process ingested knowledge for /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/js/main.js
+2025-10-29 06:20:46,081 - Knowledge - INFO - process ingested knowledge for /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/signup.html
+2025-10-29 06:20:46,213 - Knowledge - INFO - process ingested knowledge for /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/config.xml
+2025-10-29 06:20:46,395 - Knowledge - INFO - process ingested knowledge for /app/data/tataelxsimockapisolutions5451/91779/b67654p/smart-tv-app/index.html
+2025-10-29 06:20:47,097 - Knowledge - INFO - [WEBSOCKET] Sent: Type=progress_update, Size: 242, Duration: 0ms
+2025-10-29 06:20:47,252 - Knowledge - INFO - [WEBSOCKET] Sent: Type=unknown, Size: ?, Duration: 154ms
+2025-10-29 06:20:47,416 - Knowledge - INFO - Progress: 100.0% | Files: 6/6 | Rate: 0.54 files/sec | Queue: 0
+2025-10-29 06:20:47,594 - Knowledge - INFO - Knowledge creation complete
+2025-10-29 06:20:47,757 - Knowledge - INFO - ==================================================
+2025-10-29 06:20:47,957 - Knowledge - INFO - KNOWLEDGE GRAPH GENERATION PERFORMANCE SUMMARY
+2025-10-29 06:20:48,139 - Knowledge - INFO - ==================================================
+2025-10-29 06:20:48,298 - Knowledge - INFO - Total processing time: 11.72 seconds (0.20 minutes)
+2025-10-29 06:20:48,489 - Knowledge - INFO - Files processed: 0
+2025-10-29 06:20:48,637 - Knowledge - INFO - Processing rate: 0.00 files/second
+2025-10-29 06:20:48,792 - Knowledge - INFO - 
+[TIME_BREAKDOWN]
+2025-10-29 06:20:48,999 - Knowledge - INFO - File Reading: 0.00s (0.0%)
+2025-10-29 06:20:49,172 - Knowledge - INFO - LLM Processing: 0.00s (0.0%)
+2025-10-29 06:20:49,330 - Knowledge - INFO - MongoDB Operations: 0.00s (0.0%)
+2025-10-29 06:20:49,491 - Knowledge - INFO - Redis Operations: 0.00s (0.0%)
+2025-10-29 06:20:49,634 - Knowledge - INFO - WebSocket Communication: 0.15s (1.3%)
+2025-10-29 06:20:49,807 - Knowledge - INFO - Other Overhead: 11.56s (98.7%)
+2025-10-29 06:20:49,959 - Knowledge - INFO - 
+[LLM_STATS]
+2025-10-29 06:20:50,139 - Knowledge - INFO - Total LLM calls: 0
+2025-10-29 06:20:50,305 - Knowledge - INFO - Average LLM response time: 0ms
+2025-10-29 06:20:50,576 - Knowledge - INFO - Average prompt tokens: 0.0
+2025-10-29 06:20:50,799 - Knowledge - INFO - Average completion tokens: 0.0
+2025-10-29 06:20:50,991 - Knowledge - INFO - Total prompt tokens: 0
+2025-10-29 06:20:51,144 - Knowledge - INFO - Total completion tokens: 0
+2025-10-29 06:20:51,298 - Knowledge - INFO - Total LLM cost: $0.0000
+2025-10-29 06:20:51,457 - Knowledge - INFO - 
+[DATABASE_STATS]
+2025-10-29 06:20:51,609 - Knowledge - INFO - MongoDB operations: 0
+2025-10-29 06:20:51,791 - Knowledge - INFO - Redis operations: 0
+2025-10-29 06:20:51,940 - Knowledge - INFO - 
+[COMMUNICATION_STATS]
+2025-10-29 06:20:52,105 - Knowledge - INFO - WebSocket messages sent: 2
+2025-10-29 06:20:52,340 - Knowledge - INFO - Average message size: 121.0 bytes
+2025-10-29 06:20:52,550 - Knowledge - INFO - 
+[WORKER_STATS]
+2025-10-29 06:20:52,720 - Knowledge - INFO - 
+[FILE_TYPE_STATS]
+2025-10-29 06:20:52,913 - Knowledge - INFO - 
+[SLOWEST_FILES]
+2025-10-29 06:20:53,070 - Knowledge - INFO - ==================================================
+2025-10-29 06:20:53,289 - Knowledge - INFO - ==================================================
+2025-10-29 06:20:53,448 - Knowledge - INFO - KNOWLEDGE GRAPH GENERATION PERFORMANCE SUMMARY
+2025-10-29 06:20:53,600 - Knowledge - INFO - ==================================================
+2025-10-29 06:20:53,790 - Knowledge - INFO - Total processing time: 17.30 seconds (0.29 minutes)
+2025-10-29 06:20:53,958 - Knowledge - INFO - Files processed: 6 of 6
+2025-10-29 06:20:54,099 - Knowledge - INFO - Processing rate: 0.35 files/second
+2025-10-29 06:20:54,281 - Knowledge - INFO - WebSocket messages sent: 1
+2025-10-29 06:20:54,503 - Knowledge - INFO - MongoDB operations: 6
+2025-10-29 06:20:54,725 - Knowledge - INFO - Average MongoDB ops per file: 1.00
+2025-10-29 06:20:54,869 - Knowledge - INFO - LLM costs: $0.0000
+2025-10-29 06:20:55,026 - Knowledge - INFO - Prompt tokens: 0
+2025-10-29 06:20:55,206 - Knowledge - INFO - Completion tokens: 0
+2025-10-29 06:20:55,394 - Knowledge - INFO - Updating org costs, total cost: 0
+2025-10-29 06:20:55,590 - Knowledge - INFO - [WEBSOCKET] Sent: Type=progress_update, Size: 240, Duration: 0ms
+2025-10-29 06:20:55,796 - Knowledge - INFO - Saving knowledge to Redis...
+2025-10-29 06:20:55,984 - Knowledge - INFO - Knowledge saved to Redis successfully
