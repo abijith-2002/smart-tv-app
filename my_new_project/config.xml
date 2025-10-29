@@ -2,25 +2,25 @@
 <widget
   xmlns="http://www.w3.org/ns/widgets"
   xmlns:tizen="http://tizen.org/ns/widgets"
-  id="my.new.project"
+  id="mytv.app" 
   version="1.0.0"
   viewmodes="maximized">
 
-  <name>My New Project</name>
+  <name>MyTV</name>
   <description>Smart TV web application configured for Tizen TV emulator.</description>
-  <author href="https://example.com" email="dev@example.com">My New Project Author</author>
+  <author href="https://example.com" email="dev@example.com">MyTV Author</author>
 
-  <!-- Entry point -->
+  <!-- Entry point (validated: index.html exists and is the splash) -->
   <content src="index.html" />
 
-  <!-- Icons (relative to this folder) -->
+  <!-- Icons (validated: icon.png exists in this folder) -->
   <icon src="icon.png" />
   <tizen:icon section="tv" src="icon.png" />
 
   <!-- Tizen application metadata -->
   <tizen:application
-    id="my.new.project.app"
-    package="my.new.project"
+    id="mytv.app.app"
+    package="mytv.app"
     required_version="6.0" />
 
   <!-- Target Tizen profile -->
@@ -29,7 +29,7 @@
   <!-- TV category -->
   <tizen:category name="http://tizen.org/category/tv" />
 
-  <!-- Recommended TV settings -->
+  <!-- Recommended TV settings (keep TV defaults intact) -->
   <tizen:setting
     screen-orientation="landscape"
     context-menu="disable"
@@ -38,13 +38,13 @@
     install-location="auto"
     hwkey-event="enable" />
 
-  <!-- Access policy -->
+  <!-- Access policy: allow loading local and potential remote content -->
   <access origin="*" subdomains="true" />
 
-  <!-- Required privileges -->
+  <!-- Required privileges: internet for any remote assets or future networking -->
   <tizen:privilege name="http://tizen.org/privilege/internet" />
 
-  <!-- Required features -->
+  <!-- Required features: TV profile and generic screen size support -->
   <feature name="http://tizen.org/feature/screen.size.all" />
   <feature name="http://tizen.org/feature/tv" />
 
