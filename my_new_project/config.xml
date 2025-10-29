@@ -19,7 +19,7 @@
 
   <!-- Tizen application metadata -->
   <tizen:application
-    id="my.new.project.my_new_project"
+    id="my.new.project.app"
     package="my.new.project"
     required_version="6.0" />
 
@@ -41,12 +41,11 @@
   <!-- Access policy -->
   <access origin="*" subdomains="true" />
 
-  <!-- Common privileges for TV web apps using network or key input -->
+  <!-- Required privileges -->
   <tizen:privilege name="http://tizen.org/privilege/internet" />
-  <tizen:privilege name="http://tizen.org/privilege/tv.inputdevice" />
-  <tizen:privilege name="http://tizen.org/privilege/application.launch" />
 
-  <!-- Features for TV profile -->
-  <feature name="http://tizen.org/feature/screen.size.normal" required="false" />
-  <feature name="http://tizen.org/feature/tv" required="true" />
+  <!-- Required features -->
+  <feature name="http://tizen.org/feature/screen.size.all" />
+  <feature name="http://tizen.org/feature/tv" />
+
 </widget>
