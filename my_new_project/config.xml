@@ -1,42 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<widget xmlns="http://www.w3.org/ns/widgets"
-        xmlns:tizen="http://tizen.org/ns/widgets"
-        id="mytv.app"
-        version="1.0.0"
-        viewmodes="maximized">
-    <name>MyTV</name>
-    <description>Smart TV app with remote navigation</description>
+<widget
+  xmlns="http://www.w3.org/ns/widgets"
+  xmlns:tizen="http://tizen.org/ns/widgets"
+  id="my.new.project"
+  version="1.0.0"
+  viewmodes="maximized">
 
-    <!-- Entry point (splash) -->
-    <content src="index.html"/>
+  <name>My New Project</name>
+  <description>Smart TV web application configured for Tizen TV emulator.</description>
+  <author href="https://example.com" email="dev@example.com">My New Project Author</author>
 
-    <!-- App icon (relative path for Tizen packaging) -->
-    <icon src="icons/app-icon-192.png"/>
-    <!-- TV-specific icon declaration -->
-    <tizen:icon section="tv" src="icons/app-icon-192.png"/>
+  <!-- Entry point -->
+  <content src="index.html" />
 
-    <!-- Tizen application metadata -->
-    <tizen:application id="mytv.app.Main"
-                       package="mytv.app"
-                       required_version="6.0"/>
+  <!-- Icons (relative to this folder) -->
+  <icon src="icon.png" />
+  <tizen:icon section="tv" src="icon.png" />
 
-    <!-- Target Tizen profile for Samsung TV -->
-    <tizen:profile name="tv"/>
+  <!-- Tizen application metadata -->
+  <tizen:application
+    id="my.new.project.my_new_project"
+    package="my.new.project"
+    required_version="6.0" />
 
-    <!-- Category is required for TV apps -->
-    <tizen:category name="http://tizen.org/category/tv"/>
+  <!-- Target Tizen profile -->
+  <tizen:profile name="tv" />
 
-    <!-- Settings appropriate for TV apps -->
-    <tizen:setting screen-orientation="landscape"
-                   context-menu="disable"
-                   background-support="disable"
-                   encryption="disable"
-                   install-location="auto"
-                   hwkey-event="enable"/>
+  <!-- TV category -->
+  <tizen:category name="http://tizen.org/category/tv" />
 
-    <!-- Privileges (none required for this static app now) -->
-    <!-- <tizen:privilege name=""/> -->
+  <!-- Recommended TV settings -->
+  <tizen:setting
+    screen-orientation="landscape"
+    context-menu="disable"
+    background-support="disable"
+    encryption="disable"
+    install-location="auto"
+    hwkey-event="enable" />
 
-    <!-- Optional TV screen size features (not mandatory for packaging) -->
-    <feature name="http://tizen.org/feature/screen.size.normal.1080.1920"/>
+  <!-- Access policy -->
+  <access origin="*" subdomains="true" />
+
+  <!-- Common privileges for TV web apps using network or key input -->
+  <tizen:privilege name="http://tizen.org/privilege/internet" />
+  <tizen:privilege name="http://tizen.org/privilege/tv.inputdevice" />
+  <tizen:privilege name="http://tizen.org/privilege/application.launch" />
+
+  <!-- Features for TV profile -->
+  <feature name="http://tizen.org/feature/screen.size.normal" required="false" />
+  <feature name="http://tizen.org/feature/tv" required="true" />
 </widget>
