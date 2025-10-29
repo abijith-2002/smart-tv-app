@@ -1,0 +1,1 @@
+Static asset copied via CopyWebpackPlugin. You should see this in the build/ directory after running the production build.
