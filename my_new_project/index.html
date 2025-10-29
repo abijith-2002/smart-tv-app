@@ -113,7 +113,13 @@
       <p class="hint">Welcome to your smart TV experience</p>
 
       <!-- CTA buttons removed per requirement. Kept spacing minimal to preserve layout. -->
-      <div class="cta-row" role="group" aria-label="Primary actions" aria-hidden="true" style="display:none;"></div>
+      <div class="cta-row" role="group" aria-label="Primary actions" aria-hidden="true" style="display:none;">
+        <!-- If re-enabled later, ensure buttons have data-focusable and data-primary -->
+        <!-- Example:
+        <a href="home.html" class="cta-button primary" tabindex="0" data-focusable="true" data-primary="true" data-focus-index="0">Enter</a>
+        <a href="login.html" class="cta-button secondary" tabindex="0" data-focusable="true" data-focus-index="1">Login</a>
+        -->
+      </div>
 
       <div class="countdown-indicator" id="countdownIndicator" aria-live="polite">
         <p>Automatically entering in <span id="countdownText">5</span> seconds...</p>
@@ -121,6 +127,7 @@
     </div>
   </main>
 
+  <script src="tv-navigation.js"></script>
   <script>
     // PUBLIC_INTERFACE
     /**

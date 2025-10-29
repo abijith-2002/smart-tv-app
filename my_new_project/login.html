@@ -10,10 +10,10 @@
 <body class="tv-bg" data-focus-container="true">
   <header class="top-menu" role="menu" aria-label="Top navigation">
     <nav class="menu-container">
-      <a href="home.html" class="menu-item" role="menuitem" tabindex="0">Home</a>
-      <a href="login.html" class="menu-item active" role="menuitem" tabindex="0">Login</a>
-      <a href="#" class="menu-item" role="menuitem" tabindex="0" onclick="alert('Settings coming soon'); return false;">Setting</a>
-      <a href="myplan.html" class="menu-item" role="menuitem" tabindex="0">My Plan</a>
+      <a href="home.html" class="menu-item" role="menuitem" tabindex="0" data-focusable="true" data-focus-index="0">Home</a>
+      <a href="login.html" class="menu-item active" role="menuitem" tabindex="0" data-focusable="true" data-focus-index="1">Login</a>
+      <a href="#" class="menu-item" role="menuitem" tabindex="0" data-focusable="true" data-focus-index="2" onclick="alert('Settings coming soon'); return false;">Setting</a>
+      <a href="myplan.html" class="menu-item" role="menuitem" tabindex="0" data-focusable="true" data-focus-index="3">My Plan</a>
     </nav>
   </header>
 
@@ -21,16 +21,17 @@
     <h1 class="page-title">Login</h1>
     <form class="auth-form" onsubmit="alert('Sign in placeholder'); return false;">
       <label class="auth-label" for="email">Email</label>
-      <input id="email" class="auth-input" type="email" placeholder="you@example.com" tabindex="0" data-focus="true" aria-label="Email input"/>
+      <input id="email" class="auth-input" type="email" placeholder="you@example.com" tabindex="0" data-focusable="true" data-focus-index="10" aria-label="Email input"/>
 
       <label class="auth-label" for="password">Password</label>
-      <input id="password" class="auth-input" type="password" placeholder="••••••••" tabindex="0" data-focus="true" aria-label="Password input"/>
+      <input id="password" class="auth-input" type="password" placeholder="••••••••" tabindex="0" data-focusable="true" data-focus-index="11" aria-label="Password input"/>
 
-      <button type="submit" class="primary-btn auth-submit" tabindex="0" data-focus="true" role="button" aria-label="Sign in">Sign In</button>
-      <a href="home.html" class="secondary-link" tabindex="0" data-focus="true" role="button" aria-label="Back to Home">Back to Home</a>
+      <button type="submit" class="primary-btn auth-submit" tabindex="0" data-focusable="true" data-primary="true" data-focus-index="12" role="button" aria-label="Sign in">Sign In</button>
+      <a href="home.html" class="secondary-link" tabindex="0" data-focusable="true" data-focus-index="13" role="button" aria-label="Back to Home">Back to Home</a>
     </form>
   </main>
 
+  <script src="tv-navigation.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
